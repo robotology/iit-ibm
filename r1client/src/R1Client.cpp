@@ -56,7 +56,19 @@ w4r1_t_parameter* next;
 /********** THREADS **********/
 
 //SOUND SENDER THREAD
-void* SoundSenderThread(void* args)   {
+void* SoundSenderThread(void* args)
+{
+	if (SENDER_DEVICE == "external")
+	{
+		NetworkBase::connect("/audioRecorderWrapper/audio:o", "/w4r1/sound.i");
+		while (true)
+		{
+			yarp::os::Time::delay(1.0);
+		}
+		int dummy =0;
+		return &dummy;
+	}
+	
     sleep(3); //sleeps a bit (do not remove)
     yDebug() << "SENDER THREAD";
     r1_struct* r1Context = (r1_struct*)args;
@@ -115,6 +127,7 @@ void* SoundSenderThread(void* args)   {
 void* SoundReceiverThread(void* args)   {
 	yDebug() << "RECEIVER THREAD";
 	r1_struct* r1Context = (r1_struct*)args;
+	double last_time = yarp::os::Time::now();
 
    /*int rate = config.rate;
      int samples = config.samples;
@@ -127,7 +140,7 @@ void* SoundReceiverThread(void* args)   {
     //RECEIVER Get an audio write device.
     Property conf_receiver;
     conf_receiver.put("device","portaudioPlayer");
-    conf_receiver.put("samples", 160000 );
+    conf_receiver.put("samples", 1600000 );
     conf_receiver.put("rate", 16000);
     conf_receiver.put("write", 1);
     conf_receiver.put("channels",1);
@@ -141,9 +154,17 @@ void* SoundReceiverThread(void* args)   {
 	soundPortIn.setStrict();
 	soundPortIn.open("/r1/sound.i");
 
-
+    Port mouthPort;
+    mouthPort.open("/r1/mouth:o");
+    if(!Network::connect("/r1/mouth:o","/faceExpressionImage/rpc"))
+    {
+		yError() << "Failed connection";
+            return 0;
+    }
+    
     if(!Network::connect("/w4r1/sound.o","/r1/sound.i"))
     {
+		yError() << "Failed connection";
             return 0;
     }
 
@@ -155,8 +176,10 @@ void* SoundReceiverThread(void* args)   {
 	   {
 		   yDebug() << "Pending reads in buffer" <<pr;
 			yDebug()<< "spaking";
-			r1Context->speaking =true; 
-
+			r1Context->speaking =true;
+			Bottle b;
+			b.addString("tstart");
+			mouthPort.write(b);
 	   }
 	   else {
            /*
@@ -178,14 +201,27 @@ void* SoundReceiverThread(void* args)   {
 	   yarp::os::Time::delay(0.05);
 	   #if 1
             put_receiver->getPlaybackAudioBufferCurrentSize(bufsize);
+            if (yarp::os::Time::now() - last_time >2.0)
+            {
+				last_time= yarp::os::Time::now();
+				yDebug() << "playback buffer size" <<  bufsize.getSamples();
+			}
 		 //  yDebug() << "buffer->" << bufsize.getSamples();
            if (bufsize.getSamples()==0)
 			{
         ////TODO MOVE FOLLOWING BLOCK WITHIN PENDING PLAYBACK BUFFER CHECK
-                if(r1Context->listen && r1Context->speaking){
+                if(r1Context->listen && r1Context->speaking)
+                {
                     r1Context->speaking =false;
                     yDebug() << "End speaking";
+                    Bottle b;
+                    b.addString("tstop");
+                    mouthPort.write(b);
                 }
+                else
+                {
+				//	yDebug()<< "Buffer empty, but not end speaking";
+				}
             }
 	   #endif
     }
@@ -394,9 +430,11 @@ int main(int argc, char* argv[]) {
 
    
 	//Select input device according args.
-    	if (argc > 1){
+    	if (argc > 1)
+    	{
         	if(strcmp(argv[1],"PC")==0){ SENDER_DEVICE = "portaudioRecorder"; }
-		else if(strcmp(argv[1],"R1")==0){ SENDER_DEVICE = "r1face_mic"; }
+		    else if(strcmp(argv[1],"R1")==0){ SENDER_DEVICE = "r1face_mic"; }
+		    else if(strcmp(argv[1],"EXT")==0){ SENDER_DEVICE = "external"; }
        		else { printf("Wrong argument %s, use either PC or R1",argv[1]); exit(-1);}    
     	}   
     	else SENDER_DEVICE = "r1face_mic"; //defaulting to R1 
