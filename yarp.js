@@ -1,5 +1,5 @@
 
-var _yarp = require('./build/Release/yarp_thread_test'); 
+var _yarp = require('./build/Release/YarpJS'); 
 
 var yarp = new Object();
 

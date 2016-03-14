@@ -1,14 +1,27 @@
 {
-  "name": "hello_yarp",
+  "name": "YarpJS",
   "version": "1.0.0",
-  "description": "Test compilation ",
+  "description": "JS bindings for YARP",
   "dependencies": {
     "cmake-js": "latest",
     "nan": "latest",
     "express":"4.10.2",
     "socket.io":"latest"
   },
+  
   "scripts": {
     "install": "cmake-js rebuild"
+  },
+
+  "license":{
+    "type": "MIT",
+    "url": "http://www.opensource.org/licenses/mit-license.php" 
+  },
+
+  "repository":{
+    "type": "git",
+    "url": "https://github.com/cciliber/YarpJS"
   }
+
+
 }

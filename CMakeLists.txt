@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-project(yarp_thread_test)
+project(YarpJS)
 
 
 # Essential include files to build a node addon,
