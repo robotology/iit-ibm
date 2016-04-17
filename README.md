@@ -14,13 +14,13 @@ A JavaScript set of bindings for YARP.
 <a name='introduction'></a>
 ## Introduction
 
-This library has been developed with the idea of bringing YARP to any device without heavy code dependencies (It just needs an Internet Browser!). The idea is to have a server in charge of directly interacting with the YARP C++ layer (and the rest of the YARP network) while clients are completely implementation and hardware independent. Indeed, code is shipped by the server to all clients, which therefore do not need to install anything (a parte from the Browser).
+This library has been developed with the idea of bringing YARP to any device without heavy code dependencies (It just needs an Internet Browser!). The idea is to have a server in charge of directly interacting with the YARP C++ layer (and the rest of the YARP network) while clients are completely implementation and hardware independent. Indeed, code is shipped by the server to all clients via [websockets](https://en.wikipedia.org/wiki/WebSocket?oldformat=true) (in particular the [Socket.io](http://socket.io/) Node module), **without the need to install anything on the client machine** (a part the Browser of course).
 
 <p align='center'>
 <img src="https://github.com/cciliber/YarpJS/blob/master/images/YarpJS_Network.png" width="60%">
 </p>
 
-The library is based on Node.js, which is implemented in C++ and has a natural way to interact with external C++ code via [Node addons](https://nodejs.org/api/addons.html).
+The library is based on Node.js which can be natively integrated with external C++ code via [Node addons](https://nodejs.org/api/addons.html).
 
 
 <a name='installation'></a>
@@ -61,11 +61,11 @@ your.machine.ip.address:3000
 ```
 (You can get your ip by typing `$> ifconfig` on a shell on the machine where node is running).
 
-You should see something like this, askinf for permission to use your microphone (screenshot from an Android device):
+You should see a webpage like the one below, with a dialog asking for permission to use your microphone (see the screenshot below, captured from an Android smartphone):
 
 <img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_permission.png" width="40%">
 
-You can then start speech recognition, both english and italian are available:
+You can then start speech recognition. Both english and italian are available for this example:
 
 <img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_en.png" width="40%">
 <img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_it.png" width="40%">
@@ -77,7 +77,7 @@ You can then start speech recognition, both english and italian are available:
 <a name='port-communication'></a>
 ## Port Communication
 
-Ports are everything in YARP, so let's start with that. Throughout we will assume that a **yarp server** is running on our network (if you don't just run `$> yarp server` in another shell).
+Ports are a key component to YARP. Throughout we will assume that a **yarp server** is running on our network (if it's not your case, just run `$> yarp server` in a shell). You can find the example described in this section in the script `examples/port_basics.js`.
 
 From the folder where you have cloned this repository run `$> node` to enter in the interactive Node.js interface. Then run:
 ```js
@@ -111,10 +111,10 @@ So, if someone is listening to our port (e.g. run in a different shell `$> yarp 
 Let's set up the callback for when a message is sent from another port to `/yarpjs/example`:
 ```js
 port.onRead(function(msg){
-    console.log('Message received:' + msg.toString());
+    console.log('Message received: ' + msg.toString());
 });
 ```
-This way, whenever the port reads something, it prints on screen what it has read. You can try it out by going on another bash and type:
+This way, whenever a message arrives, it is printed on screen. You can try it out by going on another bash and type:
 ```
 $> yarp write ... /yarpjs/example
 >> Hello YarpJS!
