@@ -1,19 +1,35 @@
 # YarpJS
-A JavaScript set of bindings for YARP
+A JavaScript set of bindings for YARP.
 
+* [Introdution](#introduction)
 * [Installation](#installation)
+* [Examples](#examples)
+* [Port Communication](#port-communication)
+    - [Reading](#port-reading)
+    - [Writing](#port-writing)
+    - [RPC](#port-rpc)
+
+
+
+<a name='introduction'></a>
+## Introduction
+
+This library has been developed with the idea of bringing YARP to any device without heavy code dependencies (It just needs an Internet Browser!). The idea is to have a server in charge of directly interacting with the YARP C++ layer (and the rest of the YARP network) while clients are completely implementation and hardware independent. Indeed, code is shipped by the server to all clients, which therefore do not need to install anything (a parte from the Browser).
+
+The library is based on Node.js, which is implemented in C++ and has a natural way to interact with external C++ code via [addons|https://nodejs.org/api/addons.html].
+
 
 <a name='installation'></a>
 ## Installation
 
-Before using YarpJS you will need to install. On the server:
+Server Depdencies: 
 * [YARP](https://github.com/robotology/yarp) (Duh!). With OpenCV!
 * [Node.js](https://nodejs.org/en/)
 
-On the client (any device on your network): 
-* [Google Chrome](https://www.google.com/chrome/).
+Client (any device on your network) dependencies: 
+* [Google Chrome](https://www.google.com/chrome/)
 
-Then go to the folder where you have cloned this repository and run:
+Once you have all dependencies installed, go to the folder where you have cloned this repository and run:
 ```
 $> npm install
 $> cmake-js
@@ -22,11 +38,14 @@ $> cmake-js
 **Note**: Depending on how you installed Node.js you could be required to run `$> sudo npm install`
 
 
+<a name='examples'></a>
 ## Examples
 
 Let us start with some example to see what can be done with YarpJS:
 
 #### Easy-peasy speech recognition
+
+This example uses the Google Speech Recognition API available on Google Chrome to recognize human speech from a device and send the recognized sentence as a YARP Bottle on the YARP network. 
 
 If you don't have a YARP server running, run `$> yarp server` on a shell. Then, from the folder where you cloned YarpJS, run
 ```
@@ -50,6 +69,8 @@ You can then start speech recognition, both english and italian are available:
 
 **Note**: the script `examples/speech_rec_example.js` creates a YARP port `/web/speech` that returns the speech text recognized using the Google Speech API. We can read from that (e.g. `yarp read ... /web/speech`) and obtain the text as a single-string Yarp Bottle.
 
+
+<a name='port-communication'></a>
 ## Port Communication
 
 Ports are everything in YARP, so let's start with that. Throughout we will assume that a **yarp server** is running on our network (if you don't just run `$> yarp server` in another shell).
