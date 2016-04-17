@@ -16,9 +16,9 @@ A JavaScript set of bindings for YARP.
 
 This library has been developed with the idea of bringing YARP to any device without heavy code dependencies (It just needs an Internet Browser!). The idea is to have a server in charge of directly interacting with the YARP C++ layer (and the rest of the YARP network) while clients are completely implementation and hardware independent. Indeed, code is shipped by the server to all clients, which therefore do not need to install anything (a parte from the Browser).
 
-<div style="text-align:center">
-<img src="https://github.com/cciliber/YarpJS/blob/master/images/YarpJS_Network.png" width="60%" style="padding-left:20%;margin:auto">
-</div>
+<p align='center'>
+<img src="https://github.com/cciliber/YarpJS/blob/master/images/YarpJS_Network.png" width="60%">
+</p>
 
 The library is based on Node.js, which is implemented in C++ and has a natural way to interact with external C++ code via [Node addons](https://nodejs.org/api/addons.html).
 
