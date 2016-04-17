@@ -87,6 +87,7 @@ port.open('/yarpjs/example');
 ```
 You should receive a message from YARP saying something like: `yarp: Port /yarpjs/example active at tcp://some.ip:address` At the time being YarpJS can open buffered ports for YARP `bottle`s and `image`s.
 
+<a name='port-writing'></a>
 #### Writing on a Port
 
 Let's write something from our port!
@@ -98,6 +99,9 @@ port.write(bottle);
 ```
 So, if someone is listening to our port (e.g. run in a different shell `$> yarp read ... /yarpjs/example`), she will receive a YARP Bottle containing the string `'This is a Bottle'`. **Note**: you can create more complex YARP Bottles with the standard YARP sintax (e.g. `bottle.fromString('(This is) (a Bottle)')` creates a bottle with two bottles inside, containing respectively the strings `'This is'` and `'a Bottle'`.
 
+
+
+<a name='port-reading'></a>
 #### Reading from a Port
 
 Let's set up the callback for when a message is sent from another port to `/yarpjs/example`:
@@ -115,7 +119,7 @@ On the shell where you run YarpJS you should be able to see the message: `Messag
 
 **Note**: The `onRead` method of a yarp port takes in input a callback. Everytime the port reads something on the network the callback is called with that objects as message `msg`.
 
-
+<a name='port-rpc'></a>
 #### RPC Communication
 
 You can also set the RPC behavior for your port. For instance
