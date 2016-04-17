@@ -16,17 +16,17 @@ A JavaScript set of bindings for YARP.
 
 This library has been developed with the idea of bringing YARP to any device without heavy code dependencies (It just needs an Internet Browser!). The idea is to have a server in charge of directly interacting with the YARP C++ layer (and the rest of the YARP network) while clients are completely implementation and hardware independent. Indeed, code is shipped by the server to all clients, which therefore do not need to install anything (a parte from the Browser).
 
-The library is based on Node.js, which is implemented in C++ and has a natural way to interact with external C++ code via [addons|https://nodejs.org/api/addons.html].
+The library is based on Node.js, which is implemented in C++ and has a natural way to interact with external C++ code via [Node addons](https://nodejs.org/api/addons.html).
 
 
 <a name='installation'></a>
 ## Installation
 
-Server Depdencies: 
+Server dependencies: 
 * [YARP](https://github.com/robotology/yarp) (Duh!). With OpenCV!
 * [Node.js](https://nodejs.org/en/)
 
-Client (any device on your network) dependencies: 
+Client dependencies (on any device on your network): 
 * [Google Chrome](https://www.google.com/chrome/)
 
 Once you have all dependencies installed, go to the folder where you have cloned this repository and run:
