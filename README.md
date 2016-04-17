@@ -1,7 +1,9 @@
 # YarpJS
 A JavaScript set of bindings for YARP
 
+* [Installation](#installation)
 
+<a name='installation'></a>
 ## Installation
 
 Before using YarpJS you will need to install. On the server:
