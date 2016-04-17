@@ -17,7 +17,7 @@ Nan::Persistent<v8::FunctionTemplate>  YarpJS_BufferedPort_Image::constructor;
 
 
 
-void YarpJS_BufferedPort_Image::prepareCallback(std::vector<v8::Local<v8::Value> > &tmp_arguments)
+void YarpJS_BufferedPort_Image::_callback_onRead(std::vector<v8::Local<v8::Value> > &tmp_arguments)
 {
     // create a new YarpJS_Image
     v8::Local<v8::Value> argv[1] = {Nan::New(Nan::Null)};

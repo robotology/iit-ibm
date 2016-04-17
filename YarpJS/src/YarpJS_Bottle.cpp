@@ -32,6 +32,25 @@ v8::Local<v8::Array>& YarpJS_Bottle::toArray(const yarp::os::Bottle *bObj)
 
 
 
+NAN_METHOD(YarpJS_Bottle::Copy) {
+
+  YarpJS_Bottle* obj = Nan::ObjectWrap::Unwrap<YarpJS_Bottle>(info.This());
+  
+  YarpJS_Bottle* target = Nan::ObjectWrap::Unwrap<YarpJS_Bottle>(info[0]->ToObject());
+  obj->getYarpObj()->copy(*(target->getYarpObj()));
+
+}
+
+NAN_METHOD(YarpJS_Bottle::ToString) {
+
+  YarpJS_Bottle* obj = Nan::ObjectWrap::Unwrap<YarpJS_Bottle>(info.This());
+
+  info.GetReturnValue().Set(Nan::New(obj->getYarpObj()->toString()).ToLocalChecked());
+
+
+
+}
+
 NAN_METHOD(YarpJS_Bottle::ToArray) {
 
   YarpJS_Bottle* obj = Nan::ObjectWrap::Unwrap<YarpJS_Bottle>(info.This());

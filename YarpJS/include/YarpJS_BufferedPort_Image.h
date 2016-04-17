@@ -38,7 +38,7 @@ private:
 
 public:
 
-    virtual void prepareCallback(std::vector<v8::Local<v8::Value> > &tmp_arguments);
+    virtual void _callback_onRead(std::vector<v8::Local<v8::Value> > &tmp_arguments);
 
     explicit YarpJS_BufferedPort_Image(const Nan::FunctionCallbackInfo<v8::Value> &info)
     {

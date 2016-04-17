@@ -17,7 +17,9 @@ class YarpJS_Bottle: public YarpJS_Wrapper<yarp::os::Bottle>
 private:
     static void setJSMethods(v8::Local<v8::FunctionTemplate> &tpl)
     {
+        Nan::SetPrototypeMethod(tpl, "copy", Copy);
         Nan::SetPrototypeMethod(tpl, "toArray", ToArray);
+        Nan::SetPrototypeMethod(tpl, "toString", ToString);
         Nan::SetPrototypeMethod(tpl, "toObject", ToArray);
         Nan::SetPrototypeMethod(tpl, "fromString", FromString);
         Nan::SetPrototypeMethod(tpl, "getObjType", GetObjType);
@@ -51,7 +53,9 @@ public:
     ~YarpJS_Bottle()
     {}
 
+    static NAN_METHOD(Copy);
     static NAN_METHOD(ToArray);
+    static NAN_METHOD(ToString);
     static NAN_METHOD(FromString);
     static NAN_METHOD(GetObjType);
 

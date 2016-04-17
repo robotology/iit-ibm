@@ -13,12 +13,15 @@ using namespace v8;
 
 
 
+
+
+
 Nan::Persistent<v8::FunctionTemplate>  YarpJS_BufferedPort_Bottle::constructor;
 
 
 
 
-void YarpJS_BufferedPort_Bottle::prepareCallback(std::vector<v8::Local<v8::Value> > &tmp_arguments)
+void YarpJS_BufferedPort_Bottle::_callback_onRead(std::vector<v8::Local<v8::Value> > &tmp_arguments)
 {
     const int argc = 1;   
     v8::Local<v8::Value> argv[argc] = {Nan::New<String>(this->datum.toString()).ToLocalChecked()};
@@ -51,10 +54,19 @@ NAN_METHOD(YarpJS_BufferedPort_Bottle::Close) {
 
 
 
+
 NAN_METHOD(YarpJS_BufferedPort_Bottle::SetOnReadCallback) {
 
   YarpJS_BufferedPort_Bottle* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Bottle>(info.This());
-  obj->_setCallback(info);
+  obj->onReadCallback->setCallback(info);
+
+}
+
+
+NAN_METHOD(YarpJS_BufferedPort_Bottle::SetOnRPCCallback) {
+
+  YarpJS_BufferedPort_Bottle* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Bottle>(info.This());
+  obj->RPCReplier.setCallback(info);
 
 }
 
@@ -65,8 +77,6 @@ NAN_METHOD(YarpJS_BufferedPort_Bottle::Write) {
 
   YarpJS_BufferedPort_Bottle* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Bottle>(info.This());
 
-  v8::String::Utf8Value _port_name(info[0]->ToString());
-  
   obj->write();
 }
 
@@ -90,6 +100,25 @@ NAN_METHOD(YarpJS_BufferedPort_Bottle::Prepare) {
 
   info.GetReturnValue().Set(bPreparedJS);
 }
+
+
+
+
+NAN_METHOD(YarpJS_BufferedPort_Bottle::Reply) {
+
+
+  YarpJS_BufferedPort_Bottle* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Bottle>(info.This());
+
+  // get the reply bottle
+  YarpJS_Bottle* target = Nan::ObjectWrap::Unwrap<YarpJS_Bottle>(info[0]->ToObject());
+
+  obj->RPCReplier.reply(*(target->getYarpObj()));
+
+}
+
+
+
+
 
 
 

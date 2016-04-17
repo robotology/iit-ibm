@@ -1,0 +1,132 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: relative; top: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+    </style>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <<script src="/jquery.js"></script>
+  </head>
+  <body>
+
+    <canvas id="canvas" width="2000" height="400" style="border:1px solid #000000;"></canvas>
+    
+
+
+    <ul id="messages"></ul>
+    <form id = "open_form" action="">
+      <input id="m_open" autocomplete="off" /><button>Open</button>
+    </form>
+    <form id = "close_form" action="">
+      <input id="m_close" autocomplete="off" /><button>Close</button>
+    </form>
+
+    <form id = "send_form" action="">
+      <input id="m_port" autocomplete="off" />
+      <input id="m_mess" autocomplete="off" />
+      <button>Send</button>
+    </form>
+
+    <form id = "change_form" action="">
+      <button>Change</button>
+    </form>
+  </body>
+
+  <!-- <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script> -->
+  <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+  
+  <script src="YarpJS.js"></script>
+
+
+  <script>
+    var socket = io();    
+
+    yarp.init(socket);
+
+
+
+    var ctx = document.getElementById('canvas').getContext('2d');
+
+  </script>
+
+
+
+  <script>
+
+    yarp.onInit(function() {
+
+      var yarpSpeechPort = yarp.PortHandler.openPort('/web/speech');
+      
+
+      yarp.Recognizer.addEventListener('yarp speech finished', function (e) {
+          yarpSpeechPort.write(e.detail[0].transcript);
+        }, false);
+      
+      yarp.Recognizer.enableAutorestart();
+      yarp.Recognizer.start();
+
+
+      var imagePort = yarp.PortHandler.openPort('/web/images','image');
+      imagePort.onRead(function(info){
+        var img = new Image();
+        img.src = yarp.getImageSrc(info.compression_type,info.buffer);
+        ctx.drawImage(img,0,0);
+      });
+
+
+    });
+
+      
+
+
+  </script>
+
+
+  <script>
+  
+    function basic_cb(msg){
+      $('#messages').append($('<li>').text(msg.content));
+    }
+
+    $('#open_form').submit(function(){
+      yarp.PortHandler.openPort($('#m_open').val()).onRead(basic_cb);
+      $('#m_open').val('');
+      return false;
+    });
+
+
+    // $('#close_form').submit(function(){
+    //   yarp.portHandler.close($('#m_close').val());
+    //   $('#m_close').val('');
+    //   return false;
+    // });
+
+    $('#send_form').submit(function(){
+      yarp.PortHandler.getPort($('#m_port').val()).write($('#m_mess').val());
+      $('#m_mess').val('');
+      return false;
+    });
+
+
+
+
+  </script>
+
+</html>
+
+
+
+
+
+
+
+

@@ -30,11 +30,13 @@ private:
 
     static void setJSMethods(v8::Local<v8::FunctionTemplate> &tpl)
     {
+        Nan::SetPrototypeMethod(tpl,"copy",Copy);
         Nan::SetPrototypeMethod(tpl,"toBinary",ToBinary);
         Nan::SetPrototypeMethod(tpl,"getCompressionType",GetCompressionType);
+        Nan::SetPrototypeMethod(tpl, "getObjType", GetObjType);
     }
 
-    void compress();
+    void compress(int compression_quality = 10);
 
 public:
 
@@ -45,13 +47,13 @@ public:
     }
 
 
-    explicit YarpJS_Image(yarp::sig::Image &image, int _compression_type=PNG)
+    explicit YarpJS_Image(yarp::sig::Image &image, int _compression_type=JPG)
         :compression_type(_compression_type)
     {           
         this->setYarpObj(new yarp::sig::Image(image));
     }
 
-    explicit YarpJS_Image(int _compression_type=PNG)
+    explicit YarpJS_Image(int _compression_type=JPG)
         :compression_type(_compression_type)
     {}
 
@@ -66,8 +68,10 @@ public:
     {}
 
 
+    static NAN_METHOD(Copy);
     static NAN_METHOD(ToBinary);
     static NAN_METHOD(GetCompressionType);
+    static NAN_METHOD(GetObjType);
 
     // NAN Stuff
     YARPJS_INIT(YarpJS_Image,"Image",YarpJS)

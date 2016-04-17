@@ -12,14 +12,75 @@ process.on('SIGINT',function(){
 
 
 
-yarp.Bottle = function Bottle() {
-    var _bottle = _yarp.Bottle();
+
+
+
+
+yarp.Bottle = function Bottle(_bottle) {
+
+    if(_bottle == undefined)
+        var _bottle = _yarp.Bottle();
+    
 
     process.on('exit',function () {
         var b = _bottle;
     });
 
+
+    _bottle.toSend = function toSend() {
+
+        return {
+            obj_type: _bottle.getObjType(),
+            content: _bottle.toObject()
+        };
+    }
+
     return _bottle;
+}
+
+
+yarp.Image = function Image(_image) {
+    
+    if(_image == undefined)
+        var _image = _yarp.Image();
+
+    process.on('exit',function () {
+        var b = _image;
+    });
+
+    _image.toSend = function toSend() {
+
+        return {
+            obj_type: _image.getObjType(),
+            compression_type: _image.getCompressionType(),
+            buffer: _image.toBinary(100)
+
+        };
+    }
+
+
+    return _image;
+}
+
+
+
+function _yarp_wrap_object(obj) {
+
+    var wrapped_obj;
+
+    switch(obj.getObjType())
+    {
+        case 'image':
+            wrapped_obj = yarp.Image(obj);
+            break;
+        case 'bottle':
+            wrapped_obj = yarp.Bottle(obj);
+            break;
+        default:
+            wrapped_obj = obj;
+    }    
+
+    return wrapped_obj;
 }
 
 
@@ -44,10 +105,11 @@ var _internal_port_manager = [];
 
 
 
-yarp.BufferedPort = function BufferedPort(port_type) {
+yarp.BufferedPort = function BufferedPort(_port_type) {
 
 
     var port_name = undefined;
+    var port_type = _port_type;
 
     var _port; 
 
@@ -63,6 +125,17 @@ yarp.BufferedPort = function BufferedPort(port_type) {
         default:
             console.log('Error! "' + port_type + '" is not a valid type!');
     }    
+
+
+
+    // apply the on read callback to wrapped objects
+    _port._onRead = _port.onRead;
+    _port.onRead = function (cb) {
+        _port._onRead(function (obj) {
+            cb(_yarp_wrap_object(obj));
+        });
+    }
+
 
     // this callback is only to stay alive
     function _stayAliveCallback() {
@@ -119,7 +192,10 @@ yarp.BufferedPort = function BufferedPort(port_type) {
         if(msg != undefined)
         {
             var b = _port.prepare();
-            b.fromString(msg);
+            if(b.getObjType == msg.getObjType)
+                b.copy(msg)
+            else
+                b.fromString(msg.toString());
         }
 
         _port._write();
@@ -190,13 +266,14 @@ yarp.browserCommunicator = function (_io) {
 
     var io = _io;
 
-    var open = function open(port_name) {
-        var port = yarp.portHandler.open(port_name);
+    var open = function open(port_name,port_type) {
+
+        var port = yarp.portHandler.open(port_name,port_type);
 
         if (port != undefined)
         {
             port.onRead(function (obj) {
-                io.emit('yarp ' + port_name + ' message',{obj_type: obj.getObjType(), content: obj.toObject()});
+                io.emit('yarp ' + port_name + ' message',obj.toSend());
             });
 
         }
@@ -221,9 +298,20 @@ yarp.browserCommunicator = function (_io) {
         });
 
 
-        socket.on('yarp open port',function(port_name){
+        socket.on('yarp open port',function(port_data){
 
-            port = open(port_name);
+            var port_name;
+            var port_type = undefined;
+
+            if (port_data.port_name != undefined)
+            {
+                port_name = port_data.port_name;
+                port_type = port_data.port_type;
+            }
+            else
+                port_name = port_data;
+                    
+            port = open(port_name,port_type);
 
             if (port != undefined)
             {
