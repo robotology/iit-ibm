@@ -4,9 +4,12 @@ A JavaScript set of bindings for YARP
 
 ## Installation
 
-Before using YarpJS you will need to install:
+Before using YarpJS you will need to install. On the server:
 * [YARP](https://github.com/robotology/yarp) (Duh!). With OpenCV!
 * [Node.js](https://nodejs.org/en/)
+
+On the client (any device on your network): 
+* [Google Chrome](https://www.google.com/chrome/).
 
 Then go to the folder where you have cloned this repository and run:
 ```
@@ -16,6 +19,34 @@ $> cmake-js
 
 **Note**: Depending on how you installed Node.js you could be required to run `$> sudo npm install`
 
+
+## Examples
+
+Let us start with some example to see what can be done with YarpJS:
+
+#### Easy-peasy speech recognition
+
+If you don't have a YARP server running, run `$> yarp server` on a shell. Then, from the folder where you cloned YarpJS, run
+```
+$> node examples/speech_rec_example.js
+```
+Then, open [Google Chrome](https://www.google.com/chrome/) on a device on your network and go to the address
+```
+your.machine.ip.address:3000
+```
+(You can get your ip by typing `$> ifconfig` on a shell on the machine where node is running).
+
+You should see something like this, askinf for permission to use your microphone (screenshot from an Android device):
+
+<img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_permission.png" width="40%">
+
+You can then start speech recognition, both english and italian are available:
+
+<img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_en.png" width="40%">
+<img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_it.png" width="40%">
+
+
+**Note**: the script `examples/speech_rec_example.js` creates a YARP port `/web/speech` that returns the speech text recognized using the Google Speech API. We can read from that (e.g. `yarp read ... /web/speech`) and obtain the text as a single-string Yarp Bottle.
 
 ## Port Communication
 
