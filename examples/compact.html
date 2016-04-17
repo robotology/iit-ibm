@@ -14,7 +14,6 @@
     </style>
 
     <script src="/socket.io/socket.io.js"></script>
-    <<script src="/jquery.js"></script>
   </head>
   <body>
 
@@ -41,7 +40,6 @@
     </form>
   </body>
 
-  <!-- <script src="https://cdn.socket.io/socket.io-1.2.0.js"></script> -->
   <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
   
   <script src="YarpJS.js"></script>
@@ -75,12 +73,12 @@
       yarp.Recognizer.start();
 
 
-      var imagePort = yarp.PortHandler.openPort('/web/images','image');
-      imagePort.onRead(function(info){
-        var img = new Image();
-        img.src = yarp.getImageSrc(info.compression_type,info.buffer);
-        ctx.drawImage(img,0,0);
-      });
+      // var imagePort = yarp.PortHandler.openPort('/web/images','image');
+      // imagePort.onRead(function(info){
+      //   var img = new Image();
+      //   img.src = yarp.getImageSrc(info.compression_type,info.buffer);
+      //   ctx.drawImage(img,0,0);
+      // });
 
 
     });

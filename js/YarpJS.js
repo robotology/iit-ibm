@@ -119,9 +119,60 @@ var yarp = (function yarp(){
 
     var Recognizer = new webkitSpeechRecognition();
     var _Recognizer_autorestart = false;
+    var _Recognizer_done = true;
+    var _Recognizer_isrunning = false;
+
     Recognizer.enableAutorestart = function enableAutorestart(){_Recognizer_autorestart=true;}
     Recognizer.disableAutorestart = function disableAutorestart(){_Recognizer_autorestart=false;}
 
+
+    Recognizer._stop = Recognizer.stop;
+    Recognizer.stop = function() {
+        _Recognizer_isrunning = false;
+        _Recognizer_done = true;
+        Recognizer._stop();
+    }
+
+
+    Recognizer._start = Recognizer.start;
+    Recognizer.start = function() {
+
+        _Recognizer_isrunning = true;
+        _Recognizer_done = false;
+        _Recognizer_start();
+
+    }
+
+    function _Recognizer_start (){
+
+        if(!_Recognizer_isrunning)
+            return;
+
+
+        if(_Recognizer_done && !_Recognizer_autorestart)
+            return;
+
+        setTimeout(function(){ _Recognizer_start() }, 300);
+        try
+        {
+            Recognizer._start();     
+        }
+        catch(e)
+        {
+        }
+    } 
+
+    Recognizer.onerror = function(e){
+        console.log('qui!');
+        console.log(e);
+        console.log(e.toString());
+    }
+
+
+    // Recognizer.onerror = function(event)
+    // {
+    //     console.log(event);
+    // }
 
     Recognizer.lang = "en";
     Recognizer.onresult = function(event) {
@@ -133,8 +184,7 @@ var yarp = (function yarp(){
 
                 Recognizer.dispatchEvent(speechEvent);
 
-                if(_Recognizer_autorestart)  
-                    setTimeout(function(){ Recognizer.start(); }, 0);                    
+                _Recognizer_done = true;
             }
         }  
     };

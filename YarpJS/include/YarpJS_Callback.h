@@ -14,8 +14,6 @@
 #include <string>
 #include <vector>
 
-#include <cxxabi.h>
-
 
 
 template <class T>
@@ -48,12 +46,6 @@ public:
         :parent(_parent), prepareCallback(_prepareCallback)
 
     {    
-
-        int status;
-        char * demangled = abi::__cxa_demangle(typeid(parent).name(),0,0,&status);
-        fprintf(stdout,"%s\n",demangled);
-        free(demangled);
-
         this->work_req.data = this;
         callback = NULL;
     }

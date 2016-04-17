@@ -7,23 +7,31 @@ var net = new yarp.Network();
 var port = new yarp.BufferedPort('bottle');
 
 
+port.open('/yarpjs/example');
+
+
+port.onRead(function(msg){
+    console.log('Message received: ' + msg.toString());
+});
+
+
 port.onRead(function(msg){
     console.log(msg.toString());
 });
 
 
+
+
+
 port.onRPC(function(msg){
     console.log(msg.toString());
 
+    var bottle = new yarp.Bottle();
+    bottle.fromString('Reply (' + msg.toString() + ')');
 
-    var b = new yarp.Bottle();
-    b.fromString('This is the answer (to Everything!): ' + msg.toString());
-
-    port.reply(b);
+    port.reply(bottle);
 });
 
 
-
-port.open('/mimmo');
 
 

@@ -7,7 +7,6 @@
 #include <nan.h>
 
 #include <yarp/os/BufferedPort.h>
-#include "YarpJS_Callbackable.h"
 
 #include <stdio.h>
 #include <string>
