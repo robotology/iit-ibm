@@ -23,6 +23,8 @@ This library has been developed with the idea of bringing YARP to any device wit
 
 The library is based on Node.js which can be natively integrated with external C++ code via [Node addons](https://nodejs.org/api/addons.html).
 
+**Tested OS:** YarpJS has been tested on **OSX** and **Ubuntu**. This goes for the server side. The client side goes on any machine with a version of Google Chrome installed. 
+
 
 <a name='installation'></a>
 ## Installation
