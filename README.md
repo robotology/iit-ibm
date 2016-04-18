@@ -32,9 +32,9 @@ The library is based on Node.js which can be natively integrated with external C
 * [Cmake.js](https://www.npmjs.com/package/cmake-js)
 
 **Note**: 
-- Node version must be >= 4.12
-- If you installed Node.js from the package manager, it could be that Node is called from `$> nodejs` rather than `$> node`. To overcome this, run `$> sudo ln -s /usr/bin/nodejs /usr/bin/node`.
-- To install cmake-js, just run `$> sudo npm install -g cmake-js`.
+- **Please make sure** that your Node version is >= 4.12
+- If you installed Node.js from the package manager, it could happen that the command `node` is not in your path, but rather `nodejs` is. To this end, run `$> sudo ln -s /usr/bin/nodejs /usr/bin/node`.
+- To install cmake-js, run `$> sudo npm install -g cmake-js`.
 
 
 **Client dependencies (on any device on your network)**: 
