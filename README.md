@@ -26,11 +26,18 @@ The library is based on Node.js which can be natively integrated with external C
 <a name='installation'></a>
 ## Installation
 
-Server dependencies: 
+**Server dependencies**: 
 * [YARP](https://github.com/robotology/yarp) (Duh!). With OpenCV!
-* [Node.js](https://nodejs.org/en/)
+* [Node.js](https://nodejs.org/en/). Version >= 4.12
+* [Cmake.js](https://www.npmjs.com/package/cmake-js)
 
-Client dependencies (on any device on your network): 
+**Note**: 
+- Node version must be >= 4.12
+- If you installed Node.js from the package manager, it could be that Node is called from `$> nodejs` rather than `$> node`. To overcome this, run `$> sudo ln -s /usr/bin/nodejs /usr/bin/node`.
+- To install cmake-js, just run `sudo npm install -g cmake-js`.
+
+
+**Client dependencies (on any device on your network)**: 
 * [Google Chrome](https://www.google.com/chrome/)
 
 Once you have all dependencies installed, go to the folder where you have cloned this repository and run:
