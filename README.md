@@ -88,7 +88,9 @@ You can then start speech recognition. Both english and italian are available fo
 <a name='port-communication'></a>
 ## Port Communication
 
-Ports are a key component to YARP. Throughout we will assume that a **yarp server** is running on our network (if it's not your case, just run `$> yarp server` in a shell). You can find the example described in this section in the script `examples/port_basics.js`.
+Ports are a key component to YARP. In this section we are going to see how YarpJS allows us to use YARP ports from JavaScript (in a Node environment).
+
+Throughout we will assume that a **yarp server** is running on our network (if it's not your case, just run `$> yarp server` in a shell). You can find the example described in this section in the script `examples/port_basics.js`.
 
 From the folder where you have cloned this repository run `$> node` to enter in the interactive Node.js interface. Then run:
 ```js
