@@ -9,17 +9,6 @@ var port = new yarp.BufferedPort('bottle');
 
 port.open('/yarpjs/example');
 
-port.write('ciao');
-port.write('ciao');
-port.write('ciao');
-port.write('ciao');
-port.write('ciao');
-port.write('ciao');
-port.write('ciao');
-port.write('ciao');
-port.write('ciao');
-port.write('ciao');
-port.write('ciao');
 
 // writing from port
 var bottle = new yarp.Bottle();
