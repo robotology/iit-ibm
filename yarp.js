@@ -54,11 +54,11 @@ yarp.Image = function Image(_image) {
         return {
             obj_type: _image.getObjType(),
             compression_type: _image.getCompressionType(),
-            buffer: _image.toBinary(100)
-
+            buffer: _image.toBinary(100),
+            heigth: _image.getHeight(),
+            width: _image.getWidth()
         };
     }
-
 
     return _image;
 }

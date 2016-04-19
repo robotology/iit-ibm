@@ -33,6 +33,7 @@ var yarp = (function yarp(){
 
 
 
+    // ------------ Ports 
     function Port(){
 
         var port_name = undefined;
@@ -114,7 +115,10 @@ var yarp = (function yarp(){
 
 
 
-    //----- Speech Recognition Wrapper
+    // -----
+
+
+    // ----- Speech Recognition Wrapper
 
 
     var Recognizer = new webkitSpeechRecognition();
@@ -141,6 +145,17 @@ var yarp = (function yarp(){
         _Recognizer_done = false;
         _Recognizer_start();
 
+    }
+
+
+    Recognizer.setLang = function setLang(lang) {
+        Recognizer.lang = lang;
+
+        if(_Recognizer_isrunning)
+        {
+            Recognizer.stop();
+            Recognizer.start();
+        }
     }
 
     function _Recognizer_start (){
@@ -174,7 +189,8 @@ var yarp = (function yarp(){
     //     console.log(event);
     // }
 
-    Recognizer.lang = "en";
+    Recognizer.setLang('en');
+    
     Recognizer.onresult = function(event) {
         if (event.results.length > 0) {
             result = event.results[event.results.length-1];
@@ -189,7 +205,20 @@ var yarp = (function yarp(){
         }  
     };
 
-  //-----
+    // -----
+
+    // ----- Speech Synthesis Wrapper
+
+    var Synthetizer = {};
+    Synthetizer = new SpeechSynthesisUtterance('');
+    
+    Synthetizer.speak = function(_text) {
+        Synthetizer.text = _text;
+        window.speechSynthesis.speak(Synthetizer);
+    }
+
+    Synthetizer.setLang = function(_lang) { Synthetizer.lang = _lang;}
+
 
 
     // ----- Image Display Utilities
@@ -258,13 +287,13 @@ var yarp = (function yarp(){
     // -----
 
 
-
     var yarp = {
         init: init,
         onInit: onInit,
         Port: Port,
         PortHandler: PortHandler,
         Recognizer: Recognizer,
+        Synthetizer: Synthetizer,
         getImageSrc: getImageSrc
     };
 

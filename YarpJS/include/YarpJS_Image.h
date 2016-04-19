@@ -33,7 +33,11 @@ private:
         Nan::SetPrototypeMethod(tpl,"copy",Copy);
         Nan::SetPrototypeMethod(tpl,"toBinary",ToBinary);
         Nan::SetPrototypeMethod(tpl,"getCompressionType",GetCompressionType);
-        Nan::SetPrototypeMethod(tpl, "getObjType", GetObjType);
+        Nan::SetPrototypeMethod(tpl,"getObjType", GetObjType);
+
+        Nan::SetPrototypeMethod(tpl,"getHeight", GetHeight);
+        Nan::SetPrototypeMethod(tpl,"getWidth", GetWidth);
+
     }
 
     void compress(int compression_quality = 10);
@@ -67,6 +71,10 @@ public:
     static NAN_METHOD(ToBinary);
     static NAN_METHOD(GetCompressionType);
     static NAN_METHOD(GetObjType);
+
+
+    static NAN_METHOD(GetHeight);
+    static NAN_METHOD(GetWidth);
 
     // NAN Stuff
     YARPJS_INIT(YarpJS_Image,"Image",YarpJS)

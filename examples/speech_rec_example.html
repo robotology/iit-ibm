@@ -123,11 +123,26 @@
         
 
 
-        <form action = "" id='form-port-connect' class="form-inline" style="margin-bottom: 1em">      
+        <form action = "" id='form-speech-recognition' class="form-inline" style="margin-bottom: 1em">      
         
           <button id='btn-voice' type="button" class="btn" onClick="toggleVoiceBTN(this)" data-toggle="button" aria-pressed="false" autocomplete="off">
             <i class="fa fa-microphone-slash fa-fw" style='margin-right:0.3em' aria-hidden="true"></i>Voice Recognition
           </button>
+
+
+        </form>
+
+
+
+
+        <form action = "" id='form-speech-synthesis' class="form-inline" style="margin-bottom: 1em">      
+
+          <input type="text" class="form-speak" id="speak-message-text" placeholder="Hello YarpJS!" value='Hello YarpJS!'>
+
+          <button id='btn-speak' type="button" class="btn btn-primary" onClick="speakBTN(this)" data-toggle="button" aria-pressed="false" autocomplete="off">
+            <i class="fa fa-bullhorn fa-fw" style='margin-right:0.3em' aria-hidden="true"></i>Speak
+          </button>
+
 
 
         </form>
@@ -165,20 +180,39 @@
 
   <script>
 
+
+    // what to do as soon as the yarp module is ready
     yarp.onInit(function() {
 
-      var yarpSpeechPort = yarp.PortHandler.openPort('/web/speech');
+      // ----- Speech Recognition
       
-
+      // open port sending out recognized speech
+      var yarpSpeechRecPort = yarp.PortHandler.openPort('/web/speechRec:o');
+      
+      // set the action to perform after speech recognition
       yarp.Recognizer.addEventListener('yarp speech finished', function (e) {
           $('#messages').append('<li><samp>$> Recognized: '+e.detail[0].transcript+'</samp></li>');
 
-          yarpSpeechPort.write(e.detail[0].transcript);
+          yarpSpeechRecPort.write(e.detail[0].transcript);
         }, false);
       
       yarp.Recognizer.enableAutorestart();
+      
+      // begin session with speech recognition off
       yarp.Recognizer.stop();
 
+
+      // ----- Speech Synthesis
+
+      // open port for receiving messages to produce
+      var yarpSpeakPort = yarp.PortHandler.openPort('/web/speak:i');
+
+      // set the action to perform whenever a message is read
+      yarpSpeakPort.onRead(function(msg){
+        
+        speakAndWrite(msg.content);
+        
+      })
 
     });
 
@@ -207,18 +241,29 @@
         }
       }
 
+
+      function speakAndWrite(msg)
+      {
+        yarp.Synthetizer.speak(msg);
+        $('#messages').append('<li><samp class="reply-from-server">$> Synthetized: '+msg+'</samp></li>');
+      }
+
+      function speakBTN(el)
+      {
+        var msg = $('#speak-message-text').val();
+        speakAndWrite(msg);
+      }
+
       function toggleLanguageIT()
       {
-        yarp.Recognizer.lang = 'it';
-        yarp.Recognizer.stop();
-        yarp.Recognizer.start();
+        yarp.Recognizer.setLang('it');
+        yarp.Synthetizer.setLang('it');
       }
 
       function toggleLanguageEN()
       {
-        yarp.Recognizer.lang = 'en';
-        yarp.Recognizer.stop();
-        yarp.Recognizer.start();
+        yarp.Recognizer.setLang('en');
+        yarp.Synthetizer.setLang('en');
       }
 
   </script>

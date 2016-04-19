@@ -58,11 +58,13 @@ $> cmake-js
 Let us start with some example to see what can be done with YarpJS:
 
 <a name='example-speech-recognition'></a>
-#### Easy-peasy speech recognition
+#### Easy-peasy Speech Recognition and Synthesis
 
-This example uses the Google Speech Recognition API available on Google Chrome to recognize human speech from a device and send the recognized sentence as a YARP Bottle on the YARP network. 
+This example uses the Google Speech Recognition and Synthesis APIs available for Google Chrome to:
+1. receive messages over the YARP network and speak them aloud from any device.
+2. recognize human speech from a device and send the recognized sentence as a YARP Bottle on the YARP network. 
 
-If you don't have a YARP server running, run `$> yarp server` on a shell. Then, from the folder where you cloned YarpJS, run
+We will assume that a YARP server is running. If that's not your case, run `$> yarp server` on a shell. Then, from the folder where you cloned YarpJS, run 
 ```
 $> node examples/speech_rec_example.js
 ```
@@ -70,19 +72,35 @@ Then, open [Google Chrome](https://www.google.com/chrome/) on a device on your n
 ```
 your.machine.ip.address:3000
 ```
-(You can get your ip by typing `$> ifconfig` on a shell on the machine where node is running).
-
-You should see a webpage like the one below, with a dialog asking for permission to use your microphone (see the screenshot below, captured from an Android smartphone):
+(You can get your ip by typing `$> ifconfig` on a shell on the machine where node is running). You should see a webpage like the one below
 
 <img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_permission.png" width="40%">
 
-You can then start speech recognition. Both english and italian are available for this example:
+The script `examples/speech_rec_example.js` creates two YARP ports: `/web/speak:i` and `/web/speechRec:o`. Let's see how to use them.
+
+
+##### Speech Synthesis
+
+You can try out speech synthesis by just filling the input box to the left of the button *Speak*. However the cool thing is to send messages from YARP, so go on a shell and open a port to write in the messages you want to speak aloud
+```
+$> yarp write ... /web/speak:i
+```
+Now, every message you write in this terminal will get to your browser and will be synthesized to actual sound. Try it out!
+
+##### Speech Recognition
+
+The YARP port `/web/speechRec:o` opened by this script returns speech recognized using the Google Speech API as a single-string text in a YARP Bottle over the YARP Network. We can read from this as follows: go on a shell and run `yarp read ... /web/speechRec:o`. Now we are ready for speech recognition:
+
+Press the *Voice Recognition* button. You should receive (unless you already set Chrome to have full permission to use your microphone and camera) a dialog asking for permission to use your microphone (see the screenshot below, captured from an Android smartphone):
+
+<img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_permission.png" width="40%">
+
+You can then start speech recognition. Both English and Italian are available for this example:
 
 <img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_en.png" width="40%">
 <img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_it.png" width="40%">
 
-
-**Note**: the script `examples/speech_rec_example.js` creates a YARP port `/web/speech` that returns the speech text recognized using the Google Speech API. We can read from that (e.g. `yarp read ... /web/speech`) and obtain the text as a single-string Yarp Bottle.
+On your shell you should be able to see the YARP Bottles rendered as strings containing the messages recognized by the Google Speech Recognition APIs.
 
 
 <a name='port-communication'></a>

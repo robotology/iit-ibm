@@ -18,7 +18,7 @@ port.write(bottle);
 
 // alternatively 
 var prepared_bottle = port.prepare();
-prepared_bottle.fromString('This is a Bottle');
+prepared_bottle.fromString('This is another Bottle');
 
 port.write();
 
