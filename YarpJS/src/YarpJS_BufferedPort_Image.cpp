@@ -92,7 +92,9 @@ NAN_METHOD(YarpJS_BufferedPort_Image::Prepare) {
 
   YarpJS_Image *bPrepared = Nan::ObjectWrap::Unwrap<YarpJS_Image>(bPreparedJS);
   
-  bPrepared->setYarpObj(&obj->prepare());
+  // do not give ownership of the bottle
+  bPrepared->setYarpObj(&obj->prepare(),false);
+
 
   info.GetReturnValue().Set(bPreparedJS);
 }

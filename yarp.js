@@ -22,6 +22,7 @@ yarp.Bottle = function Bottle(_bottle) {
         var _bottle = _yarp.Bottle();
     
 
+    // stay alive 
     process.on('exit',function () {
         var b = _bottle;
     });
@@ -185,6 +186,11 @@ yarp.BufferedPort = function BufferedPort(_port_type) {
 
         return isClosed;
     }
+
+    // _port._prepare = _port.prepare;
+    // _port.prepare = function() {
+    //     return _yarp_wrap_object(_port._prepare());
+    // }
 
 
     _port._write = _port.write;

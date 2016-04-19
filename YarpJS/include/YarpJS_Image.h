@@ -59,11 +59,6 @@ public:
 
 
 
-    void setYarpObj(yarp::sig::Image *_yarpObj)
-    {
-        YarpJS_Wrapper::setYarpObj(_yarpObj);
-    }
-
     ~YarpJS_Image()
     {}
 

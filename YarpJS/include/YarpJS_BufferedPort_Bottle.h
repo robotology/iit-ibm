@@ -121,6 +121,7 @@ private:
     
     std::string                             port_name;
 
+
 public:
 
     virtual void _callback_onRead(std::vector<v8::Local<v8::Value> > &tmp_arguments);
