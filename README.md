@@ -4,7 +4,7 @@ A JavaScript set of bindings for YARP.
 * [Introdution](#introduction)
 * [Installation](#installation)
 * [Examples](#examples)
-    - [Speech Recognition](#example-speech-recognition)
+    - [Speech Recognition and Synthesis](#example-speech-recognition-and-synthesis)
 * [Port Communication](#port-communication)
     - [Reading](#port-reading)
     - [Writing](#port-writing)
@@ -57,7 +57,7 @@ $> cmake-js
 
 Let us start with some example to see what can be done with YarpJS:
 
-<a name='example-speech-recognition'></a>
+<a name='example-speech-recognition-and-synthesis'></a>
 #### Easy-peasy Speech Recognition and Synthesis
 
 This example uses the Google Speech Recognition and Synthesis APIs available for Google Chrome to:
