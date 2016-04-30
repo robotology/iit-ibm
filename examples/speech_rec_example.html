@@ -139,7 +139,7 @@
 
           <input type="text" class="form-speak" id="speak-message-text" placeholder="Hello YarpJS!" value='Hello YarpJS!'>
 
-          <button id='btn-speak' type="button" class="btn btn-primary" onClick="speakBTN(this)" data-toggle="button" aria-pressed="false" autocomplete="off">
+          <button id='btn-speak' type="button" class="btn btn-primary" onClick="speakBTN()" data-toggle="button" aria-pressed="false" autocomplete="off">
             <i class="fa fa-bullhorn fa-fw" style='margin-right:0.3em' aria-hidden="true"></i>Speak
           </button>
 
@@ -248,7 +248,7 @@
         $('#messages').append('<li><samp class="reply-from-server">$> Synthetized: '+msg+'</samp></li>');
       }
 
-      function speakBTN(el)
+      function speakBTN()
       {
         var msg = $('#speak-message-text').val();
         speakAndWrite(msg);
@@ -265,6 +265,11 @@
         yarp.Recognizer.setLang('en');
         yarp.Synthetizer.setLang('en');
       }
+
+      $("#form-speech-synthesis").submit(function(e){
+        e.preventDefault();
+        speakBTN();
+      });
 
   </script>
 

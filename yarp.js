@@ -14,6 +14,12 @@ process.on('SIGINT',function(){
 
 
 
+// just open the network once
+yarp.Network = new _yarp.Network();
+process.on('exit',function(){
+    yarp.Network.fini();
+});
+
 
 
 yarp.Bottle = function Bottle(_bottle) {
@@ -22,10 +28,10 @@ yarp.Bottle = function Bottle(_bottle) {
         var _bottle = _yarp.Bottle();
     
 
-    // stay alive 
-    process.on('exit',function () {
-        var b = _bottle;
-    });
+    // // stay alive 
+    // process.on('exit',function () {
+    //     var b = _bottle;
+    // });
 
 
     _bottle.toSend = function toSend() {
@@ -87,17 +93,6 @@ function _yarp_wrap_object(obj) {
 
 
 
-yarp.Network = function Network() {
-    var _net = _yarp.Network();
-    
-    process.on('exit',function(){
-        _net.fini();
-    });
-    
-    return _net;
-}
-
-
 
 
 var _unnamed_port_counter = 0;
@@ -138,13 +133,11 @@ yarp.BufferedPort = function BufferedPort(_port_type) {
     }
 
 
-    // this callback is only to stay alive
-    function _stayAliveCallback() {
-        _port.close();
-    }
 
-    // make sure it closes and that it lives up to the end of the loop
-    process.on('exit',_stayAliveCallback);
+    // make sure the port closes on exit (moreover this keeps the port from being inadvertently destroyed by te garbage collector)
+    process.on('exit', function _closeOnExit() {
+        _port.close();
+    });
 
     // remove the _stayAliveCallback so that the port can be collected by garbage collector
     _port.clear = function() {
@@ -297,6 +290,15 @@ yarp.browserCommunicator = function (_io) {
         
         console.log('connected');
 
+        // Network commands
+        socket.on('yarp connect', function(connection_data) {
+            yarp.Network.connect(connection_data.port_src,connection_data.port_dst);
+        });
+
+        socket.on('yarp disconnect', function(connection_data) {
+            yarp.Network.disconnect(connection_data.port_src,connection_data.port_dst);
+        });
+
 
         // send back the list of ports currently registered to yarp by this server
         socket.on('yarp get active ports',function(){
@@ -323,16 +325,6 @@ yarp.browserCommunicator = function (_io) {
             {
                 // if a message is received
                 socket.on('yarp ' + port_name + ' message', port.callback ); 
-
-                socket.on('yarp ' + port_name + ' set callback', function(new_callback) {
-                    console.log(new_callback);
-                    console.log(new_callback.callback);
-                    console.log(new_callback.callback.toString());
-                    
-                    socket.removeListener('yarp ' + port_name + 'message', port.callback);
-                    port.callback = new_callback.callback;
-                    socket.on('yarp ' + port_name + ' message', port.callback ); 
-                })
 
                 io.emit('yarp ' + port_name + ' connection success');
             }

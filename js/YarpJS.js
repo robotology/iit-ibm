@@ -33,6 +33,20 @@ var yarp = (function yarp(){
 
 
 
+    var Network = {};
+
+    Network.connect = function _connect(port_src,port_dst) {
+        socket.emit('yarp connect',{port_src:port_src,port_dst:port_dst});
+    }
+
+    Network.disconnect = function _disconnect(port_src,port_dst) {
+        socket.emit('yarp disconnect',{port_src:port_src,port_dst:port_dst});
+    }
+
+
+
+
+
     // ------------ Ports 
     function Port(){
 
@@ -290,6 +304,7 @@ var yarp = (function yarp(){
     var yarp = {
         init: init,
         onInit: onInit,
+        Network: Network,
         Port: Port,
         PortHandler: PortHandler,
         Recognizer: Recognizer,

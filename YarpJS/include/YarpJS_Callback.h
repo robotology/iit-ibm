@@ -110,7 +110,7 @@ template <class T>
 void YarpJS_Callback<T>::setCallback(const Nan::FunctionCallbackInfo<v8::Value> &info)
 {
     mutex_callback.lock();
-
+    
     uv_cancel((uv_req_t*) &this->work_req);
     
     if(callback != NULL)

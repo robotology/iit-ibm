@@ -60,6 +60,37 @@ NAN_METHOD(YarpJS_Network::Disconnect) {
 
 
 
+NAN_METHOD(YarpJS_Network::List) {
+
+
+  YarpJS_Network* obj = Nan::ObjectWrap::Unwrap<YarpJS_Network>(info.This());
+
+  yarp::os::Bottle query, response;
+  query.addString("bot");
+  query.addString("list");
+  
+  obj->getYarpObj()->write(obj->getYarpObj()->getNameServerName().c_str(),query,response);
+
+  v8::Local<v8::Array> bArr = Nan::New<v8::Array>(0);
+
+  int idx_arr = 0;
+
+  if (!(response.get(0).asString()=="ports"))
+    fprintf(stdout,"Unknown response from name server\n");
+  else
+  {  
+    for (int i=1; i<response.size(); i++) {
+      yarp::os::Bottle *port_info = response.get(i).asList();
+      if (port_info!=NULL && port_info->check("name"))
+        Nan::Set(bArr, idx_arr++, Nan::New(port_info->find("name").asString().c_str()).ToLocalChecked() );
+    } 
+  }
+
+  info.GetReturnValue().Set(bArr);
+}
+
+
+
 
 
 

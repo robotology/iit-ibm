@@ -18,6 +18,7 @@ private:
         Nan::SetPrototypeMethod(tpl, "fini", Fini);
         Nan::SetPrototypeMethod(tpl, "connect", Connect);
         Nan::SetPrototypeMethod(tpl, "disconnect", Disconnect);
+        Nan::SetPrototypeMethod(tpl, "list", List);
     }
 
 public:
@@ -33,6 +34,7 @@ public:
     static NAN_METHOD(Fini);
     static NAN_METHOD(Connect);
     static NAN_METHOD(Disconnect);
+    static NAN_METHOD(List);
 
 
     // NAN Stuff

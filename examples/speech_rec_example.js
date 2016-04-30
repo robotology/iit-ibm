@@ -7,8 +7,6 @@ var io = require('socket.io')(http);
 
 var yarp = require('../yarp');
 
-var net = new yarp.Network();
-
 
 app.get('/', function(req, res){
   res.sendfile('examples/speech_rec_example.html');
