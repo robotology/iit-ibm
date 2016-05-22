@@ -1,3 +1,5 @@
+
+
 # YarpJS
 A JavaScript set of bindings for YARP.
 
@@ -124,7 +126,11 @@ On your device (e.g. smartphone, tablet, etc.) open Chrome and go to `your.machi
 
 On your client (any machine) open Chrome and go to `your.machine.ip.address:3000/receive`. You should see a Google Line Chart dynamically plotting your device orientation. You should also see a window with a mockup smartphone whose orientation changes according to the device streaming on the network.
 
+You should see something like this:
 
+<p align='center'>
+<img src="https://github.com/cciliber/YarpJS/blob/master/images/visualize-data.gif" width="60%">
+</p>
 
 
 <a name='port-communication'></a>
