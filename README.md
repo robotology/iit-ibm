@@ -108,11 +108,17 @@ On your shell you should be able to see the YARP Bottles rendered as strings con
 <a name='example-visualization-with-WebGL'></a>
 ### Visualization with ~~WebGL~~ Three.js
 
+
+
 In this demo we will see how information sent on the YARP network can be visualized on the browser using different tools. In particular we will use [Google Charts](https://developers.google.com/chart/) and [Three.js](https://github.com/mrdoob/three.js/) to visualize the current orientation of a device streaming data over YARP.
 
 In particular we will have a smartphone sending a 3 dimensional vector containing the device orientation through the YARP network. Then we will have another device reading from the network the device orientation and visualizing it on screen.
 
-Demo suggested by [Pattacini](https://github.com/pattacini) in issue [#3](https://github.com/cciliber/YarpJS/issues/3). 
+Demo suggested by [Pattacini](https://github.com/pattacini) in issue [#3](https://github.com/cciliber/YarpJS/issues/3). Result of the demo:
+
+<p align='center'>
+<img src="https://github.com/cciliber/YarpJS/blob/master/images/visualize-data.gif" width="60%">
+</p>
 
 ##### The Server
 
@@ -126,11 +132,6 @@ On your device (e.g. smartphone, tablet, etc.) open Chrome and go to `your.machi
 
 On your client (any machine) open Chrome and go to `your.machine.ip.address:3000/receive`. You should see a Google Line Chart dynamically plotting your device orientation. You should also see a window with a mockup smartphone whose orientation changes according to the device streaming on the network.
 
-You should see something like this:
-
-<p align='center'>
-<img src="https://github.com/cciliber/YarpJS/blob/master/images/visualize-data.gif" width="60%">
-</p>
 
 
 <a name='port-communication'></a>
