@@ -22,9 +22,9 @@
 
 // rpc replier
 
-class _YarpJS_RPCReplyer : public yarp::os::PortReader {
+class _YarpJS_RPCReplier : public yarp::os::PortReader {
 
-    YarpJS_Callback<_YarpJS_RPCReplyer>        *callback;
+    YarpJS_Callback<_YarpJS_RPCReplier>             *callback;
 
     yarp::os::Bottle                                datum;
     yarp::os::Bottle                                reply_datum;
@@ -66,14 +66,14 @@ class _YarpJS_RPCReplyer : public yarp::os::PortReader {
 
 
 public:
-    _YarpJS_RPCReplyer()
+    _YarpJS_RPCReplier()
     {
         mutex_reply.lock();
-        callback = new YarpJS_Callback<_YarpJS_RPCReplyer>(this,&_YarpJS_RPCReplyer::_callback_onRead);
+        callback = new YarpJS_Callback<_YarpJS_RPCReplier>(this,&_YarpJS_RPCReplier::_callback_onRead);
     }
 
 
-    ~_YarpJS_RPCReplyer()
+    ~_YarpJS_RPCReplier()
     {
         mutex_reply.unlock();
     }
@@ -104,7 +104,7 @@ class YarpJS_BufferedPort_Bottle :  public YarpJS_BufferedPort<yarp::os::Bottle>
 {
 private:
 
-    _YarpJS_RPCReplyer RPCReplier;
+    _YarpJS_RPCReplier RPCReplier;
 
     static void setJSMethods(v8::Local<v8::FunctionTemplate> &tpl)
     {

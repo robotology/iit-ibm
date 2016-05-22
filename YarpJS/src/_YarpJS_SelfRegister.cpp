@@ -11,6 +11,8 @@
 #include "YarpJS_BufferedPort_Bottle.h"
 #include "YarpJS_BufferedPort_Image.h"
 
+// #include "YarpJS_Port.h"
+
 
 // #include "YarpJS_BufferedPort_Img.h"
 // #include "YarpJS_BufferedPort_Bottle.h"
@@ -26,6 +28,7 @@ NAN_MODULE_INIT(InitAll) {
     YarpJS_BufferedPort_Bottle::Init(target);
     YarpJS_BufferedPort_Image::Init(target);
 
+    // YarpJS_Port::Init(target);
 
 }
 
