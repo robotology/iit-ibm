@@ -1,10 +1,13 @@
+
+
 # YarpJS
 A JavaScript set of bindings for YARP.
 
-* [Introdution](#introduction)
+* [Introduction](#introduction)
 * [Installation](#installation)
 * [Examples](#examples)
     - [Speech Recognition and Synthesis](#example-speech-recognition-and-synthesis)
+    - [Visualization with WebGL](#example-visualization-with-WebGL)
 * [Port Communication](#port-communication)
     - [Reading](#port-reading)
     - [Writing](#port-writing)
@@ -58,7 +61,7 @@ $> cmake-js
 Let us start with some example to see what can be done with YarpJS:
 
 <a name='example-speech-recognition-and-synthesis'></a>
-#### Easy-peasy Speech Recognition and Synthesis
+### Easy-peasy Speech Recognition and Synthesis
 
 This example uses the Google Speech Recognition and Synthesis APIs available for Google Chrome to:
 1. receive messages over the YARP network and speak them aloud from any device.
@@ -79,7 +82,7 @@ your.machine.ip.address:3000
 The script `examples/speech_rec_example.js` creates two YARP ports: `/web/speak:i` and `/web/speechRec:o`. Let's see how to use them.
 
 
-##### Speech Synthesis
+#### Speech Synthesis
 
 You can try out speech synthesis by just filling the input box to the left of the button *Speak*. However the cool thing is to send messages from YARP, so go on a shell and open a port to write in the messages you want to speak aloud
 ```
@@ -87,7 +90,7 @@ $> yarp write ... /web/speak:i
 ```
 Now, every message you write in this terminal will get to your browser and will be synthesized to actual sound. Try it out!
 
-##### Speech Recognition
+#### Speech Recognition
 
 The YARP port `/web/speechRec:o` opened by this script returns speech recognized using the Google Speech API as a single-string text in a YARP Bottle over the YARP Network. We can read from this as follows: go on a shell and run `yarp read ... /web/speechRec:o`. Now we are ready for speech recognition:
 
@@ -101,6 +104,34 @@ You can then start speech recognition. Both English and Italian are available fo
 <img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_it.png" width="40%">
 
 On your shell you should be able to see the YARP Bottles rendered as strings containing the messages recognized by the Google Speech Recognition APIs.
+
+<a name='example-visualization-with-WebGL'></a>
+### Visualization with WebGL (and Three.js)
+
+
+
+In this demo we will see how information sent on the YARP network can be visualized on the browser using different tools. In particular we will use [Google Charts](https://developers.google.com/chart/) and [Three.js](https://github.com/mrdoob/three.js/) (a wrapper for [WebGL](https://en.wikipedia.org/wiki/WebGL?oldformat=true)) to visualize the current orientation of a device streaming data over YARP.
+
+In particular we will have a smartphone sending a 3 dimensional vector containing the device orientation through the YARP network. Then we will have another device reading from the network the device orientation and visualizing it on screen.
+
+Demo suggested by [Pattacini](https://github.com/pattacini) in issue [#3](https://github.com/cciliber/YarpJS/issues/3). Result of the demo:
+
+<p align='center'>
+<img src="https://github.com/cciliber/YarpJS/blob/master/images/visualize-data.gif" width="60%">
+</p>
+
+##### The Server
+
+From the folder where you cloned this repository run `$> node examples/send_inertial_data.js`. This will start a server on the port `:3000`. 
+
+##### The Device
+
+On your device (e.g. smartphone, tablet, etc.) open Chrome and go to `your.machine.ip.address:3000`. You should see your device orientation printed on screen.
+
+##### The Client
+
+On your client (any machine) open Chrome and go to `your.machine.ip.address:3000/receive`. You should see a Google Line Chart dynamically plotting your device orientation. You should also see a window with a mockup smartphone whose orientation changes according to the device streaming on the network.
+
 
 
 <a name='port-communication'></a>
