@@ -28,11 +28,18 @@ private:
     Nan::Callback                                           *callback;
     uv_work_t                                               work_req;
 
+    uv_async_t                                              async;
+
+
+
+    static void _internal_async(uv_async_t *handle);
+
     static void _internal_worker(uv_work_t *req);
     static void _internal_worker_end(uv_work_t *req, int status);
 
-protected:
+
     yarp::os::Mutex                                 mutex_callback;
+
     
 
 public:
@@ -47,6 +54,8 @@ public:
 
     {    
         this->work_req.data = this;
+        this->async.data = this;
+
         callback = NULL;
     }
 
@@ -67,6 +76,16 @@ public:
 
 
 template <class T>
+void YarpJS_Callback<T>::_internal_async(uv_async_t *handle)
+{
+    YarpJS_Callback<T> *tmp_this = static_cast<YarpJS_Callback<T> *>(handle->data);
+
+    uv_queue_work(uv_default_loop(),&tmp_this->work_req,YarpJS_Callback::_internal_worker,YarpJS_Callback::_internal_worker_end);
+}
+
+
+
+template <class T>
 void YarpJS_Callback<T>::_internal_worker(uv_work_t *req)
 {
   
@@ -75,8 +94,10 @@ void YarpJS_Callback<T>::_internal_worker(uv_work_t *req)
 template <class T>
 void YarpJS_Callback<T>::_internal_worker_end(uv_work_t *req, int status)
 {
+
     if (status == UV_ECANCELED)
       return;
+
 
     YarpJS_Callback<T> *tmp_this = static_cast<YarpJS_Callback<T> *>(req->data);
 
@@ -84,7 +105,6 @@ void YarpJS_Callback<T>::_internal_worker_end(uv_work_t *req, int status)
 
     std::vector<v8::Local<v8::Value> > tmp_arguments;
     
-    // tmp_this->prepareCallback(tmp_arguments);
     (tmp_this->parent->*(tmp_this->prepareCallback))(tmp_arguments);
     
     tmp_this->callback->Call(tmp_arguments.size(),tmp_arguments.data());
@@ -96,10 +116,11 @@ void YarpJS_Callback<T>::_internal_worker_end(uv_work_t *req, int status)
 template <class T>
 void YarpJS_Callback<T>::callCallback()
 {
+
     mutex_callback.lock();
 
     if(callback!=NULL)        
-        uv_queue_work(uv_default_loop(),&this->work_req,YarpJS_Callback::_internal_worker,YarpJS_Callback::_internal_worker_end);
+        uv_async_send( &(this->async) );
     else
         mutex_callback.unlock();
 }
@@ -110,14 +131,17 @@ template <class T>
 void YarpJS_Callback<T>::setCallback(const Nan::FunctionCallbackInfo<v8::Value> &info)
 {
     mutex_callback.lock();
-    
-    uv_cancel((uv_req_t*) &this->work_req);
-    
+
     if(callback != NULL)
       delete callback;
+    else
+        uv_async_init(uv_default_loop(), &(this->async), YarpJS_Callback::_internal_async);
+
 
     callback = new Nan::Callback(info[0].As<v8::Function>());
+
     mutex_callback.unlock();
+
 }
 
 
