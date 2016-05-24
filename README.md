@@ -8,11 +8,18 @@ A JavaScript set of bindings for YARP.
 * [Examples](#examples)
     - [Speech Recognition and Synthesis](#example-speech-recognition-and-synthesis)
     - [Visualization with WebGL](#example-visualization-with-WebGL)
-* [Port Communication](#port-communication)
-    - [Reading](#port-reading)
-    - [Writing](#port-writing)
-    - [RPC](#port-rpc)
-
+* [Server](#server)
+    - [Port Communication](#port-communication)
+        - [Reading](#port-reading)
+        - [Writing](#port-writing)
+        - [RPC](#port-rpc)
+* [Client (Browser)](#browser)
+    - [Server Setup](#browser-server-setup)
+    - [Browser Setup](#browser-client-setup)
+    - [Port Communication](#browser-port-communication)
+        - [Open/Close](#browser-open-close)
+        - [Read/Write](#browser-read-write)
+        - [Handling Connections](#browser-handling-connections)
 
 
 <a name='introduction'></a>
@@ -134,8 +141,11 @@ On your client (any machine) open Chrome and go to `your.machine.ip.address:3000
 
 
 
+<a name='server'></a>
+## Server
+
 <a name='port-communication'></a>
-## Port Communication
+### Port Communication
 
 Ports are a key component to YARP. In this section we are going to see how YarpJS allows us to use YARP ports from JavaScript (in a Node environment).
 
@@ -202,3 +212,106 @@ port.onRPC(function(msg){
 You can try this behavior by running in another shell `$> yarp rpc /yarpjs/example` and then typing a message. You should receive a reply `Reply (<your message>)`.**Note**: the `onRPC` callback behave exactly like the `onRead`. Howevere it assumes that the method `reply` will be eventuallycalled. As a good practice we suggest to always put the `reply` command inside the `onRPC` callback. 
 
 
+<a name='browser'></a>
+## Client (Browser)
+
+This section describes how a YarpJS server communicates with the browser. **This section is in alpha and it is likely to be subject to changes**
+
+<a name='browser-server-setup'></a>
+### Setup for the Server
+
+**Note** YarpJS uses the websocket library [Socket.io](http://socket.io/) to exchange messages between server and the browser. However, the node.js wrapper and the browser communication are completely decoupled, so you can implement your own communication protocol.
+
+To setup the server side create a js file for your server, e.g. `server.js`. The minimal code to run the server is 
+
+```js
+// Basic required node plugins to start the http server and socket.io
+var express = require('express');
+var app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+// YarpJS
+var yarp = require('../yarp');  // <-- the path to yarp.js in the folder where you cloned this repo.
+yarp.browserCommunicator(io);   // <-- The service handling communication with the browser.
+
+// The Express.js routing to your index file (change it to your desired homepage, e.g. index.html)
+app.get('/', function(req, res){
+  res.sendFile('index.html',{ root : __dirname});
+});
+
+/*
+    Your code here
+*/
+
+// Run the server on locahlhost:3000
+http.listen(3000, function(){
+  console.log('listening on *:3000');
+});
+```
+
+This is enough to have a YarpJS server up and running and ready to communicate with the browser.
+
+Note that we use [Express.js](http://expressjs.com/), since it used by Socket.io. 
+
+<a name='browser-client-setup'></a>
+### Setup for the Browser
+
+To use YarpJS on your browser simply include the following library in your html file (e.g. index.html)
+```html
+<script src="/socket.io/socket.io.js"></script>
+<script src="YarpJS.js"></script>
+```
+Then, within a script tag 
+```js
+var socket = io();  // for socket io
+yarp.init(socket); // to initialize the YarpJS wrapper with socket.io
+```
+
+**Note.** In order to start working with ports, YarpJS needs to be initialized with socket io. This means that all the code used to open ports or set up `onRead` callbacks **must**  be included in
+
+```js
+yarp.onInit(function() {
+
+    // open ports
+    // onRead callbacks
+
+}
+```
+
+<a name='browser-port-communication'></a>
+### Port Communication
+
+A browser cannot directly open a yarp port, but has to ask the server to open one. Therefore, in a nutshell, the communication between the YARP network and a browser works as follows: Suppose the server has a port open, let's say `/myport`. The Browser asks the server (via websockets) to registers to that port. If the port does not exist the server opens one for the browser. From that moment on, any message read from `/myport` is forwarded (via websockets) to the browser. The same works the other way around for the browsers to send messages on a YARP port.
+
+<a name='browser-open-close'></a>
+#### Opening/Closing Ports
+
+To register the browser to a YARP port
+```js
+var port = new Port();
+port.open(port_name,port_type); // port_type default: 'bottle'
+```
+If the port does not exist, the server opens one. Note that `port.open` returns a bool (`true` if the port was opened `false` otherwise). If the browser has already a port opened with that name, it does not open a new one and returns `false`.
+
+You can close the port with `port.close()`, however note that since multiple clients could be connected to the same server.  
+<a name='browser-read-write'></a>
+#### Reading/Writing
+
+Reading from a port is analogous to server side: you can pass a callback function that is invoked whenever a yarp port is read (on the server) to the port we are registered to. For instance
+```js
+port.onRead(function(message){console.log(message);});
+```
+
+Writing is analogous: `port.write(message)`. For instance if you want to send a vector (automatically transformed to a YARP Bottle over the nework):
+```js
+port.write([1,2,3]);
+```
+<a name='browser-handling-connections'></a>
+#### Handling Connections
+
+You can also (ask the server to) connect/disconnect YARP ports with
+```js
+yarp.Network.connect('/writing/port:o','/reading/port:i');
+yarp.Network.disconnect('/writing/port2:o','/reading/port2:i');
+```
