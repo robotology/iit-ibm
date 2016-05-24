@@ -39,7 +39,7 @@ The library is based on Node.js which can be natively integrated with external C
 
 **Note**: 
 - **Please make sure** that your Node version is >= 4.12
-- If you installed Node.js from the package manager, it could happen that the command `node` is not in your path, but rather `nodejs` is. To this end, run `$> sudo ln -s /usr/bin/nodejs /usr/bin/node`.
+- **Linux** If you installed Node.js from the package manager, it could happen that the command `node` is not in your path, but rather `nodejs` is. To this end, run `$> sudo ln -s /usr/bin/nodejs /usr/bin/node`.
 - To install cmake-js, run `$> sudo npm install -g cmake-js`.
 
 
