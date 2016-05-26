@@ -217,10 +217,11 @@ You can try this behavior by running in another shell `$> yarp rpc /yarpjs/examp
 
 This section describes how a YarpJS server communicates with the browser. **This section is in alpha and it is likely to be subject to changes**
 
+**Note** YarpJS uses the websocket library [Socket.io](http://socket.io/) to exchange messages between server and the browser. However, the node.js wrapper and the browser communication are completely decoupled, so you can implement your own communication protocol.
+
 <a name='browser-server-setup'></a>
 ### Setup for the Server
 
-**Note** YarpJS uses the websocket library [Socket.io](http://socket.io/) to exchange messages between server and the browser. However, the node.js wrapper and the browser communication are completely decoupled, so you can implement your own communication protocol.
 
 To setup the server side create a js file for your server, e.g. `server.js`. The minimal code to run the server is 
 
@@ -252,7 +253,8 @@ http.listen(3000, function(){
 
 This is enough to have a YarpJS server up and running and ready to communicate with the browser.
 
-Note that we use [Express.js](http://expressjs.com/), since it used by Socket.io. 
+Note that we use [Express.js](http://expressjs.com/), since it is used by Socket.io. 
+
 
 <a name='browser-client-setup'></a>
 ### Setup for the Browser
@@ -268,7 +270,7 @@ var socket = io();  // for socket io
 yarp.init(socket); // to initialize the YarpJS wrapper with socket.io
 ```
 
-**Note.** In order to start working with ports, YarpJS needs to be initialized with socket io. This means that all the code used to open ports or set up `onRead` callbacks **must**  be included in
+**Note.** In order to start working with ports, YarpJS needs to be initialized with socket io. This means that all the code related to YarpJS (e.g. opening/closing ports, writing from ports or set up `onRead` callbacks **must**  be included in
 
 ```js
 yarp.onInit(function() {
@@ -278,6 +280,8 @@ yarp.onInit(function() {
 
 }
 ```
+
+
 
 <a name='browser-port-communication'></a>
 ### Port Communication
@@ -310,8 +314,8 @@ port.write([1,2,3]);
 <a name='browser-handling-connections'></a>
 #### Handling Connections
 
-You can also (ask the server to) connect/disconnect YARP ports with
+You can also (ask the server to) connect YARP ports with
 ```js
 yarp.Network.connect('/writing/port:o','/reading/port:i');
-yarp.Network.disconnect('/writing/port2:o','/reading/port2:i');
 ```
+and disconnect them with `yarp.Network.disconnect('/writing/port:o','/reading/port:i');`
