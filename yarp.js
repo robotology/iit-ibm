@@ -26,13 +26,6 @@ yarp.Bottle = function Bottle(_bottle) {
 
     if(_bottle == undefined)
         var _bottle = _yarp.Bottle();
-    
-
-    // // stay alive 
-    // process.on('exit',function () {
-    //     var b = _bottle;
-    // });
-
 
     _bottle.toSend = function toSend() {
 
@@ -71,6 +64,24 @@ yarp.Image = function Image(_image) {
 
 
 
+yarp.Sound = function Sound(_sound) {
+
+    if(_sound == undefined)
+        var _sound = _yarp.Sound();
+
+    _sound.toSend = function toSend() {
+
+        return {
+            obj_type: _sound.getObjType(),
+            content: _sound.toBinary()
+        };
+    }
+
+    return _sound;
+}
+
+
+
 function _yarp_wrap_object(obj) {
 
     var wrapped_obj;
@@ -82,6 +93,9 @@ function _yarp_wrap_object(obj) {
             break;
         case 'bottle':
             wrapped_obj = yarp.Bottle(obj);
+            break;
+        case 'sound':
+            wrapped_obj = yarp.Sound(obj);
             break;
         default:
             wrapped_obj = obj;
@@ -101,7 +115,7 @@ var _internal_port_manager = [];
 
 
 
-yarp.BufferedPort = function BufferedPort(_port_type) {
+yarp.Port = function Port(_port_type) {
 
 
     var port_name = undefined;
@@ -118,6 +132,13 @@ yarp.BufferedPort = function BufferedPort(_port_type) {
         case 'bottle':
             _port = new _yarp.BufferedPortBottle();
             break;
+        case 'sound':
+            _port = new _yarp.BufferedPortSound();
+            break;
+        case 'rpc':
+            _port = new _yarp.RPCPort();
+            break;
+
         default:
             console.log('Error! "' + port_type + '" is not a valid type!');
     }    
@@ -186,19 +207,64 @@ yarp.BufferedPort = function BufferedPort(_port_type) {
     // }
 
 
-    _port._write = _port.write;
-    _port.write = function(msg) {
+
+    if(port_type == 'rpc')
+    {
+        _port._write = _port.writeWithReply;
+        _port.write = function(msg) {
+            
+            if(msg != undefined)
+            {
+                var b = new yarp.Bottle();
+                
+                if(b.getObjType == msg.getObjType)
+                    b.copy(msg);
+                else
+                    b.fromString(msg.toString());
+            }
+
+            _port._write(b);
+        }
+
+    }   
+    else
+    {
+        _port._write = _port.write;
+        _port.write = function(msg) {
+            if(msg != undefined)
+            {
+                var b = _port.prepare();
+                
+                if(b.getObjType == msg.getObjType)
+                    b.copy(msg);
+                else
+                    b.fromString(msg.toString());
+            }
+
+            _port._write();
+        }
+
+    }
+
+    
+    _port._reply = _port.reply;
+    _port.reply = function(msg) {
         if(msg != undefined)
         {
-            var b = _port.prepare();
+            var b = new _yarp.Bottle();
+            
             if(b.getObjType == msg.getObjType)
                 b.copy(msg)
             else
                 b.fromString(msg.toString());
         }
 
-        _port._write();
+        _port._reply(b);
     }
+
+
+
+
 
     // _port.callback = function (msg) {console.log(port_name + msg)};
     // (default) forward the message
@@ -221,7 +287,7 @@ yarp.portHandler = {
         return port;
     },
 
-    open:   function openBufferedPort(port_name,port_type) {
+    open:   function openPort(port_name,port_type) {
         
         var port = undefined;
 
@@ -237,7 +303,7 @@ yarp.portHandler = {
         // if the port name is available, use it
         if(_internal_port_manager[port_name] == undefined)
         {
-            port = new yarp.BufferedPort(port_type);
+            port = new yarp.Port(port_type);
             port.open(port_name);
         }
         else

@@ -1,27 +1,25 @@
 
 
-#ifndef YARPJS_BUFFERED_PORT_IMAGE_JS_H
-#define YARPJS_BUFFERED_PORT_IMAGE_JS_H
+#ifndef YARPJS_BUFFERED_PORT_SOUND_JS_H
+#define YARPJS_BUFFERED_PORT_SOUND_JS_H
 
 
 #include <nan.h>
 
 #include <yarp/os/BufferedPort.h>
-#include <yarp/sig/Image.h>
+#include <yarp/sig/Sound.h>
 
 #include "YarpJS_BufferedPort_Bottle.h"
-#include "YarpJS_Image.h"
+#include "YarpJS_Sound.h"
 
 #include <stdio.h>
 #include <string>
 
 
-class YarpJS_BufferedPort_Image :  public YarpJS_BufferedPort<yarp::sig::Image> 
+class YarpJS_BufferedPort_Sound :  public YarpJS_BufferedPort<yarp::sig::Sound> 
 {
 
 private:
-
-    int compression_type;
 
     static void setJSMethods(v8::Local<v8::FunctionTemplate> &tpl)
     {
@@ -30,7 +28,8 @@ private:
         Nan::SetPrototypeMethod(tpl,"onRead",SetOnReadCallback);
         Nan::SetPrototypeMethod(tpl,"write",Write);
         Nan::SetPrototypeMethod(tpl,"prepare",Prepare);
-        
+
+
         // Nan::SetPrototypeMethod(tpl,"onRPC",SetOnRPCCallback);
         // Nan::SetPrototypeMethod(tpl,"reply",Reply);
 
@@ -43,16 +42,15 @@ public:
 
     virtual void _callback_onRead(std::vector<v8::Local<v8::Value> > &tmp_arguments);
 
-    explicit YarpJS_BufferedPort_Image(const Nan::FunctionCallbackInfo<v8::Value> &info)
+    explicit YarpJS_BufferedPort_Sound(const Nan::FunctionCallbackInfo<v8::Value> &info)
     {
-        compression_type = DEFAULT_COMPRESSION;
     }
 
-    explicit YarpJS_BufferedPort_Image()
+    explicit YarpJS_BufferedPort_Sound()
     {}
 
 
-    ~YarpJS_BufferedPort_Image()
+    ~YarpJS_BufferedPort_Sound()
     {}
 
 
@@ -66,8 +64,8 @@ public:
     // static NAN_METHOD(SetOnRPCCallback);
     // static NAN_METHOD(Reply);
 
-
-    YARPJS_INIT(YarpJS_BufferedPort_Image,"BufferedPortImage",YarpJS)
+    YARPJS_INIT(YarpJS_BufferedPort_Sound,"BufferedPortSound",YarpJS)
+    
 };
 
 

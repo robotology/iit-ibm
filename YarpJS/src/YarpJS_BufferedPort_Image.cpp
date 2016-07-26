@@ -33,53 +33,6 @@ void YarpJS_BufferedPort_Image::_callback_onRead(std::vector<v8::Local<v8::Value
 
 
 
-// NAN_METHOD(YarpJS_BufferedPort_Image::Open) {
-
-//   YarpJS_BufferedPort_Image* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Image>(info.This());
-  
-//   v8::String::Utf8Value _port_name(info[0]->ToString());
-
-//   obj->open(*_port_name);
-
-// }
-
-
-// NAN_METHOD(YarpJS_BufferedPort_Image::Close) {
-
-//   YarpJS_BufferedPort_Image* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Image>(info.This());
-//   obj->close();
-
-// }
-
-
-
-// NAN_METHOD(YarpJS_BufferedPort_Image::SetOnReadCallback) {
-
-//   YarpJS_BufferedPort_Image* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Image>(info.This());
-//   obj->_setCallback(info);
-
-// }
-
-
-
-
-// NAN_METHOD(YarpJS_BufferedPort_Image::Write) {
-
-//   YarpJS_BufferedPort_Image* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Image>(info.This());
-
-//   v8::String::Utf8Value _port_name(info[0]->ToString());
-  
-//   // yarp::os::Image &bTmp = obj->prepare();
-//   // bTmp.clear();
-//   // bTmp.fromString(*_port_name);
-
-//   obj->write();
-// }
-
-
-
-
-
 NAN_METHOD(YarpJS_BufferedPort_Image::Prepare) {
 
   YarpJS_BufferedPort_Image* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Image>(info.This());
@@ -99,6 +52,72 @@ NAN_METHOD(YarpJS_BufferedPort_Image::Prepare) {
   info.GetReturnValue().Set(bPreparedJS);
 }
 
+
+
+NAN_METHOD(YarpJS_BufferedPort_Image::Open) {
+
+  YarpJS_BufferedPort_Image* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Image>(info.This());
+  
+  // std::string _port_name = info[0]->IsUndefined() ? "" : Nan::To<std::string>(info[0]).FromJust();
+  v8::String::Utf8Value _port_name(info[0]->ToString());
+
+
+  bool isOpen = obj->open(*_port_name);
+
+  info.GetReturnValue().Set(isOpen);
+}
+
+
+NAN_METHOD(YarpJS_BufferedPort_Image::Close) {
+
+  YarpJS_BufferedPort_Image* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Image>(info.This());
+  obj->close();
+}
+
+
+
+
+NAN_METHOD(YarpJS_BufferedPort_Image::SetOnReadCallback) {
+
+  YarpJS_BufferedPort_Image* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Image>(info.This());
+  obj->onReadCallback->setCallback(info);
+
+}
+
+
+// NAN_METHOD(YarpJS_BufferedPort_Image::SetOnRPCCallback) {
+
+//   YarpJS_BufferedPort_Image* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Image>(info.This());
+//   obj->RPCReplier.setCallback(info);
+
+// }
+
+
+
+
+NAN_METHOD(YarpJS_BufferedPort_Image::Write) {
+
+  YarpJS_BufferedPort_Image* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Image>(info.This());
+
+  obj->write();
+}
+
+
+
+
+
+
+// NAN_METHOD(YarpJS_BufferedPort_Image::Reply) {
+
+
+//   YarpJS_BufferedPort_Image* obj = Nan::ObjectWrap::Unwrap<YarpJS_BufferedPort_Image>(info.This());
+
+//   // get the reply bottle
+//   YarpJS_Image* target = Nan::ObjectWrap::Unwrap<YarpJS_Image>(info[0]->ToObject());
+
+//   obj->RPCReplier.reply(*(target->getYarpObj()));
+
+// }
 
 
 

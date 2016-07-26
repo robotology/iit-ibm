@@ -21,9 +21,12 @@ class YarpJS_Callback {
 private:
 
     typedef void (T::*PrepareCallback)(std::vector<v8::Local<v8::Value> > &tmp_arguments);
+    typedef void (T::*Internal)();
 
     T                                                       *parent;
     PrepareCallback                                         prepareCallback;
+
+    Internal                                                internal;
 
     Nan::Callback                                           *callback;
     uv_work_t                                               work_req;
@@ -47,10 +50,24 @@ public:
     void callCallback();
 
     void setCallback(const Nan::FunctionCallbackInfo<v8::Value> &info);
+    void setCallback(const v8::Value &info);
 
 
-    explicit YarpJS_Callback(T *_parent, PrepareCallback _prepareCallback)
-        :parent(_parent), prepareCallback(_prepareCallback)
+    // explicit YarpJS_Callback(T *_parent, PrepareCallback _prepareCallback)
+    //     :parent(_parent), prepareCallback(_prepareCallback)
+
+    // {    
+    //     this->work_req.data = this;
+    //     this->async.data = this;
+
+
+    //     callback = NULL;
+    // }
+
+
+
+    explicit YarpJS_Callback(T *_parent, PrepareCallback _prepareCallback, Internal _internal = NULL)
+        :parent(_parent), prepareCallback(_prepareCallback), internal(_internal)
 
     {    
         this->work_req.data = this;
@@ -88,7 +105,12 @@ void YarpJS_Callback<T>::_internal_async(uv_async_t *handle)
 template <class T>
 void YarpJS_Callback<T>::_internal_worker(uv_work_t *req)
 {
-  
+
+    YarpJS_Callback<T> *tmp_this = static_cast<YarpJS_Callback<T> *>(req->data);
+
+    if (tmp_this->internal != NULL)
+        (tmp_this->parent->*(tmp_this->internal))();
+
 }
 
 template <class T>
