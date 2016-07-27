@@ -8,6 +8,7 @@
     "cmake-js": "latest",
     "nan": "latest",
     "express":"latest",
+    "three":"latest",
     "socket.io":"latest"
   },
   
