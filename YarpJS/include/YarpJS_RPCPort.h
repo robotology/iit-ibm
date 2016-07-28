@@ -195,8 +195,10 @@ public:
     }
 
     explicit YarpJS_RPCPort(const Nan::FunctionCallbackInfo<v8::Value> &info)
-        :YarpJS_RPCPort()
-    {}
+    {     
+        this->setReader(onReadReplier);
+        onWriteReplier = new _YarpJS_PortWriteReplier(*this);
+    }
 
 
     ~YarpJS_RPCPort()
