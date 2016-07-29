@@ -34,7 +34,7 @@ public:
         this->getYarpObj()->fromString(*_bottle_string);
     }
 
-    static v8::Local<v8::Array>& toArray(const yarp::os::Bottle *bObj);
+    static void toArray(const yarp::os::Bottle *bObj, v8::Local<v8::Array> &bArr);
 
 
     explicit YarpJS_Bottle(const Nan::FunctionCallbackInfo<v8::Value> &info)

@@ -14,19 +14,23 @@ using namespace v8;
 Nan::Persistent<v8::FunctionTemplate>  YarpJS_Bottle::constructor;
 
 
-v8::Local<v8::Array>& YarpJS_Bottle::toArray(const yarp::os::Bottle *bObj)
+void YarpJS_Bottle::toArray(const yarp::os::Bottle *bObj, v8::Local<v8::Array> &bArr)
 {
-  const int bSize = bObj->size();
 
-  v8::Local<v8::Array> bArr = Nan::New<v8::Array>(bSize);
+  const int bSize = bObj->size();
 
   for(int i=0; i<bSize; i++)
       if(bObj->get(i).isList())
-        Nan::Set(bArr, i, YarpJS_Bottle::toArray(bObj->get(i).asList()) );
-      else
+      {
+        // create the sub-array
+        v8::Local<v8::Array> sub_bArr = Nan::New<v8::Array>(bObj->get(i).asList()->size());
+        YarpJS_Bottle::toArray(bObj->get(i).asList(), sub_bArr);
+        Nan::Set(bArr, i, sub_bArr);
+      }
+      else if(bObj->get(i).isString())
         Nan::Set(bArr, i, Nan::New(bObj->get(i).toString().c_str()).ToLocalChecked() );
-
-  return bArr;
+      else if(bObj->get(i).isDouble() || bObj->get(i).isInt())
+        Nan::Set(bArr, i, Nan::New(bObj->get(i).asDouble()) );
 
 }
 
@@ -54,8 +58,12 @@ NAN_METHOD(YarpJS_Bottle::ToString) {
 NAN_METHOD(YarpJS_Bottle::ToArray) {
 
   YarpJS_Bottle* obj = Nan::ObjectWrap::Unwrap<YarpJS_Bottle>(info.This());
-  
-  v8::Local<v8::Array> bArr = YarpJS_Bottle::toArray(obj->getYarpObj());
+
+  // create the array
+  v8::Local<v8::Array> bArr = Nan::New<v8::Array>(obj->getYarpObj()->size());
+
+  // fill the array
+  YarpJS_Bottle::toArray(obj->getYarpObj(),bArr);
 
   info.GetReturnValue().Set(bArr);
 
@@ -82,35 +90,6 @@ NAN_METHOD(YarpJS_Bottle::GetObjType) {
 }
 
 
-
-
-
-// NAN_METHOD(YarpJS_Bottle::GetElement) {
-
-//   YarpJS_Bottle* obj = Nan::ObjectWrap::Unwrap<YarpJS_Bottle>(info.This());
-
-//   if(!info[0]->IsUndefined())
-//   {
-//     int idx = Nan::To<int>(info[0]).FromJust();
-
-//     if(obj->getYarpObj()->get(idx).isList())
-//     {
-//       // create a new YarpJS_Bottle
-//       v8::Local<v8::Value> argv[1] = {Nan::New(Nan::Null)};
-//       v8::Local<v8::Function> cons = Nan::GetFunction(Nan::New(YarpJS_Bottle::constructor)).ToLocalChecked();
-//       v8::Local<v8::Object> subBottleJS = cons->NewInstance(1,argv);
-
-//       YarpJS_Bottle *subBottle = Nan::ObjectWrap::Unwrap<YarpJS_Bottle>(subBottleJS);
-      
-//       subBottle->setYarpObj(obj->getYarpObj()->get(idx).asList());
-
-//       info.GetReturnValue().Set(bPreparedJS);
-//     }
-//     else
-//     {
-//       info.GetReturnValue().Set( Nan::New(obj->getYarpObj()->get(idx).toString().c_str()).ToLocalChecked() ); 
-//     }
-// }
 
 
 
