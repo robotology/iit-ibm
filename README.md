@@ -1,6 +1,6 @@
 
 
-# YarpJS
+# yarp.js
 A JavaScript set of bindings for YARP.
 
 * [Introduction](#introduction)
@@ -28,12 +28,12 @@ A JavaScript set of bindings for YARP.
 This library has been developed with the idea of bringing YARP to any device without heavy code dependencies (It just needs an Internet Browser!). The idea is to have a server in charge of directly interacting with the YARP C++ layer (and the rest of the YARP network) while clients are completely implementation and hardware independent. Indeed, code is shipped by the server to all clients via [websockets](https://en.wikipedia.org/wiki/WebSocket?oldformat=true) (in particular the [Socket.io](http://socket.io/) Node module), **without the need to install anything on the client machine** (a part the Browser of course).
 
 <p align='center'>
-<img src="https://github.com/cciliber/YarpJS/blob/master/images/YarpJS_Network.png" width="60%">
+<img src="https://github.com/robotology/yarp.js/blob/master/images/yarp.js_Network.png" width="60%">
 </p>
 
-The library is based on Node.js which can be natively integrated with external C++ code via [Node addons](https://nodejs.org/api/addons.html).
+The library is based on node.js which can be natively integrated with external C++ code via [Node addons](https://nodejs.org/api/addons.html).
 
-**Tested OS:** YarpJS has been tested on **OSX** and **Ubuntu**. This goes for the server side. The client side goes on any machine with a version of Google Chrome installed. 
+**Tested OS:** yarp.js has been tested on **OSX** and **Ubuntu**. This goes for the server side. The client side goes on any machine with a version of Google Chrome installed. 
 
 
 <a name='installation'></a>
@@ -41,7 +41,7 @@ The library is based on Node.js which can be natively integrated with external C
 
 **Server dependencies**: 
 * [YARP](https://github.com/robotology/yarp) (Duh!). With OpenCV!
-* [Node.js](https://nodejs.org/en/). Version >= 4.2.2
+* [node.js](https://nodejs.org/en/). Version >= 4.2.2
 * [Cmake.js](https://www.npmjs.com/package/cmake-js)
 
 **Note**: 
@@ -65,7 +65,7 @@ $> cmake-js
 <a name='examples'></a>
 ## Examples
 
-Let us start with some example to see what can be done with YarpJS:
+Let us start with some example to see what can be done with yarp.js:
 
 <a name='example-speech-recognition-and-synthesis'></a>
 ### Easy-peasy Speech Recognition and Synthesis
@@ -74,7 +74,7 @@ This example uses the Google Speech Recognition and Synthesis APIs available for
 1. receive messages over the YARP network and speak them aloud from any device.
 2. recognize human speech from a device and send the recognized sentence as a YARP Bottle on the YARP network. 
 
-We will assume that a YARP server is running. If that's not your case, run `$> yarp server` on a shell. Then, from the folder where you cloned YarpJS, run 
+We will assume that a YARP server is running. If that's not your case, run `$> yarp server` on a shell. Then, from the folder where you cloned yarp.js, run 
 ```
 $> node examples/speech_rec_example.js
 ```
@@ -84,7 +84,7 @@ your.machine.ip.address:3000
 ```
 (You can get your ip by typing `$> ifconfig` on a shell on the machine where node is running). You should see a webpage like the one below
 
-<img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_permission.png" width="40%">
+<img src="https://github.com/robotology/yarp.js/blob/master/images/speech_permission.png" width="40%">
 
 The script `examples/speech_rec_example.js` creates two YARP ports: `/web/speak:i` and `/web/speechRec:o`. Let's see how to use them.
 
@@ -103,12 +103,12 @@ The YARP port `/web/speechRec:o` opened by this script returns speech recognized
 
 Press the *Voice Recognition* button. You should receive (unless you already set Chrome to have full permission to use your microphone and camera) a dialog asking for permission to use your microphone (see the screenshot below, captured from an Android smartphone):
 
-<img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_permission.png" width="40%">
+<img src="https://github.com/robotology/yarp.js/blob/master/images/speech_permission.png" width="40%">
 
 You can then start speech recognition. Both English and Italian are available for this example:
 
-<img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_en.png" width="40%">
-<img src="https://github.com/cciliber/YarpJS/blob/master/images/speech_it.png" width="40%">
+<img src="https://github.com/robotology/yarp.js/blob/master/images/speech_en.png" width="40%">
+<img src="https://github.com/robotology/yarp.js/blob/master/images/speech_it.png" width="40%">
 
 On your shell you should be able to see the YARP Bottles rendered as strings containing the messages recognized by the Google Speech Recognition APIs.
 
@@ -121,10 +121,10 @@ In this demo we will see how information sent on the YARP network can be visuali
 
 In particular we will have a smartphone sending a 3 dimensional vector containing the device orientation through the YARP network. Then we will have another device reading from the network the device orientation and visualizing it on screen.
 
-Demo suggested by [Pattacini](https://github.com/pattacini) in issue [#3](https://github.com/cciliber/YarpJS/issues/3). Result of the demo:
+Demo suggested by [Pattacini](https://github.com/pattacini) in issue [#3](https://github.com/robotology/yarp.js/issues/3). Result of the demo:
 
 <p align='center'>
-<img src="https://github.com/cciliber/YarpJS/blob/master/images/visualize-data.gif" width="60%">
+<img src="https://github.com/robotology/yarp.js/blob/master/images/visualize-data.gif" width="60%">
 </p>
 
 ##### The Server
@@ -147,7 +147,7 @@ On your client (any machine) open Chrome and go to `your.machine.ip.address:3000
 <a name='port-communication'></a>
 ### Port Communication
 
-Ports are a key component to YARP. In this section we are going to see how YarpJS allows us to use YARP ports from JavaScript (in a Node environment).
+Ports are a key component to YARP. In this section we are going to see how yarp.js allows us to use YARP ports from JavaScript (in a Node environment).
 
 Throughout we will assume that a **yarp server** is running on our network (if it's not your case, just run `$> yarp server` in a shell). You can find the example described in this section in the script `examples/port_basics.js`.
 
@@ -156,12 +156,12 @@ From the folder where you have cloned this repository run `$> node` to enter in 
 var yarp = require('./yarp');
 var ynet = new yarp.Network();
 ```
-The first command loads the YarpJS module that will allow us to use YARP from JS. The second command is necessary to register the current session on the YARP network. We can finally create and open a port:
+The first command loads the yarp.js module that will allow us to use YARP from JS. The second command is necessary to register the current session on the YARP network. We can finally create and open a port:
 ```js
 var port = new yarp.BufferedPort('bottle');
 port.open('/yarpjs/example');
 ```
-You should receive a message from YARP saying something like: `yarp: Port /yarpjs/example active at tcp://some.ip:address` At the time being YarpJS can open buffered ports for YARP `bottle`s and `image`s.
+You should receive a message from YARP saying something like: `yarp: Port /yarpjs/example active at tcp://some.ip:address` At the time being yarp.js can open buffered ports for YARP `bottle`s and `image`s.
 
 <a name='port-writing'></a>
 #### Writing on a Port
@@ -189,9 +189,9 @@ port.onRead(function(msg){
 This way, whenever a message arrives, it is printed on screen. You can try it out by going on another bash and type:
 ```
 $> yarp write ... /yarpjs/example
->> Hello YarpJS!
+>> Hello yarp.js!
 ```
-On the shell where you run YarpJS you should be able to see the message: `Message received: Hello "YarpJS!"`
+On the shell where you run yarp.js you should be able to see the message: `Message received: Hello "yarp.js!"`
 
 **Note**: The `onRead` method of a yarp port takes in input a callback. Everytime the port reads something on the network the callback is called with that objects as message `msg`.
 
@@ -215,9 +215,9 @@ You can try this behavior by running in another shell `$> yarp rpc /yarpjs/examp
 <a name='browser'></a>
 ## Client (Browser)
 
-This section describes how a YarpJS server communicates with the browser. **This section is in alpha and it is likely to be subject to changes**
+This section describes how a yarp.js server communicates with the browser. **This section is in alpha and it is likely to be subject to changes**
 
-**Note** YarpJS uses the websocket library [Socket.io](http://socket.io/) to exchange messages between server and the browser. However, the node.js wrapper and the browser communication are completely decoupled, so you can implement your own communication protocol.
+**Note** yarp.js uses the websocket library [Socket.io](http://socket.io/) to exchange messages between server and the browser. However, the node.js wrapper and the browser communication are completely decoupled, so you can implement your own communication protocol.
 
 <a name='browser-server-setup'></a>
 ### Setup for the Server
@@ -232,7 +232,7 @@ var app = express();
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
-// YarpJS
+// yarp.js
 var yarp = require('../yarp');  // <-- the path to yarp.js in the folder where you cloned this repo.
 yarp.browserCommunicator(io);   // <-- The service handling communication with the browser.
 
@@ -251,7 +251,7 @@ http.listen(3000, function(){
 });
 ```
 
-This is enough to have a YarpJS server up and running and ready to communicate with the browser.
+This is enough to have a yarp.js server up and running and ready to communicate with the browser.
 
 Note that we use [Express.js](http://expressjs.com/), since it is used by Socket.io. 
 
@@ -259,18 +259,18 @@ Note that we use [Express.js](http://expressjs.com/), since it is used by Socket
 <a name='browser-client-setup'></a>
 ### Setup for the Browser
 
-To use YarpJS on your browser simply include the following library in your html file (e.g. index.html)
+To use yarp.js on your browser simply include the following library in your html file (e.g. index.html)
 ```html
 <script src="/socket.io/socket.io.js"></script>
-<script src="YarpJS.js"></script>
+<script src="/yarp.js"></script>
 ```
 Then, within a script tag 
 ```js
 var socket = io();  // for socket io
-yarp.init(socket); // to initialize the YarpJS wrapper with socket.io
+yarp.init(socket); // to initialize the yarp.js wrapper with socket.io
 ```
 
-**Note.** In order to start working with ports, YarpJS needs to be initialized with socket io. This means that all the code related to YarpJS (e.g. opening/closing ports, writing from ports or set up `onRead` callbacks **must**  be included in
+**Note.** In order to start working with ports, yarp.js needs to be initialized with socket io. This means that all the code related to yarp.js (e.g. opening/closing ports, writing from ports or set up `onRead` callbacks **must**  be included in
 
 ```js
 yarp.onInit(function() {

@@ -20,10 +20,6 @@ app.get('/receive', function(req, res){
 });
 
 
-app.get('/receive2', function(req, res){
-  res.sendFile('receive_intertial_data_plus_three.html',{ root : __dirname});
-});
-
 http.listen(3000, function(){
   console.log('listening on *:3000');
 });

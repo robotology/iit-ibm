@@ -13,8 +13,8 @@ app.get('/', function(req, res){
   // res.sendFile('speech_rec_example.html',{ root : __dirname});
 });
 
-app.get('/YarpJS.js', function(req, res){
-  res.sendfile('js/YarpJS.js');
+app.get('/yarp.js', function(req, res){
+  res.sendfile('js/yarp.js');
 });
 
 

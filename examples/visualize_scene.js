@@ -19,8 +19,8 @@ app.get('/', function(req, res){
 });
 
 
-app.get('/YarpJS.js', function(req, res){
-  res.sendfile('js/YarpJS.js');
+app.get('/yarp.js', function(req, res){
+  res.sendfile('/js/yarp.js');
 });
 
 
