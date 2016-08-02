@@ -22,7 +22,7 @@ setTimeout(function sendData() {
         return;
 
     // console.log('writing '+[ data[curr_idx], data[curr_idx+1], data[curr_idx+2] ]);
-    port.write([ data[curr_idx], data[curr_idx+1], data[curr_idx+2] ]);
+    port.write([ data[curr_idx], data[curr_idx+1], data[curr_idx+2], 0, 0, 0, 5] );
 
     curr_idx+=3;
 

@@ -133,107 +133,121 @@ var yarp = (function yarp(){
 
 
     // ----- Speech Recognition Wrapper
+    var SpeechRecognition;
 
-
-    var Recognizer = new webkitSpeechRecognition();
-    var _Recognizer_autorestart = false;
-    var _Recognizer_done = true;
-    var _Recognizer_isrunning = false;
-
-    Recognizer.enableAutorestart = function enableAutorestart(){_Recognizer_autorestart=true;}
-    Recognizer.disableAutorestart = function disableAutorestart(){_Recognizer_autorestart=false;}
-
-
-    Recognizer._stop = Recognizer.stop;
-    Recognizer.stop = function() {
-        _Recognizer_isrunning = false;
-        _Recognizer_done = true;
-        Recognizer._stop();
+    try {
+        SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+    }
+    catch(err) {
+        SpeechRecognition = undefined;
     }
 
+    if(SpeechRecognition != undefined)
+    {
+        var Recognizer = new SpeechRecognition();
+        var _Recognizer_autorestart = false;
+        var _Recognizer_done = true;
+        var _Recognizer_isrunning = false;
 
-    Recognizer._start = Recognizer.start;
-    Recognizer.start = function() {
-
-        _Recognizer_isrunning = true;
-        _Recognizer_done = false;
-        _Recognizer_start();
-
-    }
+        Recognizer.enableAutorestart = function enableAutorestart(){_Recognizer_autorestart=true;}
+        Recognizer.disableAutorestart = function disableAutorestart(){_Recognizer_autorestart=false;}
 
 
-    Recognizer.setLang = function setLang(lang) {
-        Recognizer.lang = lang;
-
-        if(_Recognizer_isrunning)
-        {
-            Recognizer.stop();
-            Recognizer.start();
+        Recognizer._stop = Recognizer.stop;
+        Recognizer.stop = function() {
+            _Recognizer_isrunning = false;
+            _Recognizer_done = true;
+            Recognizer._stop();
         }
-    }
-
-    function _Recognizer_start (){
-
-        if(!_Recognizer_isrunning)
-            return;
 
 
-        if(_Recognizer_done && !_Recognizer_autorestart)
-            return;
+        Recognizer._start = Recognizer.start;
+        Recognizer.start = function() {
 
-        setTimeout(function(){ _Recognizer_start() }, 300);
-        try
-        {
-            Recognizer._start();     
+            _Recognizer_isrunning = true;
+            _Recognizer_done = false;
+            _Recognizer_start();
+
         }
-        catch(e)
-        {
-        }
-    } 
-
-    Recognizer.onerror = function(e){
-        console.log('qui!');
-        console.log(e);
-        console.log(e.toString());
-    }
 
 
-    // Recognizer.onerror = function(event)
-    // {
-    //     console.log(event);
-    // }
+        Recognizer.setLang = function setLang(lang) {
+            Recognizer.lang = lang;
 
-    Recognizer.setLang('en');
-    
-    Recognizer.onresult = function(event) {
-        if (event.results.length > 0) {
-            result = event.results[event.results.length-1];
-            if(result.isFinal) {
-              
-                var speechEvent = new CustomEvent('yarp speech finished',{'detail':result});
-
-                Recognizer.dispatchEvent(speechEvent);
-
-                _Recognizer_done = true;
+            if(_Recognizer_isrunning)
+            {
+                Recognizer.stop();
+                Recognizer.start();
             }
-        }  
-    };
+        }
 
-    // -----
+        function _Recognizer_start (){
 
-    // ----- Speech Synthesis Wrapper
+            if(!_Recognizer_isrunning)
+                return;
 
-    var Synthetizer = {};
-    Synthetizer = new SpeechSynthesisUtterance('');
-    
-    Synthetizer.speak = function(_text) {
-        Synthetizer.text = _text;
-        window.speechSynthesis.speak(Synthetizer);
+
+            if(_Recognizer_done && !_Recognizer_autorestart)
+                return;
+
+            setTimeout(function(){ _Recognizer_start() }, 300);
+            try
+            {
+                Recognizer._start();     
+            }
+            catch(e)
+            {
+            }
+        } 
+
+        Recognizer.onerror = function(e){
+            console.log('qui!');
+            console.log(e);
+            console.log(e.toString());
+        }
+
+
+        // Recognizer.onerror = function(event)
+        // {
+        //     console.log(event);
+        // }
+
+        Recognizer.setLang('en');
+        
+        Recognizer.onresult = function(event) {
+            if (event.results.length > 0) {
+                result = event.results[event.results.length-1];
+                if(result.isFinal) {
+                  
+                    var speechEvent = new CustomEvent('yarp speech finished',{'detail':result});
+
+                    Recognizer.dispatchEvent(speechEvent);
+
+                    _Recognizer_done = true;
+                }
+            }  
+        };
+
+        // -----
+
+        // ----- Speech Synthesis Wrapper
+
+        var Synthetizer = {};
+        Synthetizer = new SpeechSynthesisUtterance('');
+        
+        Synthetizer.speak = function(_text) {
+            Synthetizer.text = _text;
+            window.speechSynthesis.speak(Synthetizer);
+        }
+
+        Synthetizer.setLang = function(_lang) { Synthetizer.lang = _lang;}
+
     }
-
-    Synthetizer.setLang = function(_lang) { Synthetizer.lang = _lang;}
-
-
+    else
+    {
+        Synthetizer = undefined;
+        Recognizer = undefined;
+    }   
 
     // ----- Image Display Utilities
 

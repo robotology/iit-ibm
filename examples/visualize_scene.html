@@ -22,10 +22,12 @@
   <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
 
   <script src="/socket.io/socket.io.js"></script>
-  <script src="yarp.js"></script>
+  <script src="/yarp.js"></script>
+
 
 
   <script>
+  
     var socket = io();
 
     yarp.init(socket);
@@ -42,9 +44,8 @@
 
       port_3D_points.onRead(function(bottle){
 
-        var position = bottle.content.map(function(i){return parseFloat(i);})
-
-        addPoint(position);
+        if(bottle.content.length>0)      
+          addPoint(bottle.content);
       
       });
 
@@ -76,7 +77,8 @@
       var MAX_POINTS = 100000;
       var materials, particles;
 
-      var parameters = [[1, 1, 0.5], 5];
+      var default_size = 5;
+      var default_color = [0,0,0];
 
       var counter_draw_points = 1;
 
@@ -166,30 +168,21 @@
 
 
         var positions = new Float32Array( MAX_POINTS*3 ); // 3 vertices per point
-        var colors = new Float32Array( MAX_POINTS*3 ); // 3 vertices per point
+        var colors = new Float32Array( MAX_POINTS*3 ); // 3 colors per point
 
-
-        for (i = 0; i < 3*MAX_POINTS; i++)
-        {
-          positions[3*i] = Math.random()*1000;
-          positions[3*i+1] = -Math.random()*1000;
-          positions[3*i+2] = -Math.random()*1000;
-
-          // colors[3*i] = Math.random();
-          // colors[3*i+1] = Math.random();
-          // colors[3*i+2] = Math.random();
-        }
-
+      
         geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
         geometry.addAttribute( 'color', new THREE.BufferAttribute( colors, 3 ) );
+
 
         // draw range
         // drawCount = 10000; // draw the first 2 points, only
         geometry.setDrawRange( 0, counter_draw_points );
 
-        var size  = parameters[1];
-
-        materials = new THREE.PointsMaterial( { size: size, vertexColors: THREE.VertexColors} );
+        materials = new THREE.PointsMaterial( { 
+          size:default_size,
+          vertexColors: THREE.VertexColors 
+        } );
 
         particles = new THREE.Points( geometry, materials );       
 
@@ -213,35 +206,58 @@
 
       }
 
-      function addPoint(position,color)
+      function addPoint(content)
       {
+
+        // if it is only one vector of positions wrap it up in a single Array
+        if(content[0].constructor != Array)
+          content = [content];
+
+        var make_particles_visible = false;
         if( !particles.visible )
         {
           counter_draw_points = 0;
-          particles.visible = true;
+          make_particles_visible = true;
         }
-        
 
-        var tmp_positions = particles.geometry.attributes.position.array;
-        var tmp_colors = particles.geometry.attributes.color.array;
+        for( var idx_i = 0; idx_i < content.length; idx_i++)
+        {
 
-        tmp_positions[3*counter_draw_points] = position[0];
-        tmp_positions[3*counter_draw_points+1] = - position[1];
-        tmp_positions[3*counter_draw_points+2] =- position[2];
+            var tmp_positions = particles.geometry.attributes.position.array;
+            var tmp_colors = particles.geometry.attributes.color.array;
 
-        if( color == undefined )
-          color = [Math.random(), Math.random(), Math.random()];
+            // add the new position
+            tmp_positions[3*counter_draw_points] = content[idx_i][0];
+            tmp_positions[3*counter_draw_points+1] = - content[idx_i][1];
+            tmp_positions[3*counter_draw_points+2] = - content[idx_i][2];
 
-        // tmp_colors[3*counter_draw_points] = color[0];
-        // tmp_colors[3*counter_draw_points+1] = - color[1];
-        // tmp_colors[3*counter_draw_points+2] =- color[2];
 
-        counter_draw_points++;
+            // set the color position
+            var color;
+            if( content[idx_i].length >=6 )
+              color = content[idx_i].slice(3).map(function(i){if(i>1) i=i/255; return i;});
+            else
+              color = default_color;
 
-        particles.geometry.attributes.position.needsUpdate = true;
-        particles.geometry.attributes.color.needsUpdate = true;
+            tmp_colors[3*counter_draw_points] = color[0];
+            tmp_colors[3*counter_draw_points+1] = color[1];
+            tmp_colors[3*counter_draw_points+2] = color[2];
+
+            // set the size for all points
+            if (content[idx_i].length >=7 )
+              particles.material.size = content[idx_i][6];
+
+            counter_draw_points++;
+
+            particles.geometry.attributes.position.needsUpdate = true;
+            particles.geometry.attributes.color.needsUpdate = true;
+
+        }
 
         geometry.setDrawRange( 0, counter_draw_points );
+
+        if(make_particles_visible)
+          particles.visible = true;
 
       }
 
