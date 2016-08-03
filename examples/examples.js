@@ -6,19 +6,12 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 var yarp = require('../yarp');
-// var yarp = require('./yarp');
 
 
 
-app.use(express.static('node_modules/three'));
+app.use(express.static('node_modules'));
 app.use(express.static('js'));
 app.use(express.static('examples'));
-app.use(express.static('images'));
-
-
-// app.get('/', function(req, res){
-//   res.sendfile('examples/examples.html');
-// });
 
 
 app.get('/', function(req, res){

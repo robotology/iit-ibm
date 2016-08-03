@@ -27,6 +27,14 @@ yarp.Bottle = function Bottle(_bottle) {
     if(_bottle == undefined)
         var _bottle = _yarp.Bottle();
 
+    _bottle._copy = _bottle.copy;
+    _bottle.copy = function (obj) {
+        if(_bottle.getObjType == obj.getObjType)
+            _bottle.copy(obj);
+        else
+            _bottle.fromString(obj.toString());
+    }
+
     _bottle.toSend = function toSend() {
 
         return {
@@ -48,6 +56,15 @@ yarp.Image = function Image(_image) {
         var b = _image;
     });
 
+    _image._copy = _image.copy;
+    _image.copy = function (obj) {
+        if(_image.getObjType == obj.getObjType)
+            _image.copy(obj);
+        else
+            console.log('Error: impossible to copy image');
+    }
+
+
     _image.toSend = function toSend() {
 
         return {
@@ -68,6 +85,18 @@ yarp.Sound = function Sound(_sound) {
 
     if(_sound == undefined)
         var _sound = _yarp.Sound();
+
+
+    _sound._copy = _sound.copy;
+    _sound.copy = function (obj) {
+        if(_sound.getObjType == obj.getObjType)
+            _sound.copy(obj);
+        else
+        {
+            _sound.fromBinary(obj);
+        }
+    }
+
 
     _sound.toSend = function toSend() {
 
@@ -201,10 +230,12 @@ yarp.Port = function Port(_port_type) {
         return isClosed;
     }
 
-    // _port._prepare = _port.prepare;
-    // _port.prepare = function() {
-    //     return _yarp_wrap_object(_port._prepare());
-    // }
+
+    // wrap the prepared objects
+    _port._prepare = _port.prepare;
+    _port.prepare = function() {
+        return _yarp_wrap_object(_port._prepare());
+    }
 
 
 
@@ -234,11 +265,7 @@ yarp.Port = function Port(_port_type) {
             if(msg != undefined)
             {
                 var b = _port.prepare();
-                
-                if(b.getObjType == msg.getObjType)
-                    b.copy(msg);
-                else
-                    b.fromString(msg.toString());
+                b.copy(msg);
             }
 
             _port._write();
@@ -268,7 +295,8 @@ yarp.Port = function Port(_port_type) {
 
     // _port.callback = function (msg) {console.log(port_name + msg)};
     // (default) forward the message
-    _port.callback = function (msg) {_port.write(msg.toString())};
+    // _port.callback = function (msg) {_port.write(msg.toString())};
+    _port.callback = function (msg) {_port.write(msg);};
 
 
     return _port;

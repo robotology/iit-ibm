@@ -327,14 +327,12 @@
         }   
 
 
-        #page-content-wrapper iframe {
+        #main-frame {
             width: 100%;
             height: 100%;
             border: none;
         }
 
-        iframe {
-        }
 
     </style>
 
@@ -359,16 +357,13 @@
 
             <ul class="sidebar-nav">
                 <li>
-                    <a href="#" class='yarp-app' id='speech_rec' page-link='speech_rec_example'><i class="fa fa-microphone fa-fw fa-lg" aria-hidden="true"></i> <span>Speech Recognition</span></a>
+                    <a href="#" class='yarp-app' id='speech_recognition' page-link='speech_recognition'><i class="fa fa-microphone fa-fw fa-lg" aria-hidden="true"></i> <span>Speech Recognition</span></a>
                 </li>
                 <li>
-                    <a href="#" class='yarp-app' id='send_inertial' page-link='send_inertial_data'><i class="fa fa-mobile fa-fw fa-lg" aria-hidden="true"></i> <span>Send Inertial Data</span></a>
+                    <a href="#" class='yarp-app' id='inertial_data'  page-link='inertial_data'><i class="fa fa-mobile fa-fw fa-lg" aria-hidden="true"></i> <span>Inertial Data</span></a>
                 </li>
                 <li>
-                    <a href="#" class='yarp-app' id='receive_inertial' page-link='receive_inertial_data'><i class="fa fa-bar-chart fa-fw fa-lg" aria-hidden="true"></i> <span>Receive Inertial Data</span></a>
-                </li>
-                <li>
-                    <a href="#" class='yarp-app' id='point_cloud'  page-link='visualize_scene'><i class="fa fa-cloud fa-fw fa-lg" aria-hidden="true"></i> <span>Point Cloud</span></a>
+                    <a href="#" class='yarp-app' id='point_cloud'  page-link='point_cloud'><i class="fa fa-cloud fa-fw fa-lg" aria-hidden="true"></i> <span>Point Cloud</span></a>
                 </li>
                 <li>
                     <a href="#" class='yarp-app' id='stream_audio'  page-link='stream_audio'><i class="fa fa-bullhorn fa-fw fa-lg" aria-hidden="true"></i> <span>Stream Audio</span></a>
@@ -381,7 +376,9 @@
         <div id="page-content-wrapper">
             <!-- <div styleclass="container-fluid"> -->
             <div class='inflatable'></div>
-                <iframe id="main-frame" src=''></iframe>
+                <!-- <iframe id="main-frame" src=''></iframe> -->
+                <object id="main-frame"></object>
+
 
             <!-- </div> -->
         </div>
@@ -395,7 +392,8 @@
 <!--     <script src="build/three.js"></script>
     <script src="examples/js/controls/OrbitControls.js"></script>
  -->
-    <script src="http://code.jquery.com/jquery-1.11.1.js"></script>
+    <!-- <script src="http://code.jquery.com/jquery-1.11.1.js"></script> -->
+    <script src="/jquery/dist/jquery.min.js"></script>
 
     <!-- Latest compiled and minified JavaScript -->
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -423,7 +421,7 @@
                 yarpApps.deactivate();
                 yApp.classList.add('selected');
 
-                main_frame.setAttribute('src', yApp.getAttribute('page-link') + '.html');
+                main_frame.setAttribute('data', yApp.getAttribute('page-link') + '/index.html');
             };
 
         });
