@@ -10,6 +10,12 @@ process.on('SIGINT',function(){
 });
 
 
+// make sure to close stuff when closing signal arrives
+process.on('SIGTERM',function(){
+    process.exit();
+});
+
+
 
 
 
