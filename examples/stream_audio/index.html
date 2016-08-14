@@ -37,6 +37,39 @@
         box-shadow: 4px 4px 10px -3px rgba(0, 0, 0, 0.5);
       }
 
+
+      .invisible {
+          display: none;
+      }
+
+      #description {
+          padding: 3em;
+      }
+
+      #description * {
+          text-align: center;
+      }
+
+      #description p {
+          font-size: 1.3em;
+          margin-top: 3em;
+      }
+
+      #description b {
+          font-weight: bold;
+          color: cornflowerblue;
+      }
+
+      #description h1 b {
+          font-family: 'Lobster', serif;
+      }
+
+      /* Custom */
+
+      #description p {
+        margin-top: 1em;
+      }
+
     </style>
   </head>
 
@@ -56,6 +89,16 @@
             </button>
           </div>
         </div>
+
+        <div id='description'>
+          <h1>Stream Audio</h1>
+
+          <p>
+            This examples show how Web APIs can be used to send audio streams directly from the device microphone to the <b>YARP</b> network. In particular this application translates audio batches into <a target='_blank' href='http://www.yarp.it/classyarp_1_1sig_1_1Sound.html'>Yarp::sig::Sound</a> objects and then writes them on port <b>/yarpjs/mic:o</b>
+          </p>
+       
+        </div>
+
     </div>
 
   </body>

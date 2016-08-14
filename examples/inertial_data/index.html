@@ -1,7 +1,7 @@
 <!doctype html>
 <html>
   <head>
-    <title>yarp.js Receive Inertial Info</title>
+    <title>yarp.js Send and Receive Inertial Data</title>
     
 
     <meta name=viewport content="width=device-width, initial-scale=1">
@@ -143,6 +143,81 @@
         margin:auto;
       }
 
+
+      /* standard stuff */
+      .invisible {
+          display: none;
+      }
+
+      #description {
+          padding: 3em;
+      }
+
+      #description * {
+          text-align: center;
+      }
+
+      #description p {
+          font-size: 1.3em;
+          margin-top: 3em;
+      }
+
+      #description b {
+          font-weight: bold;
+          color: cornflowerblue;
+      }
+
+      #description h1 b {
+          font-family: 'Lobster', serif;
+      }
+
+
+      /* custom stuff */
+      #description {
+        padding: 1em;
+        padding-top: 0.5em;
+
+        position: relative;
+        background: lightgray;
+        opacity: 0.9;
+        border-radius: 1em;
+        margin:1em;
+      } 
+
+      #description p {
+        margin-top: 1em;
+      }
+
+      #description .closebutton {
+        content: 'x';
+        font-family: 'Arial', sans-serif;
+        font-size: 1.5em;
+        position: absolute;
+        right: 0;
+        top: 0;
+        margin-right: 0.5em;
+
+        cursor:pointer;
+      }
+
+      .cont {
+        text-align: center;
+      }
+
+      .cont * {
+        display: inline-block;
+      }
+
+      #send_inertial_data {
+        margin-top: 1em;
+        margin-bottom: 1em;
+      }
+
+      #canvas-container {
+        margin-top: 3em;
+        margin-bottom: 3em;
+      }
+
     </style>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -153,20 +228,35 @@
 
   <body>
 
-    <a id='send_inertial_data' class="btn btn-lg btn-primary disabled">Send Data</a>
+    
+    <div id='description'>
+      <div class='closebutton'>x</div>
 
-    <div id="chart_div"></div>
+      <h1>Send and Receive Inertial Data</h1>
 
+      <p>
+        This demo shows how information send on the <b>YARP</b> network can be visualized with tools available in modern browsers. In particular we will use <a target='_blank' href='https://developers.google.com/chart/'>Google Charts</a> and <a target='_blank' href='http://threejs.org/'>Three.js</a> to visualize the current orientation of a device streaming inertial data over the <b>YARP network</b>.
+      </p> 
+
+      <p>
+        For this demo you need at least two devices: one that sends the inertial data and another one that receives it. A device such as a smartphone or a tablet will send a 3 dimensional vector containing its current orientation via a YARP port. Then, any another device reading from the network will be able to visualize this information on screen. 
+      </p>
+
+    </div>
+
+
+
+
+    <div class='cont'>
+      <a id='send_inertial_data' class="btn btn-lg btn-primary disabled">Send Data</a>
+    </div>
+    
     <div id="canvas-container">
       <canvas id="megacanvas"></canvas>
     </div>
 
-    <div class="garden">
-      <div class="ball"></div>
-    </div>
-
-    <pre class="output"></pre>
-
+    <div id="chart_div"></div>
+    
   </body>
 
 <!-- ############  END BODY ################# -->
@@ -555,6 +645,35 @@
           return val * Math.PI / 180;  
       }
       
+
+  </script>
+
+
+  <script>
+
+    var description_object = document.getElementById('description');
+
+    description_object.getElementsByClassName('closebutton')[0].onclick = function closeDescription() {
+      description_object.classList.add('invisible');
+    }
+
+    
+    var route_parameters = location.search.substring(1).split("&");
+
+    var description_visible = false;
+    for(var route_idx=0; route_idx<route_parameters.length; route_idx++)
+    {
+      var route_tmp = route_parameters[0].split("=");
+      if(route_tmp[0] == 'description' && !(!unescape(route_tmp[1])) == true)
+      {
+        description_visible = true;
+      }
+    }
+
+    if(!description_visible)
+    {
+      description_object.classList.add('invisible');
+    }
 
   </script>
 

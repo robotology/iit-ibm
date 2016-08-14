@@ -333,6 +333,32 @@
             border: none;
         }
 
+        .invisible {
+            display: none;
+        }
+
+        #description {
+            padding: 3em;
+        }
+
+        #description * {
+            text-align: center;
+        }
+
+        #description p {
+            font-size: 1.3em;
+            margin-top: 3em;
+        }
+
+        #description b {
+            font-weight: bold;
+            color: cornflowerblue;
+        }
+
+        #description h1 b {
+            font-family: 'Lobster', serif;
+        }
+
 
     </style>
 
@@ -375,9 +401,24 @@
         <!-- Page Content -->
         <div id="page-content-wrapper">
             <!-- <div styleclass="container-fluid"> -->
-            <div class='inflatable'></div>
-                <!-- <iframe id="main-frame" src=''></iframe> -->
-                <object id="main-frame"></object>
+            <div id="description">
+                <h1>Welcome to <b>Yarp.js</b></h1>
+
+                <p>
+                    This is a bundle of sample applications that show how <b>YARP</b> can be combined with modern Web tools and APIs using <b>yarp.js</b>.
+                </p>
+
+                <p>
+                    You can directly use these applications in your system in order to include functionalities such as <b>speech recognition</b> or <b>3D data visualization</b> or you can adapt them to your needs by just writing few lines of code.
+                </p>
+
+                <p>
+                    <b>Note:</b> before starting please be sure to have a yarp server running on your network.
+                </p>
+
+            </div>
+
+            <object id="main-frame"></object>
 
 
             <!-- </div> -->
@@ -418,10 +459,13 @@
         yarpApps.map(function init_yarpApps(yApp) {
 
             yApp.onclick = function update_iframe() {
+
+                document.getElementById('description').classList.add('invisible');
+
                 yarpApps.deactivate();
                 yApp.classList.add('selected');
 
-                main_frame.setAttribute('data', yApp.getAttribute('page-link') + '/index.html');
+                main_frame.setAttribute('data', yApp.getAttribute('page-link') + '/index.html?description=true');
             };
 
         });

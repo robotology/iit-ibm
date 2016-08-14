@@ -108,6 +108,34 @@
           font-size:1em;
        }
 
+
+        .invisible {
+            display: none;
+        }
+
+        #description {
+            padding: 3em;
+        }
+
+        #description * {
+            text-align: center;
+        }
+
+        #description p {
+            font-size: 1.3em;
+            margin-top: 3em;
+        }
+
+        #description b {
+            font-weight: bold;
+            color: cornflowerblue;
+        }
+
+        #description h1 b {
+            font-family: 'Lobster', serif;
+        }
+
+
     </style>
 
     <script src="/socket.io/socket.io.js"></script>
@@ -167,11 +195,24 @@
 
     </div>
 
+    <div id='description' class='visible'>
+      <h1>Speech Recognition and Synthesis</h1>
+
+      <p>
+        This example shows how speech recognition API available for modern browser can be used to recognize human speech and send the recognized sentences over the YARP network as a string within a Bottle. Recognized sentences are written by the port <b>/web/speechRec:o</b>. 
+      </p>
+
+      <p>
+        Also speech synthesis APIs are available. You can write to port <b>/web/speak:i</b> bottles containing a single string and yarp.js will read them aloud.
+      </p>
+      
+    </div>
+
   </body>
 
   <script src="/jquery/dist/jquery.min.js"></script>
   
-  <script src="yarp.js"></script>
+  <script src="/yarp.js"></script>
 
 
   <script>
