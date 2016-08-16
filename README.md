@@ -44,11 +44,11 @@ The library is based on node.js which can be natively integrated with external C
 **Server dependencies**: 
 * [YARP](https://github.com/robotology/yarp) (Duh!). With OpenCV!
 * [node.js](https://nodejs.org/en/). Version >= 4.2.2
+* [Cmake.js](https://www.npmjs.com/package/cmake-js): run `$> sudo npm install -g cmake-js`
 
 **Note**: 
 - **Please make sure** that your Node version is >= 4.2.2
 - **Linux** If you installed Node.js from the package manager, it could happen that the command `node` is not in your path, but rather `nodejs` is. To this end, run `$> sudo ln -s /usr/bin/nodejs /usr/bin/node`.
-- To install cmake-js, run `$> sudo npm install -g cmake-js`.
 
 
 **Client dependencies (on any device on your network)**: 
@@ -81,7 +81,7 @@ your.machine.ip.address:3000
 (You can get your ip by typing `$> ifconfig` on a shell on the machine where node is running). You should see a webpage like the one below
 
 <p align='center'>
-<img src="https://github.com/robotology/yarp.js/blob/master/images/example_landing.png" width="60%">
+<img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="https://github.com/robotology/yarp.js/blob/master/images/example_browser_landing.png" width="60%">
 </p>
 
 The available examples are shown in the header.
@@ -312,8 +312,8 @@ A browser cannot directly open a yarp port, but has to ask the server to open on
 
 To register the browser to a YARP port
 ```js
-var port = new Port();
-port.open(port_name,port_type); // port_type default: 'bottle'
+var port = new Port(port_type); // port_type default: 'bottle'
+port.open(port_name);
 ```
 If the port does not exist, the server opens one. Note that `port.open` returns a bool (`true` if the port was opened `false` otherwise). If the browser has already a port opened with that name, it does not open a new one and returns `false`.
 
