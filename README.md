@@ -123,7 +123,7 @@ On your shell you should be able to see the YARP Bottles rendered as strings con
 <img src="https://github.com/robotology/yarp.js/blob/master/images/example_browser_inertial_data.png" width="60%">
 </p>
 
-This demo shows information sent on the YARP network can be visualized on the browser using different tools. In particular we will use [Google Charts](https://developers.google.com/chart/) and [Three.js](https://github.com/mrdoob/three.js/) (a wrapper for [WebGL](https://en.wikipedia.org/wiki/WebGL?oldformat=true)) to visualize the current orientation of a device streaming data over YARP.
+This demo shows how information sent on the YARP network can be visualized on the browser using different tools. In particular we will use [Google Charts](https://developers.google.com/chart/) and [Three.js](https://github.com/mrdoob/three.js/) (a wrapper for [WebGL](https://en.wikipedia.org/wiki/WebGL?oldformat=true)) to visualize the current orientation of a device streaming data over YARP.
 
 **You will need two devices**: one equipped with inertial sensing capabilities which will write on the YARP network a 3 dimensional vector containing the device orientation. A second device will read this information from the network and visualized it on screen.
 
