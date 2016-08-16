@@ -47,7 +47,7 @@ The library is based on node.js which can be natively integrated with external C
 
 **Server dependencies**: 
 * [YARP](https://github.com/robotology/yarp) (Duh!). With OpenCV!
-* [node.js](https://nodejs.org/en/). Version >= 4.2.2
+* [node.js](https://nodejs.org/en/). Version >= 4.2.2. Follow the [official guide](https://nodejs.org/en/download/package-manager/). 
 * [Cmake.js](https://www.npmjs.com/package/cmake-js): run `$> sudo npm install -g cmake-js`
 
 **Note**: 
