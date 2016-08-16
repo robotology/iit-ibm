@@ -7,7 +7,9 @@ A JavaScript set of bindings for YARP.
 * [Installation](#installation)
 * [Examples](#examples)
     - [Speech Recognition and Synthesis](#example-speech-recognition-and-synthesis)
-    - [Visualization with WebGL](#example-visualization-with-WebGL)
+    - [Visualization with WebGL - Inertial Data](#example-inertial-data)
+    - [Visualization with WebGL - Point Cloud](#example-point-cloud) 
+    - [Stream Audio](#example-stream-audio) 
 * [Server](#server)
     - [Port Communication](#port-communication)
         - [Reading](#port-reading)
@@ -64,18 +66,13 @@ $> cmake-js
 <a name='examples'></a>
 ## Examples
 
-Let us start with some example to see what can be done with yarp.js:
+Let us start with some example to see what can be done with yarp.js. 
 
-<a name='example-speech-recognition-and-synthesis'></a>
-### Easy-peasy Speech Recognition and Synthesis
+**Note. We will assume that a YARP server is running.** If that's not your case, run `$> yarp server` on a shell. 
 
-This example uses the Google Speech Recognition and Synthesis APIs available for Google Chrome to:
-1. receive messages over the YARP network and speak them aloud from any device.
-2. recognize human speech from a device and send the recognized sentence as a YARP Bottle on the YARP network. 
-
-We will assume that a YARP server is running. If that's not your case, run `$> yarp server` on a shell. Then, from the folder where you cloned yarp.js, run 
+From the folder where you cloned yarp.js, run 
 ```
-$> node examples/speech_rec_example.js
+$> node examples/examples.js
 ```
 Then, open [Google Chrome](https://www.google.com/chrome/) on a device on your network and go to the address
 ```
@@ -83,12 +80,26 @@ your.machine.ip.address:3000
 ```
 (You can get your ip by typing `$> ifconfig` on a shell on the machine where node is running). You should see a webpage like the one below
 
-<img src="https://github.com/robotology/yarp.js/blob/master/images/speech_permission.png" width="40%">
+<p align='center'>
+<img src="https://github.com/robotology/yarp.js/blob/master/images/example_landing.png" width="60%">
+</p>
 
-The script `examples/speech_rec_example.js` creates two YARP ports: `/web/speak:i` and `/web/speechRec:o`. Let's see how to use them.
+The available examples are shown in the header.
 
+<a name='example-speech-recognition-and-synthesis'></a>
+### Speech Recognition and Synthesis
+
+The **Speech Recognition** example uses the Google Speech Recognition and Synthesis APIs available for Google Chrome to:
+1. receive messages over the YARP network and speak them aloud from any device.
+2. recognize human speech from a device and send the recognized sentence as a YARP Bottle on the YARP network. 
+
+This example application opens two YARP ports: `/web/speak:i` and `/web/speechRec:o`. Here's how to use them:
 
 #### Speech Synthesis
+
+<p align='center'>
+<img src="https://github.com/robotology/yarp.js/blob/master/images/example_speech_recognition.png" width="60%">
+</p>
 
 You can try out speech synthesis by just filling the input box to the left of the button *Speak*. However the cool thing is to send messages from YARP, so go on a shell and open a port to write in the messages you want to speak aloud
 ```
@@ -100,45 +111,54 @@ Now, every message you write in this terminal will get to your browser and will 
 
 The YARP port `/web/speechRec:o` opened by this script returns speech recognized using the Google Speech API as a single-string text in a YARP Bottle over the YARP Network. We can read from this as follows: go on a shell and run `yarp read ... /web/speechRec:o`. Now we are ready for speech recognition:
 
-Press the *Voice Recognition* button. You should receive (unless you already set Chrome to have full permission to use your microphone and camera) a dialog asking for permission to use your microphone (see the screenshot below, captured from an Android smartphone):
-
-<img src="https://github.com/robotology/yarp.js/blob/master/images/speech_permission.png" width="40%">
-
-You can then start speech recognition. Both English and Italian are available for this example:
-
-<img src="https://github.com/robotology/yarp.js/blob/master/images/speech_en.png" width="40%">
-<img src="https://github.com/robotology/yarp.js/blob/master/images/speech_it.png" width="40%">
+Press the *Voice Recognition* button. You should receive (unless you already set Chrome to have full permission to use your microphone and camera) a dialog asking for permission to use your microphone (see the screenshot below, captured from an Android smartphone). You can then start speech recognition. Both English and Italian are available for this example:
 
 On your shell you should be able to see the YARP Bottles rendered as strings containing the messages recognized by the Google Speech Recognition APIs.
 
-<a name='example-visualization-with-WebGL'></a>
-### Visualization with WebGL (and Three.js)
+<a name='example-inertial-data'></a>
+### Visualization with WebGL (and Three.js) - Inertial Data
 
+<p align='center'>
+<img src="https://github.com/robotology/yarp.js/blob/master/images/example_inertial_data.png" width="60%">
+</p>
 
+This demo shows information sent on the YARP network can be visualized on the browser using different tools. In particular we will use [Google Charts](https://developers.google.com/chart/) and [Three.js](https://github.com/mrdoob/three.js/) (a wrapper for [WebGL](https://en.wikipedia.org/wiki/WebGL?oldformat=true)) to visualize the current orientation of a device streaming data over YARP.
 
-In this demo we will see how information sent on the YARP network can be visualized on the browser using different tools. In particular we will use [Google Charts](https://developers.google.com/chart/) and [Three.js](https://github.com/mrdoob/three.js/) (a wrapper for [WebGL](https://en.wikipedia.org/wiki/WebGL?oldformat=true)) to visualize the current orientation of a device streaming data over YARP.
+**You will need two devices**: one equipped with inertial sensing capabilities which will write on the YARP network a 3 dimensional vector containing the device orientation. A second device will read this information from the network and visualized it on screen.
 
-In particular we will have a smartphone sending a 3 dimensional vector containing the device orientation through the YARP network. Then we will have another device reading from the network the device orientation and visualizing it on screen.
+(Demo suggested by [Pattacini](https://github.com/pattacini) in issue [#3](https://github.com/robotology/yarp.js/issues/3)). 
 
-Demo suggested by [Pattacini](https://github.com/pattacini) in issue [#3](https://github.com/robotology/yarp.js/issues/3). Result of the demo:
+On both devices, go to the example page and click on the *inertial data* tab. Then on the device supposed to send out inertial data, click on the `Send Data` button. Then you should see something like this:
 
 <p align='center'>
 <img src="https://github.com/robotology/yarp.js/blob/master/images/visualize-data.gif" width="60%">
 </p>
 
-##### The Server
 
-From the folder where you cloned this repository run `$> node examples/send_inertial_data.js`. This will start a server on the port `:3000`. 
+<a name='example-point-cloud'></a>
+### Visualization with WebGL (and Three.js) - Point Cloud
 
-##### The Device
+<p align='center'>
+<img src="https://github.com/robotology/yarp.js/blob/master/images/example_point_cloud.png" width="60%">
+</p>
 
-On your device (e.g. smartphone, tablet, etc.) open Chrome and go to `your.machine.ip.address:3000`. You should see your device orientation printed on screen.
+This example shows how to visualize 3D point clouds with with yarp.js using the Three.js library. You can dynamically add new points to the current scene by writing their coordinates to the port `/yarpjs/3Dpoints:i` using format `(x y z R G B size)`. RGB colour defaults to black `(0 0 0)` and size defaults to `5` pixels. You can send multiple points at the same time by concatenating bottles (e.g. `(b1) (b2) ... (bn)`). Try it out!
 
-##### The Client
-
-On your client (any machine) open Chrome and go to `your.machine.ip.address:3000/receive`. You should see a Google Line Chart dynamically plotting your device orientation. You should also see a window with a mockup smartphone whose orientation changes according to the device streaming on the network.
+For an automatic example of dynamic point cloud visualization run the shell command `$> node examples/send_point_cloud.js` from the directory where yarp.js was pulled. (Thanks to [Seanfa](https://github.com/seanfa) for the point cloud data).
 
 
+<a name='example-stream-audio'></a>
+### Stream Audio
+
+<p align='center'>
+<img src="https://github.com/robotology/yarp.js/blob/master/images/example_audio_stream.png" width="60%">
+</p>
+
+This example shows how to use Web APIs to send audio streams directly from any device microphone over the YARP network. In particular this application translates audio batches into [Yarp::sig::Sound](http://www.yarp.it/classyarp_1_1sig_1_1Sound.html) objects and then writes them on port `/yarpjs/mic:o`.
+
+**Note.** For security reasons, Chrome does not allow to access the audio stream from unsecure hosts (https Vs http). To bypass this issue you have two options: 
+1. Use Firefox (which allows to access the audiostream also from unsecure domains)
+2. Use a self-signed SSL scure domain (coming soon!).
 
 <a name='server'></a>
 ## Server
