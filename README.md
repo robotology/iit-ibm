@@ -98,7 +98,7 @@ This example application opens two YARP ports: `/web/speak:i` and `/web/speechRe
 #### Speech Synthesis
 
 <p align='center'>
-<img src="https://github.com/robotology/yarp.js/blob/master/images/example_speech_recognition.png" width="60%">
+<img src="https://github.com/robotology/yarp.js/blob/master/images/example_browser_speech_recognition.png" width="60%">
 </p>
 
 You can try out speech synthesis by just filling the input box to the left of the button *Speak*. However the cool thing is to send messages from YARP, so go on a shell and open a port to write in the messages you want to speak aloud
@@ -119,7 +119,7 @@ On your shell you should be able to see the YARP Bottles rendered as strings con
 ### Visualization with WebGL (and Three.js) - Inertial Data
 
 <p align='center'>
-<img src="https://github.com/robotology/yarp.js/blob/master/images/example_inertial_data.png" width="60%">
+<img src="https://github.com/robotology/yarp.js/blob/master/images/example_browser_inertial_data.png" width="60%">
 </p>
 
 This demo shows information sent on the YARP network can be visualized on the browser using different tools. In particular we will use [Google Charts](https://developers.google.com/chart/) and [Three.js](https://github.com/mrdoob/three.js/) (a wrapper for [WebGL](https://en.wikipedia.org/wiki/WebGL?oldformat=true)) to visualize the current orientation of a device streaming data over YARP.
@@ -139,7 +139,7 @@ On both devices, go to the example page and click on the *inertial data* tab. Th
 ### Visualization with WebGL (and Three.js) - Point Cloud
 
 <p align='center'>
-<img src="https://github.com/robotology/yarp.js/blob/master/images/example_point_cloud.png" width="60%">
+<img src="https://github.com/robotology/yarp.js/blob/master/images/example_browser_point_cloud.png" width="60%">
 </p>
 
 This example shows how to visualize 3D point clouds with with yarp.js using the Three.js library. You can dynamically add new points to the current scene by writing their coordinates to the port `/yarpjs/3Dpoints:i` using format `(x y z R G B size)`. RGB colour defaults to black `(0 0 0)` and size defaults to `5` pixels. You can send multiple points at the same time by concatenating bottles (e.g. `(b1) (b2) ... (bn)`). Try it out!
@@ -151,7 +151,7 @@ For an automatic example of dynamic point cloud visualization run the shell comm
 ### Stream Audio
 
 <p align='center'>
-<img src="https://github.com/robotology/yarp.js/blob/master/images/example_audio_stream.png" width="60%">
+<img src="https://github.com/robotology/yarp.js/blob/master/images/example_browser_stream_audio.png" width="60%">
 </p>
 
 This example shows how to use Web APIs to send audio streams directly from any device microphone over the YARP network. In particular this application translates audio batches into [Yarp::sig::Sound](http://www.yarp.it/classyarp_1_1sig_1_1Sound.html) objects and then writes them on port `/yarpjs/mic:o`.
