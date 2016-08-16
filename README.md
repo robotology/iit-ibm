@@ -35,11 +35,15 @@ This library has been developed with the idea of bringing YARP to any device wit
 
 The library is based on node.js which can be natively integrated with external C++ code via [Node addons](https://nodejs.org/api/addons.html).
 
-**Tested OS:** yarp.js has been tested on **OSX** and **Ubuntu**. This goes for the server side. The client side goes on any machine with a version of Google Chrome installed. 
+**Tested OS:** yarp.js has been tested on **OSX** and **Ubuntu**. This goes for the server side. The client side goes on any machine with a version of Google Chrome or Firefox installed.
 
 
 <a name='installation'></a>
 ## Installation
+
+**Client dependencies (on any device on your network)**: 
+* [Google Chrome](https://www.google.com/chrome/)
+* [Firefox](https://www.mozilla.org/en-US/firefox/products/)
 
 **Server dependencies**: 
 * [YARP](https://github.com/robotology/yarp) (Duh!). With OpenCV!
@@ -48,19 +52,16 @@ The library is based on node.js which can be natively integrated with external C
 
 **Note**: 
 - **Please make sure** that your Node version is >= 4.2.2
-- **Linux** If you installed Node.js from the package manager, it could happen that the command `node` is not in your path, but rather `nodejs` is. To this end, run `$> sudo ln -s /usr/bin/nodejs /usr/bin/node`.
+- **Linux**. If you installed Node.js from the package manager, it could happen that the command `node` is not in your path, but rather `nodejs` is. To this end, run `$> sudo ln -s /usr/bin/nodejs /usr/bin/node`.
 
-
-**Client dependencies (on any device on your network)**: 
-* [Google Chrome](https://www.google.com/chrome/)
 
 Once you have all dependencies installed, go to the folder where you have cloned this repository and run:
 ```
-$> npm install
+$> sudo npm install
 $> cmake-js
 ```
 
-**Note**: Depending on how you installed Node.js you could be required to run `$> sudo npm install`
+**Note**: the command `sudo npm install` installs the node dependencies *locally* but with administrative permissions. If you want to avoid this (and just use `npm install`), follow the [official npm guide](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
 
 
 <a name='examples'></a>
@@ -74,7 +75,7 @@ From the folder where you cloned yarp.js, run
 ```
 $> node examples/examples.js
 ```
-Then, open [Google Chrome](https://www.google.com/chrome/) on a device on your network and go to the address
+Then, open the browser on a device on your network and go to the address
 ```
 your.machine.ip.address:3000
 ```
@@ -89,7 +90,7 @@ The available examples are shown in the header.
 <a name='example-speech-recognition-and-synthesis'></a>
 ### Speech Recognition and Synthesis
 
-The **Speech Recognition** example uses the Google Speech Recognition and Synthesis APIs available for Google Chrome to:
+The **Speech Recognition** example uses the Google Speech Recognition and Synthesis APIs available for Google Chrome (not Firefox yet!) to:
 1. receive messages over the YARP network and speak them aloud from any device.
 2. recognize human speech from a device and send the recognized sentence as a YARP Bottle on the YARP network. 
 
