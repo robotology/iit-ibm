@@ -209,13 +209,18 @@
       }
 
       #send_inertial_data {
-        margin-top: 2em;
+        margin-top: 3em;
         margin-bottom: 1em;
       }
 
-      #canvas-container {
-        margin-top: 3em;
+
+      #megacanvas {
+        margin-top: 4em;
         margin-bottom: 3em;
+      }
+
+      #chart_div {
+        margin-bottom: 2em;
       }
 
     </style>
@@ -247,8 +252,11 @@
 
 
 
-    <div class='cont'>
-      <a id='send_inertial_data' class="btn btn-lg btn-primary disabled">Send Data</a>
+    <div id='send_inertial_data_container' class='cont invisible'>
+      <!-- <a id='' class="btn btn-lg disabled">Send Data</a> -->
+      <button id='send_inertial_data' type="button" class="btn" data-toggle="button" aria-pressed="false" autocomplete="off">
+            Send Data
+      </button> 
     </div>
     
     <div id="canvas-container">
@@ -289,6 +297,7 @@
 
 
 
+
     // what to do as soon as the yarp module is ready
     yarp.onInit(function() {
 
@@ -303,7 +312,7 @@
 
         var orientation = bottle.content.map(function(i){return parseFloat(i);})
 
-        handleOrientation(orientation);
+        // handleOrientation(orientation);
 
         drawData(orientation);
 
@@ -320,45 +329,69 @@
 
       var send_inertial_data_btn = document.getElementById('send_inertial_data');
 
+
+      var orientation_listener_initialized = false;
       var sending_inertial_data = false;
 
       if (window.DeviceOrientationEvent) {
 
-          window.addEventListener("deviceorientation", function detect_deviceorientation() {
 
-            if(event.alpha == null || event.beta == null || event.gamma==null)
-              return;
+          function detect_deviceorientation() {
 
-            window.removeEventListener("deviceorientation", detect_deviceorientation);
-            send_inertial_data_btn.classList.remove('disabled');
+            if( !orientation_listener_initialized )
+            {
 
-            send_inertial_data_btn.onclick = function toggle_sending() {
-               send_inertial_data_btn.classList.toggle('sending');
-               sending_inertial_data = !sending_inertial_data;
+              if(event.alpha == null || event.beta == null || event.gamma==null)
+                return;
 
-               if( sending_inertial_data )
-                {
-                  window.addEventListener("deviceorientation", function send_deviceorientation () {
+              window.removeEventListener("deviceorientation", detect_deviceorientation);
+              document.getElementById('send_inertial_data_container').classList.remove('invisible');
 
-                    port_orientation_out.write([event.alpha,event.beta,event.gamma]);
-
-                  }, true);
-
-                  window.addEventListener('devicemotion', function send_devicemotion() {
-                    
-                    port_acceleration_out.write([event.acceleration.x,event.acceleration.y,event.acceleration.z])
-
-                  }, true);
-                }
-                else
-                {
-                  window.removeEventListener("deviceorientation",send_deviceorientation);
-                  window.removeEventListener("deviceomotion",send_devicemotion);
-                }
+              orientation_listener_initialized = true;
             }
 
+          }
 
-          }, true);
+
+          window.addEventListener("deviceorientation", detect_deviceorientation, true);
+
+
+          window.addEventListener("deviceorientation", function send_deviceorientation () {
+            
+            if( sending_inertial_data )
+            {
+              
+              var alpha = event.alpha;
+              var beta = event.beta;
+              var gamma = event.gamma;
+
+              // setTimeout(function(){
+                port_orientation_out.write([alpha,beta,gamma]);
+              // },1);
+
+            }
+          }, true );
+
+          window.addEventListener('devicemotion', function send_devicemotion() {
+            
+            if( sending_inertial_data )
+            {
+
+              var x = event.acceleration.x;
+              var y = event.acceleration.y;
+              var z = event.acceleration.z;
+
+              // setTimeout(function(){
+                port_acceleration_out.write([x,y,z]);
+              // },1);
+
+            }
+          }, true );
+
+          send_inertial_data_btn.onclick = function toggle_sending() {
+            send_inertial_data_btn.classList.toggle('btn-primary');
+            sending_inertial_data = !sending_inertial_data;
+          }
       }
 
 
@@ -455,37 +488,37 @@
   <!-- Garden demo from: https://developer.mozilla.org/en-US/docs/Web/API/Detecting_device_orientation -->
   <script>
 
-    var ball   = document.querySelector('.ball');
-    var garden = document.querySelector('.garden');
-    var output = document.querySelector('.output');
+    // var ball   = document.querySelector('.ball');
+    // var garden = document.querySelector('.garden');
+    // var output = document.querySelector('.output');
 
-    var maxX = garden.clientWidth  - ball.clientWidth;
-    var maxY = garden.clientHeight - ball.clientHeight;
+    // var maxX = garden.clientWidth  - ball.clientWidth;
+    // var maxY = garden.clientHeight - ball.clientHeight;
 
-    function handleOrientation(orientation) {
-      var x = orientation[1];  // In degree in the range [-180,180]
-      var y = orientation[2] // In degree in the range [-90,90]
-      var z = orientation[0] // In degree in the range [-90,90]
+    // function handleOrientation(orientation) {
+    //   var x = orientation[1];  // In degree in the range [-180,180]
+    //   var y = orientation[2]; // In degree in the range [-90,90]
+    //   var z = orientation[0]; // In degree in the range [-90,90]
 
-      output.innerHTML  = "alpha : "  + z + "\n";
-      output.innerHTML += "beta : "   + x + "\n";
-      output.innerHTML += "gamma: "   + y + "\n";
+    //   output.innerHTML  = "alpha : "  + z + "\n";
+    //   output.innerHTML += "beta : "   + x + "\n";
+    //   output.innerHTML += "gamma: "   + y + "\n";
 
-      // Because we don't want to have the device upside down
-      // We constrain the x value to the range [-90,90]
-      if (x >  90) { x =  90};
-      if (x < -90) { x = -90};
+    //   // Because we don't want to have the device upside down
+    //   // We constrain the x value to the range [-90,90]
+    //   if (x >  90) { x =  90};
+    //   if (x < -90) { x = -90};
 
-      // To make computation easier we shift the range of 
-      // x and y to [0,180]
-      x += 90;
-      y += 90;
+    //   // To make computation easier we shift the range of 
+    //   // x and y to [0,180]
+    //   x += 90;
+    //   y += 90;
 
-      // 10 is half the size of the ball
-      // It center the positioning point to the center of the ball
-      ball.style.top  = (maxX*x/180 - 10) + "px";
-      ball.style.left = (maxY*y/180 - 10) + "px";
-    }
+    //   // 10 is half the size of the ball
+    //   // It center the positioning point to the center of the ball
+    //   ball.style.top  = (maxX*x/180 - 10) + "px";
+    //   ball.style.left = (maxY*y/180 - 10) + "px";
+    // }
 
 
   </script>

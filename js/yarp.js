@@ -48,22 +48,21 @@ var yarp = (function yarp(){
 
 
     // ------------ Ports 
-    function Port(){
+    function Port(_port_type) {
+
+        if( _port_type == undefined)
+            _port_type = 'bottle';
+
+        var port_type = _port_type;
 
         var port_name = undefined;
-        var port_type = undefined;
         var callback = Array();
+        var callback_reply = Array();
 
-        var open = function open(_port_name,_port_type) {
+        var open = function open(_port_name) {
 
             if(port_name != undefined || _internal_port_manager[_port_name] != undefined)
                return false;
-
-            port_type = _port_type;
-            if (port_type == undefined)
-                port_type = 'bottle';
-
-            console.log(port_type);
 
             port_name = _port_name;
             socket.emit('yarp open port',{port_name:port_name,port_type:port_type});
@@ -71,7 +70,10 @@ var yarp = (function yarp(){
             _internal_port_manager[port_name] = this;
 
             for(var i=0; i<callback.length; i++)
-                _internal_port_manager[port_name].onRead(callback[i]);            
+                _internal_port_manager[port_name].onRead(callback[i]);     
+
+            for(var i=0; i<callback_reply.length; i++)
+                _internal_port_manager[port_name].onReplyFromWrite(callback_reply[i]);            
 
             return true;
         }
@@ -81,6 +83,8 @@ var yarp = (function yarp(){
             if(port_name)
             {
                 socket.removeAllListeners('yarp ' + port_name + ' message');
+                socket.removeAllListeners('yarp ' + port_name + ' reply');
+
                 socket.emit('yarp close port',port_name);
                 port_name = undefined;
             }
@@ -91,17 +95,51 @@ var yarp = (function yarp(){
                 socket.emit('yarp ' + port_name + ' message', message);
         }
 
-        var onRead = function onRead(cb) {
+        var onRead = function onRead(cb,keepPreviousCBs) {
+
+            if(!keepPreviousCBs)
+            {
+                for(var i=0; i<callback.length; i++)
+                    socket.removeListener('yarp ' + port_name + ' message', callback[i]);
+
+                callback = Array();
+            }
+            
+            var tmpCb = function(msg){cb(msg);}
             callback.push(cb);
-            socket.on('yarp ' + port_name + ' message', function(msg){cb(msg);});
+            socket.on('yarp ' + port_name + ' message', tmpCb);
         }
 
+        var reply = function reply(message) {
+            if(port_name)
+                socket.emit('yarp ' + port_name + ' reply', message);
+        }
 
         var Port = {
             open: open,
             close: close,
             write: write,
-            onRead: onRead
+            onRead: onRead,
+            reply: reply
+        }
+
+        if (port_type == 'rpc')
+        {
+            Port.onReplyFromWrite = function onReplyFromWrite(cb,keepPreviousCBs) {
+
+                if(!keepPreviousCBs)
+                {
+                    for(var i=0; i<callback_reply.length; i++)
+                        socket.removeListener('yarp ' + port_name + ' reply', callback_reply[i]);
+
+                    callback_reply = Array();
+                }
+
+                var tmpCb = function(msg){cb(msg);};
+                callback_reply.push(tmpCb);
+                socket.on('yarp ' + port_name + ' reply', tmpCb);
+            }
+
         }
 
         return Port;
@@ -113,8 +151,8 @@ var yarp = (function yarp(){
         openPort: function openPort(port_name,port_type) {
           if(_internal_port_manager[port_name] == undefined)
           {
-            var p = new Port();
-            if(!p.open(port_name,port_type))
+            var p = new Port(port_type);
+            if(!p.open(port_name))
               return undefined;
           }
           

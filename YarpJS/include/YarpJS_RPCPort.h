@@ -30,6 +30,9 @@ class _YarpJS_PortReplier : public yarp::os::PortReader {
 
     yarp::os::Mutex                                 mutex_reply;
 
+    bool                                            isClosing;
+
+
     // internal read callback
     virtual bool read(yarp::os::ConnectionReader& connection) {
         
@@ -42,6 +45,10 @@ class _YarpJS_PortReplier : public yarp::os::PortReader {
         //wait for reply
         mutex_reply.lock();
 
+
+        // it it is closing just close
+        if( this->isClosing )
+            return true;
 
         // reply 
         yarp::os::ConnectionWriter *returnToSender = connection.getWriter();
@@ -68,6 +75,7 @@ class _YarpJS_PortReplier : public yarp::os::PortReader {
 public:
     _YarpJS_PortReplier()
     {
+        isClosing = false;
         mutex_reply.lock();
         callback = new YarpJS_Callback<_YarpJS_PortReplier>(this,&_YarpJS_PortReplier::_callback_onRead);
     }
@@ -75,7 +83,7 @@ public:
 
     ~_YarpJS_PortReplier()
     {
-        mutex_reply.unlock();
+        this->interrupt();
     }
 
 
@@ -85,8 +93,6 @@ public:
         if(!mutex_reply.tryLock())
             reply_datum.copy(_reply_datum);
 
-        fprintf(stdout,"%s\n",reply_datum.toString().c_str());
-
         mutex_reply.unlock();
     }
 
@@ -95,6 +101,13 @@ public:
         callback->setCallback(info);
     }
 
+    void interrupt()
+    {
+
+        this->isClosing=true;
+        this->mutex_reply.unlock();
+
+    }
 
 };
 
@@ -115,6 +128,8 @@ class _YarpJS_PortWriteReplier {
     yarp::os::Bottle                                datum;
     yarp::os::Bottle                                reply_datum;
 
+    bool                                            isClosing;
+
 
 
     virtual void _callback_onReplyReceived(std::vector<v8::Local<v8::Value> > &tmp_arguments)
@@ -131,6 +146,7 @@ public:
     _YarpJS_PortWriteReplier(YarpJS_RPCPort &_parent)
         :parent(_parent)
     {
+        isClosing = false;
         callback = new YarpJS_Callback<_YarpJS_PortWriteReplier>(this,&_YarpJS_PortWriteReplier::_callback_onReplyReceived,&_YarpJS_PortWriteReplier::_internal_Write);
     }
 
@@ -150,6 +166,12 @@ public:
     {
         callback->setCallback(info);
     }
+
+    void interrupt()
+    {
+        this->callback->interrupt();
+    }
+
 
 };
 

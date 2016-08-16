@@ -53,19 +53,6 @@ public:
     void setCallback(const v8::Value &info);
 
 
-    // explicit YarpJS_Callback(T *_parent, PrepareCallback _prepareCallback)
-    //     :parent(_parent), prepareCallback(_prepareCallback)
-
-    // {    
-    //     this->work_req.data = this;
-    //     this->async.data = this;
-
-
-    //     callback = NULL;
-    // }
-
-
-
     explicit YarpJS_Callback(T *_parent, PrepareCallback _prepareCallback, Internal _internal = NULL)
         :parent(_parent), prepareCallback(_prepareCallback), internal(_internal)
 
@@ -79,13 +66,18 @@ public:
 
     ~YarpJS_Callback()
     {
+        this->interrupt();
+    }
+
+
+    void interrupt()
+    {
         uv_cancel((uv_req_t*) &this->work_req);
         mutex_callback.unlock();
 
         if(callback!=NULL)
             delete callback;
     }
-
 };
 
 

@@ -34,6 +34,10 @@ NAN_METHOD(YarpJS_RPCPort::Open) {
 NAN_METHOD(YarpJS_RPCPort::Close) {
 
   YarpJS_RPCPort* obj = Nan::ObjectWrap::Unwrap<YarpJS_RPCPort>(info.This());
+
+  obj->onReadReplier.interrupt();
+  obj->interrupt();
+  obj->onWriteReplier->interrupt();
   obj->close();
 
 }

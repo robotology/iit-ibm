@@ -189,9 +189,20 @@ yarp.Port = function Port(_port_type) {
     }
 
 
+    // if it is an RPC port
+    // apply the on read callback to wrapped objects
+    _port._onReplyFromWrite = _port.onReplyFromWrite;
+    _port.onReplyFromWrite = function (cb) {
+        _port._onReplyFromWrite(function (obj) {
+            cb(_yarp_wrap_object(obj));
+        });
+    }
+
+
 
     // make sure the port closes on exit (moreover this keeps the port from being inadvertently destroyed by te garbage collector)
     process.on('exit', function _closeOnExit() {
+        console.log(port_name);
         _port.close();
     });
 
@@ -280,6 +291,9 @@ yarp.Port = function Port(_port_type) {
     }
 
     
+    if(_port._reply == undefined)
+        _port._reply = _port._write;
+    
     _port._reply = _port.reply;
     _port.reply = function(msg) {
         if(msg != undefined)
@@ -303,6 +317,7 @@ yarp.Port = function Port(_port_type) {
     // (default) forward the message
     // _port.callback = function (msg) {_port.write(msg.toString())};
     _port.callback = function (msg) {_port.write(msg);};
+    _port.callback_reply = function (msg) {_port.reply(msg);};
 
 
     return _port;
@@ -375,6 +390,12 @@ yarp.browserCommunicator = function (_io) {
                 io.emit('yarp ' + port_name + ' message',obj.toSend());
             });
 
+            if( port_type == 'rpc')
+            { 
+               port.onReplyFromWrite(function (obj) {
+                   io.emit('yarp ' + port_name + ' reply',obj.toSend());
+               });
+            }
         }
 
         return port;
@@ -423,9 +444,11 @@ yarp.browserCommunicator = function (_io) {
 
             if (port != undefined)
             {
-                // if a message is received
+                // if a message  is received
                 socket.on('yarp ' + port_name + ' message', port.callback ); 
+                socket.on('yarp ' + port_name + ' reply', port.callback_reply ); 
 
+                
                 io.emit('yarp ' + port_name + ' connection success');
             }
             else
