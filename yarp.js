@@ -365,7 +365,7 @@ yarp.portHandler = {
         if (port_name == undefined || _internal_port_manager[port_name] == undefined)
             return false;
 
-        _internal_port_manager[port_name].clear();
+        _internal_port_manager[port_name].close();
 
     }
 
@@ -457,17 +457,21 @@ yarp.browserCommunicator = function (_io) {
 
 
 
-        socket.on('yarp close port',function(port_name){
-            
-            var port = yarp.portHandler.get(port_name)
+        socket.on('yarp close port',function(port_data){
+
+            var port = yarp.portHandler.get(port_data.port_name);
             
             if (port != undefined)
             {
-                socket.removeAllListeners('yarp ' + port_name + ' message');
-                yarp.portHandler.close(port_name);
+                socket.removeAllListeners('yarp ' + port_data.port_name + ' message');
+
+                // if it has NOT been asked to close only locally
+                // close the port for good
+                if(!port_data.locally)
+                    yarp.portHandler.close(port_data.port_name);
             }    
 
-            io.emit('yarp ' + port_name + 'disconnected');
+            io.emit('yarp ' + port_data.port_name + 'disconnected');
         });
 
     });
