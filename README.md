@@ -48,7 +48,6 @@ The library is based on node.js which can be natively integrated with external C
 **Server dependencies**: 
 * [YARP](https://github.com/robotology/yarp) (Duh!). With OpenCV!
 * [node.js](https://nodejs.org/en/). Version >= 4.2.2. Follow the [official guide](https://nodejs.org/en/download/package-manager/). 
-* [Cmake.js](https://www.npmjs.com/package/cmake-js): run `$> sudo npm install -g cmake-js`
 
 **Note**: 
 - **Please make sure** that your Node version is >= 4.2.2
@@ -58,10 +57,10 @@ The library is based on node.js which can be natively integrated with external C
 Once you have all dependencies installed, go to the folder where you have cloned this repository and run:
 ```
 $> sudo npm install
-$> cmake-js
+$> ./node_modules/cmake-js/bin/cmake-js
 ```
 
-**Note**: the command `sudo npm install` installs the node dependencies *locally* but with administrative permissions. If you want to avoid this (and just use `npm install`), follow the [official npm guide](https://docs.npmjs.com/getting-started/fixing-npm-permissions)
+**Optional**: although the command `sudo npm install` installs the node dependencies *locally*, it needs administrative permissions. If you want to avoid this (and just use `npm install`), follow the [official npm guide](https://docs.npmjs.com/getting-started/fixing-npm-permissions). This is not required to use yarp.js though.
 
 
 <a name='examples'></a>
