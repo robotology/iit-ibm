@@ -10,6 +10,7 @@ A JavaScript set of bindings for YARP.
     - [Visualization with WebGL - Inertial Data](#example-inertial-data)
     - [Visualization with WebGL - Point Cloud](#example-point-cloud) 
     - [Stream Audio](#example-stream-audio) 
+    - [Stream Video (a yarpview with yarp.js)](#example-stream-video) 
 * [Server](#server)
     - [Port Communication](#port-communication)
         - [Reading](#port-reading)
@@ -159,6 +160,17 @@ This example shows how to use Web APIs to send audio streams directly from any d
 **Note.** For security reasons, Chrome does not allow to access the audio stream from unsecure hosts (https Vs http). To bypass this issue you have two options: 
 1. Use Firefox (which allows to access the audiostream also from unsecure domains)
 2. Use a self-signed SSL scure domain (coming soon!).
+
+
+
+<a name='example-stream-video'></a>
+### Stream Video (a yarpview with yarp.js)
+
+<p align='center'>
+<img src="https://github.com/robotology/yarp.js/blob/master/images/example_browser_stream_video.png" width="60%">
+</p>
+
+This examples shows how to replicate a [yarpview](http://www.yarp.it/yarpview.html) basic functionality to read and visualize images from the YARP network. The demo opens a port `/yarpjs/img:i` and images sent to this port from the YARP network are visualized on the page. (Thanks to [Vtikha](https://github.com/ for posing in the demo image!)
 
 <a name='server'></a>
 ## Server
