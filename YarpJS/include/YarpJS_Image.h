@@ -27,6 +27,7 @@ private:
     cv::Mat                         internalImage;
     std::vector<unsigned char>      internalBuffer;
 
+    bool                            isCompressed;
 
     static void setJSMethods(v8::Local<v8::FunctionTemplate> &tpl)
     {
@@ -46,19 +47,20 @@ public:
 
 
     explicit YarpJS_Image(const Nan::FunctionCallbackInfo<v8::Value> &info)
+        :compression_type(DEFAULT_COMPRESSION),isCompressed(false)
     {
-        compression_type = DEFAULT_COMPRESSION;
+        
     }
 
 
-    explicit YarpJS_Image(yarp::sig::Image &image, int _compression_type=JPG)
-        :compression_type(_compression_type)
+    explicit YarpJS_Image(yarp::sig::Image &image, int _compression_type=DEFAULT_COMPRESSION)
+        :compression_type(_compression_type),isCompressed(false)
     {           
         this->setYarpObj(new yarp::sig::Image(image));
     }
 
-    explicit YarpJS_Image(int _compression_type=JPG)
-        :compression_type(_compression_type)
+    explicit YarpJS_Image(int _compression_type=DEFAULT_COMPRESSION)
+        :compression_type(_compression_type),isCompressed(false)
     {}
 
 

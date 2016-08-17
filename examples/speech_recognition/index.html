@@ -135,6 +135,11 @@
             font-family: 'Lobster', serif;
         }
 
+        #description p.danger {
+            margin: 0;
+            color: crimson;
+        } 
+
 
     </style>
 
@@ -195,7 +200,9 @@
 
     <div id='description' class='visible'>
       <h1>Speech Recognition and Synthesis</h1>
-
+      
+      <p class='danger'>! This demo works only on Chrome browsers</p>
+      
       <p>
         This example shows how speech recognition API available for modern browser can be used to recognize human speech and send the recognized sentences over the YARP network as a string within a Bottle. Recognized sentences are written by the port <b>/web/speechRec:o</b>. 
       </p>

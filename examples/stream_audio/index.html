@@ -70,6 +70,16 @@
         margin-top: 1em;
       }
 
+
+      #description b.danger {
+          color: crimson;
+      } 
+
+      #description ul {
+        font-size: 1.3em;
+        text-align: left;
+      }
+
     </style>
   </head>
 
@@ -95,6 +105,18 @@
 
           <p>
             This examples show how Web APIs can be used to send audio streams directly from the device microphone to the <b>YARP</b> network. In particular this application translates audio batches into <a target='_blank' href='http://www.yarp.it/classyarp_1_1sig_1_1Sound.html'>Yarp::sig::Sound</a> objects and then writes them on port <b>/yarpjs/mic:o</b>
+          </p>
+
+          <p>
+            <b class='danger'>Limited Support:</b> for security reasons, Chrome does not allow to access the audio stream from unsecure hosts (https Vs http). To bypass this issue you have two options:
+            <ul>
+              <li>
+                1. Use <b>Firefox</b> (which allows to access the audiostream also from unsecure domains).
+              </li>
+              <li>
+                2. Use a <b>self-signed SSL</b> scure domain (coming soon!).
+              </li>
+            </ul>
           </p>
        
         </div>

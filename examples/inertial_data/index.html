@@ -164,7 +164,6 @@
 
       #description b {
           font-weight: bold;
-          color: cornflowerblue;
       }
 
       #description h1 b {
@@ -244,7 +243,11 @@
       </p> 
 
       <p>
-        For this demo you need at least two devices: one that sends the inertial data and another one that receives it. A device such as a smartphone or a tablet will send a 3 dimensional vector containing its current orientation via a YARP port. Then, any another device reading from the network will be able to visualize this information on screen. 
+        You will need <b>two devices</b>: one equipped with inertial sensing capabilities, which will write on the YARP network a 3 dimensional vector containing the device orientation. A second device will read this information from the network and visualized it on screen.
+      </p>
+
+      <p>
+        On both devices, go to this page. Then on the device supposed to send out inertial data, click on the Send Data button.
       </p>
 
     </div>

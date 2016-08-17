@@ -58,9 +58,9 @@ yarp.Image = function Image(_image) {
     if(_image == undefined)
         var _image = _yarp.Image();
 
-    process.on('exit',function () {
-        var b = _image;
-    });
+    // process.on('exit',function () {
+    //     var b = _image;
+    // });
 
     _image._copy = _image.copy;
     _image.copy = function (obj) {

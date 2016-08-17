@@ -19,6 +19,8 @@ Nan::Persistent<v8::FunctionTemplate>  YarpJS_Image::constructor;
 
 void YarpJS_Image::compress(int compression_quality)
 {
+  if(!this->isCompressed)
+  {
     internalImage = cv::Mat((IplImage *) this->getYarpObj()->getIplImage());
     std::vector<int> p;
     std::string encodeString;
@@ -36,6 +38,9 @@ void YarpJS_Image::compress(int compression_quality)
     }
         
     cv::imencode(encodeString,internalImage, internalBuffer, p);
+
+    this->isCompressed = true;
+  }
 }
 
 
@@ -46,6 +51,8 @@ NAN_METHOD(YarpJS_Image::Copy) {
   
   YarpJS_Image* target = Nan::ObjectWrap::Unwrap<YarpJS_Image>(info[0]->ToObject());
   obj->getYarpObj()->copy(*(target->getYarpObj()));
+
+  obj->isCompressed = false;
 
 }
 
@@ -71,8 +78,6 @@ NAN_METHOD(YarpJS_Image::ToBinary) {
 NAN_METHOD(YarpJS_Image::GetCompressionType) {
 
   YarpJS_Image* obj = Nan::ObjectWrap::Unwrap<YarpJS_Image>(info.This());
-  
-  obj->compress();
 
   std::string compression_type_string = (obj->compression_type == PNG) ? "png":"jpg";
 
@@ -84,6 +89,7 @@ NAN_METHOD(YarpJS_Image::GetCompressionType) {
 NAN_METHOD(YarpJS_Image::GetObjType) {
 
   info.GetReturnValue().Set(Nan::New("image").ToLocalChecked());
+
 }
 
 
