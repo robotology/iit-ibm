@@ -4,25 +4,20 @@
   "author": "Carlo Ciliberto <cciliber@gmail.com>",
   "description": "JS bindings for YARP",
   "dependencies": {
+    "cmake-js": "3.2.1",
+    "express": "latest",
     "jquery": "latest",
-    "cmake-js": "latest",
     "nan": "latest",
-    "express":"latest",
-    "three":"latest",
-    "socket.io":"latest"
+    "socket.io": "latest",
+    "three": "latest"
   },
-  
   "scripts": {
     "install": "cmake-js"
   },
-
-  "license":"MIT",
-
-  "repository":{
+  "license": "MIT",
+  "repository": {
     "type": "git",
     "url": "https://github.com/cciliber/YarpJS"
   },
-
-  "main":"yarp.js"
-
+  "main": "yarp.js"
 }
