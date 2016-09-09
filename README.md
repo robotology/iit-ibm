@@ -170,7 +170,7 @@ This example shows how to use Web APIs to send audio streams directly from any d
 <img src="https://github.com/robotology/yarp.js/blob/master/images/example_browser_stream_video.png" width="60%">
 </p>
 
-This examples shows how to replicate a [yarpview](http://www.yarp.it/yarpview.html) basic functionality to read and visualize images from the YARP network. The demo opens a port `/yarpjs/img:i` and images sent to this port from the YARP network are visualized on the page. (Thanks to [Vtikha](https://github.com/ for posing in the demo image!) for posing in the image above)
+This examples shows how to replicate a [yarpview](http://www.yarp.it/yarpview.html) basic functionality to read and visualize images from the YARP network. The demo opens a port `/yarpjs/img:i` and images sent to this port from the YARP network are visualized on the page. (Thanks to [Vtikha](https://github.com/vtikha) for posing in the demo image!) for posing in the image above)
 
 <a name='server'></a>
 ## Server
