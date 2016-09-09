@@ -79,13 +79,17 @@ var yarp = (function yarp(){
         }
 
 
-        var close = function close() {
+        var close = function close(locally) {
+
+            if(locally == undefined)
+                locally = false;
+
             if(port_name)
             {
                 socket.removeAllListeners('yarp ' + port_name + ' message');
                 socket.removeAllListeners('yarp ' + port_name + ' reply');
 
-                socket.emit('yarp close port',port_name);
+                socket.emit('yarp close port',{port_name:port_name,locally:locally});
                 port_name = undefined;
             }
         }
@@ -104,10 +108,11 @@ var yarp = (function yarp(){
 
                 callback = Array();
             }
-            
+
             var tmpCb = function(msg){cb(msg);}
             callback.push(cb);
             socket.on('yarp ' + port_name + ' message', tmpCb);
+            
         }
 
         var reply = function reply(message) {

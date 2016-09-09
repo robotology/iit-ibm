@@ -388,6 +388,7 @@ yarp.browserCommunicator = function (_io) {
         {
             port.onRead(function (obj) {
                 io.emit('yarp ' + port_name + ' message',obj.toSend());
+                // io.emit('yarp ' + port_name + ' message',{obj_type:'none'});
             });
 
             if( port_type == 'rpc')
@@ -400,6 +401,7 @@ yarp.browserCommunicator = function (_io) {
 
         return port;
     }
+
 
     var close = function close(port_name) {
         yarp.portHandler.close(port_name);
@@ -449,10 +451,10 @@ yarp.browserCommunicator = function (_io) {
                 socket.on('yarp ' + port_name + ' reply', port.callback_reply ); 
 
                 
-                io.emit('yarp ' + port_name + ' connection success');
+                socket.emit('yarp ' + port_name + ' connection success');
             }
             else
-                io.emit('yarp ' + port_name + ' connection error');
+                socket.emit('yarp ' + port_name + ' connection error');
         });
 
 

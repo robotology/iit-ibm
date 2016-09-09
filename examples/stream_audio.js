@@ -26,7 +26,6 @@ io.on('connection', function(socket){
 
   socket.on('stream-audio', function (data) {
 
-
     var sound = port.prepare();
 
     sound.fromBinary(data.buffer);

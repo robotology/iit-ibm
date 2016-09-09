@@ -304,22 +304,28 @@
     // what to do as soon as the yarp module is ready
     yarp.onInit(function() {
 
-      var port_orientation_in = yarp.PortHandler.openPort('/yarpjs/device/orientation:i');
-      var port_acceleration_in = yarp.PortHandler.openPort('/yarpjs/device/acceleration:i');
+
+      var sending_inertial_data = false;
+
+
 
       var port_orientation_out = yarp.PortHandler.openPort('/yarpjs/device/orientation:o');
       var port_acceleration_out = yarp.PortHandler.openPort('/yarpjs/device/acceleration:o');
 
+      var port_orientation_in = yarp.PortHandler.openPort('/yarpjs/device/orientation:i');
+      var port_acceleration_in = yarp.PortHandler.openPort('/yarpjs/device/acceleration:i');
 
       port_orientation_in.onRead(function(bottle){
 
-        var orientation = bottle.content.map(function(i){return parseFloat(i);})
 
-        // handleOrientation(orientation);
+
+        var orientation = bottle.content;
 
         drawData(orientation);
 
-        chartData(orientation);
+
+        if(!sending_inertial_data)
+          chartData(orientation);
 
       });
 
@@ -334,7 +340,6 @@
 
 
       var orientation_listener_initialized = false;
-      var sending_inertial_data = false;
 
       if (window.DeviceOrientationEvent) {
 
@@ -392,6 +397,12 @@
           }, true );
 
           send_inertial_data_btn.onclick = function toggle_sending() {
+
+            //close the ports but only locally 
+            // port_orientation_in.close(true);
+            // port_acceleration_in.close(true);
+
+
             send_inertial_data_btn.classList.toggle('btn-primary');
             sending_inertial_data = !sending_inertial_data;
           }

@@ -111,12 +111,13 @@
 
     <div class='main cont'>
 
+        <div id='write-time'></div>
         <div class='cont'>
           <img id='stream-video'/>
         
           <form action = "" id='form-connect-stream-video' class="form-inline" style="margin-bottom: 1em">      
 
-            <input type="text" class="form-stream-video" id="input-connect-stream-video" placeholder="/icub/cam/left" value='/icub/cam/left'>
+            <input type="text" class="form-stream-video" id="input-connect-stream-video" placeholder="/robot/cam:o" value='/robot/cam:o'>
 
             <button id='btn-connect-stream-video' type="button" class="btn btn-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
               Connect
@@ -164,11 +165,31 @@
     var form_connect_video_stream = document.getElementById('form-connect-stream-video')
 
     var connected = false;
+    var initialized = false;
 
     var socket = io();
 
     yarp.init(socket);
 
+    var g_img = undefined;
+
+
+
+    var curr_time = Date.now();
+    var write_time = document.getElementById('write-time');
+
+    function tmp_visual() {
+      if(g_img != undefined)
+        video_stream_element.setAttribute('src',yarp.getImageSrc(g_img.compression_type,g_img.buffer));
+      
+      // console.log(d.getTime()-curr_time);
+      // write_time.innerHTML = Date.now()-curr_time;
+      curr_time = Date.now();
+
+      setTimeout(tmp_visual,33);
+    }
+
+    tmp_visual();
 
     // what to do as soon as the yarp module is ready
     yarp.onInit(function() {
@@ -176,17 +197,24 @@
       var port_video_in_name = '/yarpjs/img:i';
 
       var port_video_in = yarp.PortHandler.openPort(port_video_in_name,'image');
+
+
+      var t1 = Date.now();
       port_video_in.onRead(function(img){
 
         // if is not connected but it is reading something, then there is a problem. 
-        if(!connected)
+        if(!connected && !initialized)
         {
           form_connect_video_stream.classList.add('invisible');
           document.getElementById('warning-connection').classList.remove('invisible');
         }
 
-        video_stream_element.setAttribute('src',yarp.getImageSrc(img.compression_type,img.buffer));
+        g_img = img;
+        // video_stream_element.setAttribute('src',yarp.getImageSrc(img.compression_type,img.buffer));
+        write_time.innerHTML = Date.now()-t1;
+        t1 = Date.now();
       });
+
 
       function toggleConnection() {
 
@@ -201,15 +229,18 @@
           yarp.Network.connect(port_src,port_video_in_name);
 
           connected = true;
+
+          initialized = true;
         }
         else
         {
+
+          yarp.Network.disconnect(port_src,port_video_in_name);
 
           input_connect_video_stream.removeAttribute('disabled');
           btn_connect_video_stream.classList.add('btn-primary');
           btn_connect_video_stream.innerHTML='Connect';
 
-          yarp.Network.disconnect(port_src,port_video_in_name);
           connected = false;
         }
 

@@ -7,8 +7,9 @@
 
 #include <highgui.h>
 
-
-
+#include <opencv2/highgui/highgui.hpp>
+#include <opencv2/core/core.hpp>
+#include <opencv2/opencv.hpp>
 
 
 using namespace v8;
@@ -21,7 +22,7 @@ void YarpJS_Image::compress(int compression_quality)
 {
   if(!this->isCompressed)
   {
-    internalImage = cv::Mat((IplImage *) this->getYarpObj()->getIplImage());
+    internalImage = cv::cvarrToMat((IplImage *) this->getYarpObj()->getIplImage());
     std::vector<int> p;
     std::string encodeString;
     if(compression_type == PNG)
