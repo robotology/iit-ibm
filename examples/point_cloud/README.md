@@ -4,7 +4,7 @@
 <img src="https://github.com/robotology/yarp.js/blob/master/images/example_browser_point_cloud.png" width="60%">
 </p>
 
-This example shows how to visualize 3D point clouds with with yarp.js using the [Three.js](https://github.com/mrdoob/three.js/) library (a wrapper for [WebGL](https://en.wikipedia.org/wiki/WebGL?oldformat=true)). 
+This example shows how to visualize 3D point clouds with with yarp.js using the [Three.js](https://github.com/mrdoob/three.js/) library (a wrapper for [WebGL](https://en.wikipedia.org/wiki/WebGL?oldformat=true)). (Demo suggested by [Pattacini](https://github.com/pattacini) in issue [#3](https://github.com/robotology/yarp.js/issues/3)). 
 
 To set up the demo, follow the setup instructions in [here](examples).
 
