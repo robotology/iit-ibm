@@ -39,7 +39,7 @@ The available examples will be shown in the header.
 
 ## Server
 
-The script examples.js is a minimal example of node server running yarp.js. It starts by `require`ing the necessary dependencies to run a HTTP server and get some basic functionalities (e.g. websockets), namely
+The script `examples.js` is a minimal example of node server running yarp.js. It starts by `require`-ing the necessary dependencies to run a HTTP server and get some basic functionalities (e.g. websockets), namely
 ```
 var express = require('express');
 var app = express();
@@ -52,7 +52,7 @@ var yarp = require('../yarp');
 ```
 In order to handle yarp.js browser-server communication, we created a wrapper for the `io` object in yarp that manages already things for you. We setup this by
 ```
-
+yarp.browserCommunicator(io);
 ```
 
 
