@@ -4,11 +4,11 @@
 
 We have prepared a series of tutorials on how to use yarp.js. In this section you will find the instruction to write and run a minimalistic node server that uses yarp.js. You can then try these applications by following the links below:
 
-* [Speech Recognition and Synthesis](https://github.com/robotology/yarp.js/blob/master/examples/speech_recognition)
-* [Visualization with WebGL - Point Cloud](https://github.com/robotology/yarp.js/blob/master/examples/point_cloud) 
-* [Transmitting Inertial Data](https://github.com/robotology/yarp.js/blob/master/examples/inertial_data)
-* [Stream Audio](https://github.com/robotology/yarp.js/blob/master/examples/stream_audio)
-* [Stream Video (a yarpview with yarp.js)](https://github.com/robotology/yarp.js/blob/master/examples/stream_video) 
+* [Speech Recognition and Synthesis](./speech_recognition)
+* [Visualization with WebGL - Point Cloud](./point_cloud) 
+* [Transmitting Inertial Data](./inertial_data)
+* [Stream Audio](./stream_audio)
+* [Stream Video (a yarpview with yarp.js)](./stream_video) 
 * [Secure Domains (HTTPS)](#secure-domains)
 
 **Note.** Due to some recent changes in Google Chrome's privacy settings, applications that require to access the device camera/microphone need to be on a secure domain (`https` rather than `http`).Go to [Secure Domains (HTTPS)](#secure-domains) for instruction on how to run the same applications with a self-signed SSL certificate. This workaround is not (yet?) needed for Firefox.
