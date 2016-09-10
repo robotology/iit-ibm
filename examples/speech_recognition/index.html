@@ -204,11 +204,11 @@
       <p class='danger'>! This demo works only on Chrome browsers</p>
       
       <p>
-        This example shows how speech recognition API available for modern browser can be used to recognize human speech and send the recognized sentences over the YARP network as a string within a Bottle. Recognized sentences are written by the port <b>/web/speechRec:o</b>. 
+        This example shows how speech recognition API available for modern browser can be used to recognize human speech and send the recognized sentences over the YARP network as a string within a Bottle. Recognized sentences are written by the port <b>/yarpjs/speech/rec:o</b>. 
       </p>
 
       <p>
-        Also speech synthesis APIs are available. You can write to port <b>/web/speak:i</b> bottles containing a single string and yarp.js will read them aloud.
+        Also speech synthesis APIs are available. You can write to port <b>/yarpjs/speech/tts:i</b> bottles containing a single string and yarp.js will read them aloud.
       </p>
       
     </div>
@@ -224,7 +224,6 @@
     var socket = io();    
 
     yarp.init(socket);
-
   </script>
 
 
@@ -238,7 +237,7 @@
       // ----- Speech Recognition
       
       // open port sending out recognized speech
-      var yarpSpeechRecPort = yarp.PortHandler.openPort('/web/speechRec:o');
+      var yarpSpeechRecPort = yarp.PortHandler.openPort('/yarpjs/speech/rec:o');
       
       // set the action to perform after speech recognition
       yarp.Recognizer.addEventListener('yarp speech finished', function (e) {
@@ -256,7 +255,7 @@
       // ----- Speech Synthesis
 
       // open port for receiving messages to produce
-      var yarpSpeakPort = yarp.PortHandler.openPort('/web/speak:i');
+      var yarpSpeakPort = yarp.PortHandler.openPort('/yarpjs/speech/tts:i');
 
       // set the action to perform whenever a message is read
       yarpSpeakPort.onRead(function(msg){
