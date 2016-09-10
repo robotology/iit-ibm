@@ -72,7 +72,7 @@ and we are ready to go! (of course you can change the port on which the server r
 
 
 <a name='secure-domains'></a>
-## Secure Domains (HTTPS)](#secure-domains)
+## Secure Domains (HTTPS)
 
 Recently, Google Chrome has changed its privacy settings, requiring applications that access the device microphone or camera to run from a secure origin (HTTPS). We have provided a self-signed certificate to run local applications from an HTTPS domain rather than HTTP, therefore circumventing this issue. **However we have not yet determined whether the HTTPS will introduce latencies in data transmission between yarp.js browser and server**
 
