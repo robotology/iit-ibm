@@ -11,9 +11,10 @@
 
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
 
-
-
     <script src="/socket.io/socket.io.js"></script>
+    <script src="/jquery/dist/jquery.min.js"></script>  
+    <script src="/yarp.js"></script>
+
 
     <style>
       .cont {
@@ -28,7 +29,7 @@
         margin-top: 4em;
       }
 
-      img#stream-video {
+      #stream-video {
         border-radius: 10%;
         border: 0.5em solid #D4D6D8;
 
@@ -113,7 +114,8 @@
 
         <div id='write-time'></div>
         <div class='cont'>
-          <img id='stream-video'/>
+          <!-- <img id='stream-video'/> -->
+          <canvas id='stream-video'></canvas>
         
           <form action = "" id='form-connect-stream-video' class="form-inline" style="margin-bottom: 1em">      
 
@@ -148,12 +150,10 @@
 <!-- ############  END BODY ################# -->
 
 
-  <script src="/jquery/dist/jquery.min.js"></script>
-  
-  <script src="/yarp.js"></script>
-
-
-
+  <script>
+    var socket = io();
+    yarp.init(socket);
+  </script>
 
 
   <script>
@@ -161,27 +161,31 @@
     
     var video_stream_element = document.getElementById('stream-video');
     var btn_connect_video_stream = document.getElementById('btn-connect-stream-video');
-    var input_connect_video_stream = document.getElementById('input-connect-stream-video')
-    var form_connect_video_stream = document.getElementById('form-connect-stream-video')
+    var input_connect_video_stream = document.getElementById('input-connect-stream-video');
+    var form_connect_video_stream = document.getElementById('form-connect-stream-video');
+
+    var port_click_out = undefined;
 
     var connected = false;
     var initialized = false;
 
-    var socket = io();
-
-    yarp.init(socket);
 
     var g_img = undefined;
 
-
+    var virtual_img = new Image();
 
     var curr_time = Date.now();
     var write_time = document.getElementById('write-time');
 
     function tmp_visual() {
       if(g_img != undefined)
-        video_stream_element.setAttribute('src',yarp.getImageSrc(g_img.compression_type,g_img.buffer));
-      
+      {
+        virtual_img.src = yarp.getImageSrc(g_img.compression_type,g_img.buffer);
+        video_stream_element.getContext('2d').drawImage(virtual_img,0,0);
+        // video_stream_element.setAttribute('src',yarp.getImageSrc(g_img.compression_type,g_img.buffer));
+      }
+
+
       // console.log(d.getTime()-curr_time);
       // write_time.innerHTML = Date.now()-curr_time;
       curr_time = Date.now();
@@ -195,6 +199,9 @@
     yarp.onInit(function() {
       
       var port_video_in_name = '/yarpjs/img:i';
+      var port_click_out_name = '/yarpjs/img/click:o';
+
+      port_click_out = yarp.PortHandler.openPort(port_click_out_name,'bottle');
 
       var port_video_in = yarp.PortHandler.openPort(port_video_in_name,'image');
 
@@ -255,7 +262,18 @@
 
     });
 
-    
+
+
+    video_stream_element.addEventListener('click', function() {
+
+      var rect = video_stream_element.getBoundingClientRect();
+      var x = event.clientX - rect.left;
+      var y = event.clientY - rect.top;
+
+      port_click_out.write([x,y]);
+
+    }, false);
+
 
   </script>
 
