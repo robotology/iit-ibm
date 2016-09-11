@@ -3,14 +3,14 @@
 <a name='tutorials'></a>
 # Tutorials
 
-We have prepared a series of tutorials on how to use yarp.js. To get things started, in this section you will find the instruction to write and run a minimalistic node server that uses yarp.js. A website will be locally served on your network, showcasing the following demo applications:
+We have prepared a series of tutorials and examples on how to use yarp.js. To get things started, in this section you will find the instruction to write and run a minimalistic node server that uses yarp.js. A website will be locally served on your network, showcasing the following demo applications:
 
-* [Speech Recognition and Synthesis](./speech_recognition)
-* [Visualization with WebGL - Point Cloud](./point_cloud) 
-* [Transmitting Inertial Data](./inertial_data)
-* [Stream Audio](./stream_audio)
-* [Stream Video (a yarpview with yarp.js)](./stream_video) 
-* [Secure Domains (HTTPS)](#secure-domains)
+* [Speech Recognition and Synthesis](/examples/speech_recognition)
+* [Visualization with WebGL - Point Cloud](/examples/point_cloud) 
+* [Transmitting Inertial Data](/examples/inertial_data)
+* [Stream Audio](/examples/stream_audio)
+* [Stream Video (a yarpview with yarp.js)](/examples/stream_video) 
+* [Secure Domains (HTTPS)](/examples#secure-domains)
 
 **Note.** Due to some recent changes in Google Chrome's privacy settings, applications that require to access the device camera/microphone need to be on a secure domain (`https` rather than `http`). Go to [Secure Domains (HTTPS)](#secure-domains) for instruction on how to run the same applications with a self-signed SSL certificate. This workaround is not (yet?) needed for Firefox.
 
