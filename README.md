@@ -66,7 +66,7 @@ $> ./node_modules/cmake-js/bin/cmake-js
 <img style='border:1px solid green; box-shadow: 0 0 10px rgba(0,0,0, .65);' src="https://github.com/robotology/yarp.js/blob/master/images/example_browser_landing.png" width="60%">
 </p>
 
-We have prepared a series of tutorials and exmaples on how to use yarp.js. To get things started, go [here](/examples#tutorials) to find the instruction to write and run a minimalistic node server that uses yarp.js. A website will be locally served on your network, showcasing the following demo applications:
+We have prepared a series of tutorials and examples on how to use yarp.js. To get things started, go [here](/examples#tutorials) to find the instruction to write and run a minimalistic node server that uses yarp.js. A website will be locally served on your network, showcasing the following demo applications:
 
 * [Speech Recognition and Synthesis](/examples/speech_recognition)
 * [Visualization with WebGL - Point Cloud](/examples/point_cloud) 
