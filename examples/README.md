@@ -3,7 +3,7 @@
 <a name='tutorials'></a>
 # Tutorials
 
-We have prepared a series of tutorials on how to use yarp.js. In this section you will find the instruction to write and run a minimalistic node server that uses yarp.js. You can then try these applications by following the links below:
+We have prepared a series of tutorials on how to use yarp.js. To get things started, in this section you will find the instruction to write and run a minimalistic node server that uses yarp.js. A website will be locally served on your network, showcasing the following demo applications:
 
 * [Speech Recognition and Synthesis](./speech_recognition)
 * [Visualization with WebGL - Point Cloud](./point_cloud) 
@@ -12,7 +12,7 @@ We have prepared a series of tutorials on how to use yarp.js. In this section yo
 * [Stream Video (a yarpview with yarp.js)](./stream_video) 
 * [Secure Domains (HTTPS)](#secure-domains)
 
-**Note.** Due to some recent changes in Google Chrome's privacy settings, applications that require to access the device camera/microphone need to be on a secure domain (`https` rather than `http`).Go to [Secure Domains (HTTPS)](#secure-domains) for instruction on how to run the same applications with a self-signed SSL certificate. This workaround is not (yet?) needed for Firefox.
+**Note.** Due to some recent changes in Google Chrome's privacy settings, applications that require to access the device camera/microphone need to be on a secure domain (`https` rather than `http`). Go to [Secure Domains (HTTPS)](#secure-domains) for instruction on how to run the same applications with a self-signed SSL certificate. This workaround is not (yet?) needed for Firefox.
 
 
 <a name='setup'></a>
@@ -37,7 +37,7 @@ The available examples will be shown in the header.
 
 ## Server
 
-The script `examples.js` is a minimal example of node server running yarp.js. It starts by `require`-ing the necessary dependencies to run a HTTP server and get some basic functionalities (e.g. websockets), namely
+The script `examples.js` is a minimalistic example of node server running yarp.js. We start by `require`-ing the necessary dependencies to run a HTTP server and get some basic functionalities (e.g. websockets), namely
 ```js
 var express = require('express');
 var app = express();
