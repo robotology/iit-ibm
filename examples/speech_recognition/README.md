@@ -45,7 +45,7 @@ yarp.js provides a wrapper for the Google speech recognition and synthesis APIs 
 
 ### Setup
 
-Before writing application specific code, we need to first setup `yarp` js object in the browser. To do so, we will need to load the `socket.io` and `yarp.js` libraries (both served by the yarp.js server we run from [here](examples)) and then initialize the `yarp` object with the `io` websocket.
+Before writing application specific code, we need to first setup the `yarp` javascript object in the browser. To do so, we will need to load the `socket.io` and `yarp.js` libraries (both served by the yarp.js server we run from [here](examples)) and then initialize the `yarp` object with the `io` websocket.
 ```html
 <html>
   <head>
@@ -75,7 +75,7 @@ Before writing application specific code, we need to first setup `yarp` js objec
 ```
 Mind the position where these instruction are. In particular we follow the practice of loading libraries within the head tag, while putting application-specific scripts after the body tag.
 
-**Note.** All code related to opening, reading and writing on ports need to be put within the initialization function called by `yarp.onInit`. This is needed because the yarp js object can start connecting with the yarp.js server only when the `io` object has been fully loaded. We plan to remove this requirement in the future. 
+**Note.** All code related to opening and setting onRead callbacks for ports needs to be put within the initialization function `yarp.onInit`. This is needed because the yarp javascript object can start connecting with the yarp.js server only when the `io` object has been fully loaded. We plan to remove this requirement in the future. 
 
 ### Speech Synthesis
 
@@ -90,7 +90,7 @@ yarp.Recognizer.addEventListener('yarp speech finished', function (e) {
   yarpSpeechRecPort.write(e.detail[0].transcript);
 }, false);
 ```
-To allow for the speech recognition system to be constantly active when turned on, we add the command 
+To allow for the speech recognition system to be constantly active after it has been turned on, we add the command 
 ```js
 yarp.Recognizer.enableAutorestart();
 ```
@@ -102,8 +102,6 @@ yarpSpeakPort.onRead(function(msg){
   yarp.Synthetizer.speak(msg.content);
 });
 ```
-and that's it! We have added basic speech synthesis/recognition functionalities in our browser.
-
-
+and that's it! We just added speech synthesis/recognition functionalities in our browser.
 
 
