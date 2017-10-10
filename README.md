@@ -1,6 +1,10 @@
 
 
 # yarp.js
+
+[![DOI](https://zenodo.org/badge/53891456.svg)](https://zenodo.org/badge/latestdoi/53891456)
+
+
 A JavaScript set of bindings for YARP.
 
 * [Introduction](#introduction)
