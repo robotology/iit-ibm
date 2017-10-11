@@ -260,3 +260,8 @@ You can also (ask the server to) connect YARP ports with
 yarp.Network.connect('/writing/port:o','/reading/port:i');
 ```
 and disconnect them with `yarp.Network.disconnect('/writing/port:o','/reading/port:i');`
+
+
+## License
+
+Material included in yarp.js is released under the terms of the LGPLv3.
