@@ -95,11 +95,10 @@ Throughout we will assume that a **yarp server** is running on our network (if i
 From the folder where you have cloned this repository run `$> node` to enter in the interactive Node.js interface. Then run:
 ```js
 var yarp = require('./yarp');
-var ynet = new yarp.Network();
 ```
 The first command loads the yarp.js module that will allow us to use YARP from JS. The second command is necessary to register the current session on the YARP network. We can finally create and open a port:
 ```js
-var port = new yarp.BufferedPort('bottle');
+var port = new yarp.Port('bottle');
 port.open('/yarpjs/example');
 ```
 You should receive a message from YARP saying something like: `yarp: Port /yarpjs/example active at tcp://some.ip:address` At the time being yarp.js can open buffered ports for YARP `bottle`s and `image`s.
