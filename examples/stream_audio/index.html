@@ -114,7 +114,7 @@
                 1. Use <b>Firefox</b> (which allows to access the audiostream also from unsecure domains).
               </li>
               <li>
-                2. Use a <b>self-signed SSL</b> scure domain (coming soon!).
+                2. Use a <b>self-signed SSL</b> scure domain (see <a href='https://github.com/robotology/yarp.js/tree/master/examples#secure-domains'>here</a>!)
               </li>
             </ul>
           </p>
@@ -169,128 +169,128 @@
 
   draw();
 
-    var socket = io();
+  var socket = io();
 
-    yarp.init(socket);
-
-
-
-    // what to do as soon as the yarp module is ready
-    yarp.onInit(function() {
-
-        var port_mic_out = yarp.PortHandler.openPort('/yarpjs/mic:o','sound');
-
-        var errorCallback = function(e) {
-          console.log('Audio Recording Rejected!', e);
-        };
-
-
-        if (!navigator.getUserMedia)
-          navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
-
-        if (navigator.getUserMedia) {
-          navigator.getUserMedia({audio:true}, success, function(e) {
-            alert('Error capturing audio.');
-          });
-        } else alert('getUserMedia not supported in this browser.');
+  yarp.init(socket);
 
 
 
+  // what to do as soon as the yarp module is ready
+  yarp.onInit(function() {
+
+      var port_mic_out = yarp.PortHandler.openPort('/yarpjs/mic:o','sound');
+
+      var errorCallback = function(e) {
+        console.log('Audio Recording Rejected!', e);
+      };
 
 
-        function success(e) {
-          audioContext = window.AudioContext || window.webkitAudioContext;
-          context = new audioContext();
+      if (!navigator.getUserMedia)
+        navigator.getUserMedia = navigator.getUserMedia || navigator.webkitGetUserMedia || navigator.mozGetUserMedia || navigator.msGetUserMedia;
+
+      if (navigator.getUserMedia) {
+        navigator.getUserMedia({audio:true}, success, function(e) {
+          alert('Error capturing audio.');
+        });
+      } else alert('getUserMedia not supported in this browser.');
 
 
 
 
 
+      function success(e) {
+        audioContext = window.AudioContext || window.webkitAudioContext;
+        context = new audioContext();
 
 
-          // the sample rate is in context.sampleRate
-          audioInput = context.createMediaStreamSource(e);
-
-          var bufferSize = 2048;
-          recorder = context.createScriptProcessor(bufferSize, 1, 1);
 
 
-          // for visualizaiton
-          analyser = context.createAnalyser();
-          analyser.fftSize = 256; // see - there is that 'fft' thing. 
-          audioInput.connect(analyser);
-          // analyser.connect(context.destination);
-
-          var sampleAudioStream = function() {
-            
-            if(recording)
-              analyser.getByteFrequencyData(streamer);  
-            else
-            {
-              for(bin = 0; bin < streamer.length; bin ++)
-                streamer[bin]=0;
-            }
-
-          };
-          setInterval(sampleAudioStream, 20); // 
-          // public properties and methods
-          streamer = new Uint8Array(128); // This just means we will have 128 "bins" (always half the 
 
 
-          recorder.onaudioprocess = function onaudioprocess(e2) {
-     
-            if(!recording)
-            {
-              return;
-            }
 
-            var left = e2.inputBuffer.getChannelData(0);
-            var hh = convertFloat32ToInt16(left);
+        // the sample rate is in context.sampleRate
+        audioInput = context.createMediaStreamSource(e);
 
-            // socket.emit('stream-audio',{buffer:hh});
-            port_mic_out.write(hh);
+        var bufferSize = 2048;
+        recorder = context.createScriptProcessor(bufferSize, 1, 1);
 
+
+        // for visualizaiton
+        analyser = context.createAnalyser();
+        analyser.fftSize = 256; // see - there is that 'fft' thing. 
+        audioInput.connect(analyser);
+        // analyser.connect(context.destination);
+
+        var sampleAudioStream = function() {
+          
+          if(recording)
+            analyser.getByteFrequencyData(streamer);  
+          else
+          {
+            for(bin = 0; bin < streamer.length; bin ++)
+              streamer[bin]=0;
           }
 
-          audioInput.connect(recorder);
-          recorder.connect(context.destination); 
+        };
+        setInterval(sampleAudioStream, 20); // 
+        // public properties and methods
+        streamer = new Uint8Array(128); // This just means we will have 128 "bins" (always half the 
+
+
+        recorder.onaudioprocess = function onaudioprocess(e2) {
+   
+          if(!recording)
+          {
+            return;
+          }
+
+          var left = e2.inputBuffer.getChannelData(0);
+          var hh = convertFloat32ToInt16(left);
+
+          // socket.emit('stream-audio',{buffer:hh});
+          port_mic_out.write(hh);
 
         }
 
+        audioInput.connect(recorder);
+        recorder.connect(context.destination); 
 
-    });
-
-    
-
-
-    function convertFloat32ToInt16(buffer) {
-      l = buffer.length;
-      buf = new Int16Array(l);
-      while (l--) {
-        buf[l] = Math.min(1, buffer[l])*0x7FFF;
       }
-      return buf.buffer;
+
+
+  });
+
+  
+
+
+  function convertFloat32ToInt16(buffer) {
+    l = buffer.length;
+    buf = new Int16Array(l);
+    while (l--) {
+      buf[l] = Math.min(1, buffer[l])*0x7FFF;
     }
+    return buf.buffer;
+  }
 
 
 
-    function toggleVoiceBTN(el)
+  function toggleVoiceBTN(el)
+  {
+    if($(el).hasClass('btn-primary'))
     {
-      if($(el).hasClass('btn-primary'))
-      {
-        recording=false;
-        $(el).removeClass('btn-primary');
-        $(el).find('i').removeClass('fa-microphone');
-        $(el).find('i').addClass('fa-microphone-slash');
-      }
-      else
-      {
-        recording=true;
-        $(el).addClass('btn-primary');
-        $(el).find('i').removeClass('fa-microphone-slash');
-        $(el).find('i').addClass('fa-microphone');
-      }
+      recording=false;
+      $(el).removeClass('btn-primary');
+      $(el).find('i').removeClass('fa-microphone');
+      $(el).find('i').addClass('fa-microphone-slash');
     }
+    else
+    {
+      recording=true;
+      $(el).addClass('btn-primary');
+      $(el).find('i').removeClass('fa-microphone-slash');
+      $(el).find('i').addClass('fa-microphone');
+    }
+  }
 
 
   </script>

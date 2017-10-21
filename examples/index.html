@@ -12,9 +12,6 @@
     <title>Yarp.js Examples</title>
 
 
-    <link rel="icon" type="image/png" href="/icubworld_logo.png">
-
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -28,13 +25,13 @@
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
     <link href='https://fonts.googleapis.com/css?family=Lobster' rel='stylesheet'  type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Arvo' rel='stylesheet'  type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Josefin+Slab' rel='stylesheet'  type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'  type='text/css'>
-    
+
 
 
     <style>
@@ -88,7 +85,7 @@
     #page-content-wrapper {
         width: 100%;
         position: relative;
-        
+
         top: -4.3em;
         padding-top: 4.3em;
         height: 100%;
@@ -103,7 +100,7 @@
         flex-wrap: nowrap;
         justify-content: flex-end;
         align-items: center;
-        
+
         top: 0;
         width: 100%;
         margin: 0;
@@ -119,7 +116,7 @@
     }
 
     .sidebar-nav li a {
-        padding-left: 20px;
+        padding-left: 10px;
         /*display: block;*/
         text-decoration: none;
         /*color: #999999;*/
@@ -225,7 +222,7 @@
             flex-direction: column;
             justify-content: flex-start;
             align-items: stretch;
-            
+
             position: static;
             top: 0;
             width: 250px;
@@ -328,7 +325,7 @@
                 margin-right: 0;
             }
 
-        }   
+        }
 
 
         #main-frame {
@@ -403,6 +400,9 @@
                 <li>
                     <a href="#" class='yarp-app' id='stream_video' page-link='stream_video'><i class="fa fa-video-camera fa-fw fa-lg" aria-hidden="true"></i> <span>Stream Video</span></a>
                 </li>
+                <li>
+                    <a href="#" class='yarp-app' id='face_tracker' page-link='face_tracker'><i class="fa fa-address-book-o fa-fw fa-lg" aria-hidden="true"></i> <span>Face Tracker</span></a>
+                </li>
             </ul>
         </div>
         <!-- /#sidebar-wrapper -->
@@ -458,7 +458,7 @@
 
         // init the links behavior
         var yarpApps = Array.from(document.getElementsByClassName('yarp-app'));
-        
+
         yarpApps.deactivate = function deactivate() {
             yarpApps.map( function _yarpApps_deactivate(yApp) {
                 yApp.classList.remove('selected');
