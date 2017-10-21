@@ -10,6 +10,7 @@ We have prepared a series of tutorials and examples on how to use yarp.js. To ge
 * [Transmitting Inertial Data](/examples/inertial_data)
 * [Stream Audio](/examples/stream_audio)
 * [Stream Video (a yarpview with yarp.js)](/examples/stream_video) 
+* [Face Tracking (and "Teleoperation"!)](/examples/face_tracker) 
 * [Secure Domains (HTTPS)](/examples#secure-domains)
 
 **Note.** Due to some recent changes in Google Chrome's privacy settings, applications that require to access the device camera/microphone need to be on a secure domain (`https` rather than `http`). Go to [Secure Domains (HTTPS)](#secure-domains) for instruction on how to run the same applications with a self-signed SSL certificate. This workaround is not (yet?) needed for Firefox.
