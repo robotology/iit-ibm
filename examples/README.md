@@ -25,7 +25,7 @@ $> node examples/examples.js
 Open the browser on any device connected to your network and go to the address
 ```
 your.machine.ip.address:3000 
-// or simply localhost:3000 if you are on the same machine where you run the examples.js script.
+// Please *do not use* localhost:3000 (although it works if you are on the same machine where you run the examples.js script).
 ```
 (You can get your device ip by typing `$> ifconfig` on a shell on the machine where the examples is running). You should see a webpage like the one below
 
@@ -82,7 +82,13 @@ then go to
 ```
 https://your.machine.ip.address:3000  // <--- mind the https at the beginning!!
 ```
-you should get a warning, telling you something on the lines of "your connection is not private". Click on the link `Advanced` and then `Proceed to (address)`. You should now be able to see the usual starting page of yarp.js examples. But you are now running on HTTPS!!
+**Note**. Mind 
+1. the *https* in the beginning
+2. you cannot use `localhost` in place of `your.machine.ip.address`
+
+You should get a **warning**, telling you that "your connection is not private". Click on the link `Advanced` and then `Proceed to (address)`. 
+
+You should now be able to see the usual starting page of yarp.js examples. But you are now running on HTTPS!
 
 
 
