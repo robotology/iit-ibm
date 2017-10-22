@@ -5,6 +5,7 @@
 
 We have prepared a series of tutorials and examples on how to use yarp.js. To get things started, in this section you will find the instruction to write and run a minimalistic node server that uses yarp.js. A website will be locally served on your network, showcasing the following demo applications:
 
+* [Simple Example](/examples/simple_example)
 * [Speech Recognition and Synthesis](/examples/speech_recognition)
 * [Visualization with WebGL - Point Cloud](/examples/point_cloud) 
 * [Transmitting Inertial Data](/examples/inertial_data)
