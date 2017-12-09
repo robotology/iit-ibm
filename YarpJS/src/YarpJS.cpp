@@ -1,6 +1,8 @@
 
 
 
+// NAN declaration of the YarpJS constructor. 
+// Necessary for NAN usage. 
 
 #include "YarpJS.h"
 

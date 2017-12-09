@@ -9,9 +9,15 @@
 using namespace v8;
 
 
+// NAN declaration of the YarpJS_Network constructor. 
+// Necessary for NAN usage. 
 
 Nan::Persistent<v8::FunctionTemplate>  YarpJS_Network::constructor;
 
+
+
+// YarpJS_Network::Init
+// Initializing the network object
 
 NAN_METHOD(YarpJS_Network::Network_Init) {
 
@@ -20,12 +26,22 @@ NAN_METHOD(YarpJS_Network::Network_Init) {
 
 }
 
+
+// YarpJS_Network::Fini
+// Closing the network object
+
 NAN_METHOD(YarpJS_Network::Fini) {
 
   YarpJS_Network* obj = Nan::ObjectWrap::Unwrap<YarpJS_Network>(info.This());
   obj->getYarpObj()->fini();
 
 }
+
+
+
+// YarpJS_Network::Connect
+// Connects two ports. Currently only TCP is supported (it is trivial to extend to other carriers).
+
 NAN_METHOD(YarpJS_Network::Connect) {
 
   YarpJS_Network* obj = Nan::ObjectWrap::Unwrap<YarpJS_Network>(info.This());
@@ -40,6 +56,10 @@ NAN_METHOD(YarpJS_Network::Connect) {
   obj->getYarpObj()->connect(_src,_dst);
 
 }
+
+
+// YarpJS_Network::Disconnect
+// Disconnect two ports
 
 
 NAN_METHOD(YarpJS_Network::Disconnect) {
@@ -59,6 +79,8 @@ NAN_METHOD(YarpJS_Network::Disconnect) {
 }
 
 
+// YarpJS_Network::List
+// Returns a list of all ports opened on the yarp network
 
 NAN_METHOD(YarpJS_Network::List) {
 

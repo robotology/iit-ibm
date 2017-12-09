@@ -1,4 +1,16 @@
 
+/* 
+Main module called by the Native Abstractions for Node.js (NAN) Library. 
+It registers modules created for yarp.js (mainly bindings for yarp objects
+e.g. Ports, Network etc.)
+
+Just add the header calling to the corresponding class implementing the 
+binding and perform a "init" call from within the NAN_MODULE_INIT (see 
+below for previous classes).
+*/
+
+
+
 
 #include "YarpJS.h"
 
