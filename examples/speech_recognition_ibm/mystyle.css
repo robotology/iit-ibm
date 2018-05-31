@@ -1,0 +1,130 @@
+<style type="text/css">
+
+  .flex-container {
+      display:flex;
+      flex-direction: column;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
+      align-content: flex-start;
+      align-items: flex-start;
+      width:100%;
+      height:100%;
+  }
+
+
+   .flex-control-panel{
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      overflow: scroll;
+      width: 100%;
+      flex-grow: 3;
+      flex-shrink: 0;
+      /*flex-basis: 60%;*/
+    }
+
+   .flex-console {
+      margin-top:1em;
+      width: 100%;
+      flex-grow: 2;
+      flex-shrink: 0;
+      overflow: auto;
+      background-color: black;
+      color: green;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-content: flex-end;
+      align-items: flex-start;
+      padding: 0;
+      padding-bottom: 0.4em;
+      padding-top: 0.4em;
+      height: 13em;
+  }
+
+  .flex-console li {
+    margin-left:0.4em;
+  }
+
+  .reply-from-server
+  {
+      color: tomato;
+  }
+
+  .flex-commands {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      flex-wrap:wrap;
+      width: 100%;
+      flex-grow: 1;
+      flex-shrink: 1;
+      margin-top: 1em;
+  }
+  .flex-commands > form
+  {
+    padding-left:1em;
+    padding-right:1em;
+  }
+   .flex-button-container
+   {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+
+      background-color: white;
+
+      padding-left:1em;
+      padding-right:1em;
+      flex-grow:1;
+   }
+    .flex-button-container:nth-child(odd)
+    {
+      background-color: #eee;
+    }
+    .btn{
+      font-size: 1.5em;
+    }
+   .flex-button
+   {
+      margin: 1em;
+      flex-grow: 1;
+      flex-shrink: 1;
+      flex-basis: 0;
+      font-size:1em;
+   }
+
+
+    .invisible {
+        display: none;
+    }
+
+    #description {
+        padding: 3em;
+    }
+
+    #description * {
+        text-align: center;
+    }
+
+    #description p {
+        font-size: 1.3em;
+        margin-top: 3em;
+    }
+
+    #description b {
+        font-weight: bold;
+        color: cornflowerblue;
+    }
+
+    #description h1 b {
+        font-family: 'Lobster', serif;
+    }
+
+    #description p.danger {
+        margin: 0;
+        color: crimson;
+    }
+
+
+</style>
