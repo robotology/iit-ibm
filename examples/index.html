@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, shrink-to-fit=no, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-    <title>Yarp.js Examples</title>
+    <title>Yarp.js & Watson IBM</title>
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -47,55 +47,36 @@
         <!-- Sidebar -->
         <div id="sidebar-wrapper">
             <div class='brand'>
-                <span>
-                    Yarp.js
-                </span>
+                <p>
+                    <a href="/" style="text-decoration: none">
+                            Yarp.js &  Watson IBM
+                    </a>
+                </p>
             </div>
-            <ul class="sidebar-nav">    
-                <li>
-                    <a href="#" class='yarp-app' id='message_ibm' page-link='message_ibm'><i class="fa fa-envelope fa-fw fa-lg" aria-hidden="true"></i> <span>Message IBM</span></a>
-                </li>
-                <li>
-                    <a href="#" class='yarp-app' id='speech_recognition_ibm' page-link='speech_recognition_ibm'><i class="fa fa-microphone fa-fw fa-lg" aria-hidden="true"></i> <span>Speech Recognition IBM</span></a>
-                </li>
-                </li>
-                <li>
-                    <a href="#" class='yarp-app' id='speech_recognition' page-link='speech_recognition'><i class="fa fa-microphone fa-fw fa-lg" aria-hidden="true"></i> <span>Speech Recognition</span></a>
-                </li>
-                <li>
-                    <a href="#" class='yarp-app' id='inertial_data' page-link='inertial_data'><i class="fa fa-mobile fa-fw fa-lg" aria-hidden="true"></i> <span>Inertial Data</span></a>
-                </li>
-                <li>
-                    <a href="#" class='yarp-app' id='point_cloud' page-link='point_cloud'><i class="fa fa-cloud fa-fw fa-lg" aria-hidden="true"></i> <span>Point Cloud</span></a>
-                </li>
-                <li>
-                    <a href="#" class='yarp-app' id='stream_audio' page-link='stream_audio'><i class="fa fa-bullhorn fa-fw fa-lg" aria-hidden="true"></i> <span>Stream Audio</span></a>
-                </li>
-                <li>
-                    <a href="#" class='yarp-app' id='stream_video' page-link='stream_video'><i class="fa fa-video-camera fa-fw fa-lg" aria-hidden="true"></i> <span>Stream Video</span></a>
-                </li>
-                <li>
-                    <a href="#" class='yarp-app' id='face_tracker' page-link='face_tracker'><i class="fa fa-address-book-o fa-fw fa-lg" aria-hidden="true"></i> <span>Face Tracker</span></a>
-                </li>
-            </ul>
+            <div class="WatsonLogoWrapper" align="center">
+                <a href="/" class="logoWatson"><img src="images/robot.svg"></a>
+            </div>
         </div>
         <div id="page-content-wrapper">
-            <!-- <div styleclass="container-fluid"> -->
             <div id="description">
-                <h1>Welcome to <b>Yarp.js</b></h1>
-
+                <h1 align="center">Welcome to <b>Yarp.js</b> with <b> Watson IBM services </b> </h1>
                 <p>
                     This is a bundle of sample applications that show how <b>YARP</b> can be combined with modern Web tools and APIs using <b>yarp.js</b>.
                 </p>
-
+                <div class= "WrapperWrapperButtons">
+                    <br><div class="WrapperButton">
+                        <a href="#" class = "yarp-app" id='watson' page-link='documentation'><img src="https://image.flaticon.com/icons/svg/684/684930.svg"><div class="WrapperText"><b>Documentation</b></div></a>
+                    </div>
+                    <br><div class="WrapperButton">
+                        <a class = "Links" href="https://www.example.com"><img src="https://image.flaticon.com/icons/svg/214/214365.svg"><div class="WrapperText"><b>Video Demo</b></div></a>
+                    </div>
+                    <br><div class="WrapperButton">
+                        <a href="#" class = "yarp-app" id='assistant_TTS_SST' page-link='assistant_TTS_SST'><img src="https://image.flaticon.com/icons/svg/874/874553.svg"><div class="WrapperText"><b>Start a new conversation now!</b></div></a>
+                    </div>
+                </div>
                 <p>
-                    You can directly use these applications in your system in order to include functionalities such as <b>speech recognition</b> or <b>3D data visualization</b> or you can adapt them to your needs by just writing few lines of code.
+                    <b><font size="5">Note:</font></b> Before starting a new conversation, please, be sure to have a yarp server running on your network!
                 </p>
-
-                <p>
-                    <b>Note:</b> before starting please be sure to have a yarp server running on your network.
-                </p>
-
             </div>
             <object id="main-frame" class='invisible'></object>
             <!-- </div> -->

@@ -42,18 +42,17 @@
   var socket = io();
   yarp.init(socket);
 
-  // open send and receive ports
-  var yarpSendPort = yarp.PortHandler.openPort('/yarpjs/send:o');
-  var yarpReceivePort = yarp.PortHandler.openPort('/yarpjs/receive:i');
+  // Message YARP open ports for writing/reading text messages
+  var yarp_write_text_port = yarp.PortHandler.openPort('/yarp_text/sender:o');
+  var yarp_read_text_port = yarp.PortHandler.openPort('/yarp_text/receiver:i');
 
-    // what to do as soon as the yarp module is ready
     yarp.onInit(function()
     {
         // ports connection with IBM's ports
-        yarp.Network.connect('/yarpjs/send:o','/ibmjs/receive:i');
-        yarp.Network.connect('/ibmjs/send:o','/yarpjs/receive:i');
+        yarp.Network.connect('/yarp_text/sender:o','/ibm_text/receiver:i');
+        yarp.Network.connect('/ibm_text/sender:o','/yarp_text/receiver:i');
 
-        yarpReceivePort.onRead(function(msg)
+        yarp_read_text_port.onRead(function(msg)
         {
             var Messages = '';
             for(var i=0; i<msg.content.length; i++)
@@ -64,11 +63,11 @@
         })
     });
 
-//functions
+// Functions with ports
     function MsgToIBM_OnClick(msg)
     {
         var msg = $('#send-message-text').val();
-        yarpSendPort.write(msg);
+        yarp_write_text_port.write(msg);
         $('#send-message-text').val('');
 
    }
@@ -78,7 +77,7 @@
         var msg = $('#send-message-text').val();
         if (event.keyCode === 13)
         {
-            yarpSendPort.write(msg);
+            yarp_write_text_port.write(msg);
             $('#send-message-text').val('');
         }
     }
