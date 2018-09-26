@@ -27,65 +27,65 @@ var image_file = fs.createReadStream('./Red_Img_Ticket.bmp');
 print_media=false;
 cardiograph=false;
 
-var params = {
-  images_file: image_file,
-  //classifier_ids: classifier_ids
-};
+//code without sending image through port
+
+//var params = {
+//  images_file: image_file,
+//  //classifier_ids: classifier_ids
+//};
 
 
-visualRecognition.classify(params, function(err, response) {
-  if (err)
-    console.log(err);
-  else
-    //console.log(JSON.stringify(response, null, 2))
-    for(var j = 0; j < response.images[0].classifiers[0].classes.length; j++ )
-    {
-        if (response.images[0].classifiers[0].classes[j].class='print media')
-        {
-            print_media=true;
-        }
-
-        if (response.images[0].classifiers[0].classes[j].class='cardiograph')
-        {
-            cardiograph=true;
-        }
-    }
-
-    if(print_media==true && cardiograph==true)
-    {ibm_visual_text_sender.write('prescription');};
-});
-
-//ibm_img_receiver.onRead(function(msg)
-//{
-//    if (!rcvd)
+//visualRecognition.classify(params, function(err, response) {
+//  if (err)
+//    console.log(err);
+//  else
+//    //console.log(JSON.stringify(response, null, 2))
+//    for(var j = 0; j < response.images[0].classifiers[0].classes.length; j++ )
 //    {
-//        console.log(msg);
-//        console.log(msg.toSend());
+//        if (response.images[0].classifiers[0].classes[j].class='print media')
+//        {
+//            print_media=true;
+//        }
 //
-//        const img_file=fs.createWriteStream('image.bmp');
-//        var buffer = msg.toSend().buffer;
-//        img_file.write(buffer);
-//
-//        rcvd = true;
-//
-//        var img = fs.createReadStream('./image.bmp');
-//        var params = {
-//          images_file: img,
-//          //classifier_ids: classifier_ids
-//        };
-//
-//        visualRecognition.classify(params, function(err, response) {
-//          if (err)
-//            console.log(err);
-//          else
-//            console.log(JSON.stringify(response, null, 2))
-//        });
+//        if (response.images[0].classifiers[0].classes[j].class='cardiograph')
+//        {
+//            cardiograph=true;
+//        }
 //    }
+//
+//    if(print_media==true && cardiograph==true)
+//    {ibm_visual_text_sender.write('prescription');};
 //});
 
 
+//code sending image through port
+ibm_img_receiver.onRead(function(msg)
+{
+    if (!rcvd)
+    {
+        console.log(msg);
+        console.log(msg.toSend());
 
+        const img_file=fs.createWriteStream('image.bmp');
+        var buffer = msg.toSend().buffer;
+        img_file.write(buffer);
 
+        rcvd = true;
+
+        var img = fs.createReadStream('./image.bmp');
+        var params = {
+          images_file: img,
+          //classifier_ids: classifier_ids
+        };
+
+        visualRecognition.classify(params, function(err, response) {
+          if (err)
+            console.log(err);
+          else
+            console.log(JSON.stringify(response, null, 2))
+        });
+    }
+});
 
 
 

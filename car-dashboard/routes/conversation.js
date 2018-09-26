@@ -24,6 +24,11 @@ ibm_text_port_sender.open('/ibmjs/text:o');
 var ibm_R1_img_request= new yarp.Port('bottle');
 ibm_R1_img_request.open('/ibmjs/ibm_R1_img_request:o');
 
+
+
+//CONNECTION WITH CONVERSATION
+yarp.Network.connect('/ibmjs/text:o', '/ibmjs/text_to_speech:i');
+
 var AssistantV1 = require('watson-developer-cloud/assistant/v1');
 
 // Set up Assistant service wrapper.

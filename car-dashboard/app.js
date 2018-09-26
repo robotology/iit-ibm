@@ -32,10 +32,6 @@ app.use(express.static(__dirname + '/../js'));
 app.use(express.static(__dirname));
 
 
-// Configure the Watson services
-require('./routes/conversation');
-//require('./routes/conversation')(app);
-
 //require('./routes/speech-to-text')(app);
 
 require('./routes/speech-to-text-file');
@@ -47,6 +43,10 @@ require('./routes/speech-to-text-file');
 require('./routes/text-to-speech-file');
 
 //require('./routes/visual-recognition');
+
+// Configure the Watson services
+require('./routes/conversation');
+//require('./routes/conversation')(app);
 
 
 // Bootstrap application settings
