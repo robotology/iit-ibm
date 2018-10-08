@@ -29,63 +29,65 @@ cardiograph=false;
 
 //code without sending image through port
 
-//var params = {
-//  images_file: image_file,
-//  //classifier_ids: classifier_ids
-//};
+var params = {
+  images_file: image_file,
+  //classifier_ids: classifier_ids
+};
 
 
-//visualRecognition.classify(params, function(err, response) {
-//  if (err)
-//    console.log(err);
-//  else
-//    //console.log(JSON.stringify(response, null, 2))
-//    for(var j = 0; j < response.images[0].classifiers[0].classes.length; j++ )
-//    {
-//        if (response.images[0].classifiers[0].classes[j].class='print media')
-//        {
-//            print_media=true;
-//        }
-//
-//        if (response.images[0].classifiers[0].classes[j].class='cardiograph')
-//        {
-//            cardiograph=true;
-//        }
-//    }
-//
-//    if(print_media==true && cardiograph==true)
-//    {ibm_visual_text_sender.write('prescription');};
-//});
+visualRecognition.classify(params, function(err, response) {
+  if (err)
+    console.log(err);
+  else
+    //console.log(JSON.stringify(response, null, 2))
+    console.log(response.images[0].classifiers[0].classes);
+
+    for(var j = 0; j < response.images[0].classifiers[0].classes.length; j++ )
+    {
+        if (response.images[0].classifiers[0].classes[j].class='print media')
+        {
+            print_media=true;
+        }
+
+        if (response.images[0].classifiers[0].classes[j].class='cardiograph')
+        {
+            cardiograph=true;
+        }
+    }
+
+    if(print_media==true && cardiograph==true)
+    {ibm_visual_text_sender.write('prescription');};
+});
 
 
 //code sending image through port
-ibm_img_receiver.onRead(function(msg)
-{
-    if (!rcvd)
-    {
-        console.log(msg);
-        console.log(msg.toSend());
-
-        const img_file=fs.createWriteStream('image.bmp');
-        var buffer = msg.toSend().buffer;
-        img_file.write(buffer);
-
-        rcvd = true;
-
-        var img = fs.createReadStream('./image.bmp');
-        var params = {
-          images_file: img,
-          //classifier_ids: classifier_ids
-        };
-
-        visualRecognition.classify(params, function(err, response) {
-          if (err)
-            console.log(err);
-          else
-            console.log(JSON.stringify(response, null, 2))
-        });
-    }
-});
+//ibm_img_receiver.onRead(function(msg)
+//{
+//    if (!rcvd)
+//    {
+//        console.log(msg);
+//        console.log(msg.toSend());
+//
+//        const img_file=fs.createWriteStream('image.bmp');
+//        var buffer = msg.toSend().buffer;
+//        img_file.write(buffer);
+//
+//        rcvd = true;
+//
+//        var img = fs.createReadStream('./image.bmp');
+//        var params = {
+//          images_file: img,
+//          //classifier_ids: classifier_ids
+//        };
+//
+//        visualRecognition.classify(params, function(err, response) {
+//          if (err)
+//            console.log(err);
+//          else
+//            console.log(JSON.stringify(response, null, 2))
+//        });
+//    }
+//});
 
 
 
