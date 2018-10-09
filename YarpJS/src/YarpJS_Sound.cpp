@@ -7,11 +7,11 @@
 
 #include <yarp/os/NetInt16.h>
 
-#define SAMPLE_RATE 48000
+#define SAMPLE_RATE 16000
 // #define NUM_SECONDS 0.1
 #define BIT_DEPTH 16
 // #define NUM_SAMPLES ((int)(SAMPLE_RATE*NUM_SECONDS))
-#define NUM_SAMPLES 2048
+#define NUM_SAMPLES 16000
 
 unsigned char pulsecode[ NUM_SAMPLES ];
 

@@ -1,8 +1,4 @@
 
-
-
-
-
 var https = require('https');
 var fs = require('fs');
 var express = require('express');
@@ -21,11 +17,10 @@ var options = {
 var app = express();
 
 
-
-
 app.use(express.static('node_modules'));
 app.use(express.static('js'));
 app.use(express.static('examples'));
+
 
 
 app.get('/', function(req, res){
@@ -49,12 +44,4 @@ var io = require('socket.io')(server);
 
 yarp.browserCommunicator(io);
 
-
-
-
-
-
-
-
-
-
+module.exports = app;
