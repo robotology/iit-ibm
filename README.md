@@ -37,6 +37,11 @@ The core of this repository, [Yarp.js](https://github.com/robotology/yarp.js/blo
 
 <a name="SetUpYourSystem"></a>
 
+
+# Video
+
+[![IIT-IBM demo video](https://img.youtube.com/vi/IMTbeJWD6N8/0.jpg)](https://youtu.be/IMTbeJWD6N8)
+
 # Set up your system
 
 Firstly, clone [Yarp.js](https://github.com/robotology/yarp.js/blob/master/README.md) locally.
