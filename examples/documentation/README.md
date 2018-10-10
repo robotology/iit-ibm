@@ -1,10 +1,10 @@
-# Watson Assistant Application with yarp.js.
+# Watson Assistant Application with Yarp.js.
 
-Watson Assistant Application on IBM Cloud is connected to [YARP](http://www.yarp.it/) server via ports through yarp.js (a JavaScript set of bindings for YARP).
+The main purpose of this repository is to create a human-robot interaction based on conversation.
 
 *   [Introduction](#introduction)
 *   [Set up your system](#SetUpYourSystem)
-    *   [Watson Assistant Chat](#WatsonAssChat)
+    *   [Watson Assistant](#WatsonAss)
         *   [Before you begin](#BeforeBegin)
             *   [Installing locally](#InstallLocally)
             *   [Setting up the Watson Assistant service](#SettingUpWatson)
@@ -19,22 +19,27 @@ Watson Assistant Application on IBM Cloud is connected to [YARP](http://www.yarp
 
 # Introduction
 
-This example shows how to create a conversational application sending data through Yarp ports. The conversational application is made by creating a dialog tree with IBM Watson Assistant service. The example on yarp.js is:
+We exploit the IBM Cloud that allows building a simple application in which several services communicate among them, in particular:
 
-*   [Message IBM](https://github.com/vtikha/IBM-IIT/tree/master/yarp.js/examples/message_ibm)
+* [Watson Assistant Conversation](https://watson-assistant-demo.ng.bluemix.net/) allows creating a fluent dialog flow. The unidirectional dialog flow is composed by nodes of the conversation which are activated through entities and intents of the colloquy.   
 
-The yarp.js interface contains other examples:
+* [Speech To Text](https://speech-to-text-demo.ng.bluemix.net/) uses speech recognition capabilities to convert speech into text.
 
-*   [Speech Recognition and Synthesis](https://github.com/vtikha/IBM-IIT/tree/master/yarp.js//examples/speech_recognition)
-*   [Transmitting Inertial Data](https://github.com/vtikha/IBM-IIT/tree/master/yarp.js//examples/inertial_data)
-*   [Visualization with WebGL - Point Cloud](https://github.com/vtikha/IBM-IIT/tree/master/yarp.js//examples/point_cloud)
-*   [Stream Audio](https://github.com/vtikha/IBM-IIT/tree/master/yarp.js//examples/stream_audio)
-*   [Stream Video (a yarpview with yarp.js)](https://github.com/vtikha/IBM-IIT/tree/master/yarp.js//examples/stream_video)
-*   [Face Tracking (and "Teleoperation"!)](https://github.com/vtikha/IBM-IIT/tree/master/yarp.js//examples/face_tracker)
+* [Text To Speech](https://text-to-speech-demo.ng.bluemix.net/) directly converts text into speech with a custom voice language.
+
+* [Visual Recognition](https://www.ibm.com/watson/services/visual-recognition/demo/#demo) is able to recognize entities within an image.
+
+We used an [IBM demo](https://github.com/watson-developer-cloud/car-dashboard) as a starting point.
+
+[Yarp](https://github.com/robotology/yarp) (Yet Another Robot Platform) is the network that allows sending/receiving data through ports.
+The core of this repository, [Yarp.js](https://github.com/robotology/yarp.js/blob/master/README.md), is a JavaScript set of bindings for YARP written by Carlo Ciliberto.
+
 
 <a name="SetUpYourSystem"></a>
 
 # Set up your system
+
+Firstly, clone [Yarp.js](https://github.com/robotology/yarp.js/blob/master/README.md) locally.
 
 **Client dependencies (on any device on your network)**:
 
@@ -58,9 +63,9 @@ Once you have all dependencies installed, go to the folder where you have cloned
 
 **Optional**: although the command `sudo npm install` installs the node dependencies _locally_, it needs administrative permissions. If you want to avoid this (and just use `npm install`), follow the [official npm guide](https://docs.npmjs.com/getting-started/fixing-npm-permissions). This is not required to use yarp.js though.
 
-<a name="WatsonAssChat"></a>
+<a name="WatsonAss"></a>
 
-## Watson Assistant Chat
+## Watson Assistant
 
 [IBM Watson™ Assistant](https://console.bluemix.net/docs/services/conversation/getting-started.html#gettingstarted) allows the conversation flow with an end user by using intents, entities and dialog nodes in a simple chat interface. With the IBM Watson™ Assistant service, you can build a solution that understands natural-language input and uses machine learning to respond to users in a way that simulates a conversation between humans.
 
@@ -158,15 +163,15 @@ You can use an exisiting instance of the Watson Assistant service. Otherwise, fo
     The output from this command is a JSON object, as in this example:
 
          {
-           "password": "87iT7aqpvU7l",
+           "password": "XXxXXxxxxXXx",
            "url": "https://gateway.watsonplatform.net/conversation/api",
-           "username": "ca2905e6-7b5d-4408-9192-e4d54d83e604"
+           "username": "xxXXXXxX-xXxX-XXXX-XXXX-xXxXXxXXxXXX"
          }
 
 5.  Paste the `password` and `username` values (without quotation marks) from the JSON into the `ASSISTANT_PASSWORD` and `ASSISTANT_USERNAME` variables in the `.env` file. For example:
 
-         ASSISTANT_USERNAME=ca2905e6-7b5d-4408-9192-e4d54d83e604
-         ASSISTANT_PASSWORD=87iT7aqpvU7l
+         ASSISTANT_USERNAME=xxXXXXxX-xXxX-XXXX-XXXX-xXxXXxXXxXXX
+         ASSISTANT_PASSWORD=XXxXXxxxxXXx
 
 6.  In your [IBM Cloud console](https://console.ng.bluemix.net/dashboard/apps), open the Watson Assistant service instance where you imported the workspace.
 
