@@ -1,0 +1,3 @@
+/home/gdangelo/workspace/yarp.js/build/CMakeFiles/edit_cache.dir
+/home/gdangelo/workspace/yarp.js/build/CMakeFiles/rebuild_cache.dir
+/home/gdangelo/workspace/yarp.js/build/CMakeFiles/YarpJS.dir
