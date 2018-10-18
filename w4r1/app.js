@@ -1,38 +1,57 @@
 /**
- * Copyright 2015 IBM Corp. All Rights Reserved.
+ * Copyright 2018 IBM Corp. All Rights Reserved.
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
  */
 
 'use strict';
 
 var express = require('express'); // app server
 var bodyParser = require('body-parser'); // parser for post requests
+var sleep = require('system-sleep');
 
 var AssistantService = require('./services/AssistantService');
-var W4R1 = require('./services/W4R1');
-var R1 = require('./services/R1');
+var TextToSpeechService = require('./services/TextToSpeechService');
+var Cedat85SpeechToTextService = require('./services/Cedat85STTService');
 var assistant = new AssistantService();
-
+//var textToSpeech = new TextToSpeechService();
 
 var app = express();
-
-
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
-app.use(bodyParser.json());
+//app.use(bodyParser.json());
+
+/**********************************/
+/*** R1 TEST CLIENT ***/
+var R1Client = require('./services/R1Client');
+var r1Client = new R1Client();
 
 
+/** STARTIG WATSON FOR R1 ***/
+console.log("Starting W4R1");
+var W4R1 = require('./services/W4R1');
+var w4r1 = new W4R1();
+
+//Ports connection
+w4r1.connect();
+
+
+//var stt = new Cedat85SpeechToTextService();
+//stt.sendAudio();
+
+console.log("sleeping");
+sleep(1000);
+
+//IBM R1 client
+//R1_client_fromApp(r1Client);
+
+
+
+/*********************************/
+
+
+app.get('/api/test',function(req,res){ r1Client.testAudio(); res.send("OK"); });
+
+// Endpoint to be call from the client side
 app.post('/api/message', function (req, res) {
 
   var payload =req.body;
@@ -45,39 +64,20 @@ app.post('/api/message', function (req, res) {
   );
 });
 
-app.get('/api/test', function (req, res) {
+app.get('/api/synthesize', function (req, res) {
+	textToSpeech.synthesize(req.query.text,res);
 
-    var w4R1 = new W4R1();
-    var r1 = new R1();
-    r1.setW4r1(w4R1);
+});
+
+app.get('/api/test_stt', function (req, res) {
+
+	var stt = new Cedat85SpeechToTextService();
+	stt.transcribeFile(null);
+
+	//res.send("OK");
 });
 
 
-
-var fs = require('fs');
-var yarp = require('./yarp.js/yarp');
-
-app.get('/client/test_sound', function (req, res) {
-
-
-    var sound_sender_port = new yarp.Port('sound');
-    sound_sender_port.open('/R1/sound:o');
-
-    var cmd_sender_port = new yarp.Port('bottle');
-    cmd_sender_port.open('/R1/text:o');
-
-    //CONNECTION WITH CONVERSATION
-    yarp.Network.connect('/R1/sound:o', '/watsonR1/sound:i');
-    yarp.Network.connect('/R1/text:o', '/watsonR1/text:i');
-
-    streamFile('./resources/test.wav',sound_sender_port);
-
-    //var msg='start';
-    //cmd_sender_port.write(msg);
-});
-
-
-//Functions
 
 let handleGenericCallback = function(err,data,payload,res){
 	if (err) {
@@ -86,6 +86,13 @@ let handleGenericCallback = function(err,data,payload,res){
 	return res.json(updateResponse(payload, data));
 }
 
+
+/**
+ * Updates the response
+ * @param  {Object} input The request
+ * @param  {Object} response The response service
+ * @return {Object}          The response with the updated message
+ */
 function updateResponse(input, response) {
 	//placeholder if it is needed to update response
 	// e.g merge some imput data into the output response (within input may occur some extra fields that the system needs to send back in the response)
@@ -93,13 +100,10 @@ function updateResponse(input, response) {
   return response;
 }
 
-function streamFile(file,port){
-    var readStream = fs.createReadStream(file, { highWaterMark: 2 * 1024 });
-    readStream.on('data', function (chunk) {
-      console.log("invio: "+chunk.length);
-      port.write(chunk);
-      //console.log('chunk',chunk);      
-    });
+function R1_client_fromApp(r1Client) {
+    r1Client.connect();
+    console.log("sending audio");
+    r1Client.testAudio();
 }
 
 module.exports = app;
