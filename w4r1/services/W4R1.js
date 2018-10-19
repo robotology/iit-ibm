@@ -1,14 +1,19 @@
 /**
+ * Copyright 2018 IBM Corp. All Rights Reserved.
  *
  */
+
+'use strict';
+
 var Yarp= require('../yarp.js/yarp');
 //var Yarp = require('YarpJS');
 
 function W4R1(){
 
-var Cedat85SpeechToTextService = require('./Cedat85STTService');
+	var Cedat85SpeechToTextService = require('./Cedat85STTService');
 	var stt = new Cedat85SpeechToTextService();
 	this.stt = stt;
+
 	var soundPortIn = new Yarp.Port('sound');
 	soundPortIn.open('/w4r1/sound.i');
 
@@ -23,13 +28,6 @@ var Cedat85SpeechToTextService = require('./Cedat85STTService');
 	var self = this;
 
 	soundPortIn.onRead(function(msg){
-		//console.log("RECEIVED SOUND BUFFER");
-		//console.log("W4R1 audio received: ",msg.toSend().content);
-		//var buffer = new Buffer(msg.toSend().content);
-
-		//console.log("W4R1 received: ",n,msg.toSend().content.length,msg.toSend().content[0]); n++;
-		//console.log("W4R1 received: ",n,msg.toSend().content); n++;
-
 
 		//Receiving from Yarp Speech Sender
 		console.log("W4R1 received: ",n,msg.toSend().content.length); n++;
@@ -53,8 +51,8 @@ var Cedat85SpeechToTextService = require('./Cedat85STTService');
 
 
 W4R1.prototype.sendAudio = function(buffer) {
-//	console.log("WR1 received: ",buffer);
-//	this.stt.sendAudio(buffer);
+	console.log("WR1 received: ",buffer);
+	this.stt.sendAudio(buffer);
 }
 
 W4R1.prototype.connect = function() {
