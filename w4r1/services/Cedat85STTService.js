@@ -1,7 +1,7 @@
 /**
  *
  */
- 'use strict';
+'use strict';
 
 const WebSocket = require('ws');
 const EventEmitter = require('events');
@@ -79,15 +79,7 @@ Cedat85SpeechToTextService.prototype.transcribeFile = function(file){
 
 	wsEmitter.on('ready',function stream(){
 		console.log("streaming file...");
-
-
-
 		streamFile('./resources/test.wav');
-
-
-
-
-
 	});
 	wsEmitter.on('event', () => {
 	  console.log('an event occurred!');
@@ -106,17 +98,8 @@ Cedat85SpeechToTextService.prototype.transcribeFile = function(file){
 
 
 	var ready = false;
-
-
 	ws.on('open', function open() {
-
-
-
-
-
-
-	  ws.send(ONPEN_STRING);
-
+		ws.send(ONPEN_STRING);
 	});
 
 	ws.on('message', function incoming(data) {
