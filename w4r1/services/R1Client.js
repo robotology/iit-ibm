@@ -5,8 +5,8 @@
 
  'use strict';
 
-var Yarp= require('../yarp.js/yarp');
-//var Yarp = require('YarpJS');
+//var Yarp= require('../yarp.js/yarp');
+var Yarp = require('YarpJS');
 var fs = require('fs');
 var sleep = require('system-sleep');
 
