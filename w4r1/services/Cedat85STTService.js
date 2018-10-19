@@ -3,9 +3,10 @@
  */
 'use strict';
 
-const WebSocket = require('ws');
-const EventEmitter = require('events');
+var WebSocket = require('ws');
+var EventEmitter = require('events');
 var fs = require('fs');
+
 const CEDAT85_STT_ENDPOINT = "ws://voicenote.trascrivi.com/ws/client/speech?key=X31CEIVH9G&model=it-IT_16k";
 const ONPEN_STRING = '{"audio-type":"s16le;16000","decoding":"start","do-endpointing":true,"do-wordalingnment":true,"n-best":5,"timeout":30,"traceback-period":0.5}';
 
@@ -16,13 +17,21 @@ function Cedat85SpeechToTextService(){
 	this.wsEmitter = new WsEmitter();
 
 	var self = this;
-	this.wsEmitter.on('ready',function stream(){
+	this.wsEmitter.on('ready',function stream(msg){
 		console.log("CEDAT READY");
+		self.emit('ready',msg);
 		//self.sendAudio(null);
 	});
 
+
+	EventEmitter.EventEmitter.call(this);
+
 	this.connect();
 }
+
+
+Cedat85SpeechToTextService.prototype.__proto__ = EventEmitter.EventEmitter.prototype;
+
 
 Cedat85SpeechToTextService.prototype.connect = function(){
 	var self = this;
@@ -37,9 +46,12 @@ Cedat85SpeechToTextService.prototype.connect = function(){
 	  console.log(data);
 
 	  var msg = JSON.parse(data);
+	  var eventMsg = {stt_data:data};
 	  if(msg.status == 'ready'){
-		  self.wsEmitter.emit('ready');
-	  }
+		  self.wsEmitter.emit('ready',eventMsg);
+	  } else if(msg.status == 'error'){
+		self.emit('error',eventMsg);
+		}
 	});
 	this.ws.on('close',function(){
 		console.log("SOCKET CLOSED reconnecting");
