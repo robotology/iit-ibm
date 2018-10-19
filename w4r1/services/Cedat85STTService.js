@@ -42,15 +42,31 @@ Cedat85SpeechToTextService.prototype.connect = function(){
 	});
 
 	this.ws.on('message', function incoming(data) {
-	  //CEDAT RESPONSE
-	  console.log(data);
+		//CEDAT RESPONSE
+		console.log(data);
+		
+	  	var msg = JSON.parse(data);
+	  	var eventMsg = {stt_data:data};
 
-	  var msg = JSON.parse(data);
-	  var eventMsg = {stt_data:data};
-	  if(msg.status == 'ready'){
-		  self.wsEmitter.emit('ready',eventMsg);
-	  } else if(msg.status == 'error'){
-		self.emit('error',eventMsg);
+		//handling cedat85 status
+	  	if(msg.status !== undefined){
+	  		if(msg.status == 'ready'){
+		  		self.wsEmitter.emit('ready',eventMsg);
+	  		} else if(msg.status == 'error'){
+				self.emit('error',eventMsg);
+			}
+		}
+		//handling transcripts
+		else if(msg.final !== undefined) {
+			if(msg.final == true){
+				eventMsg.transcript = msg.transcript;
+			} else {
+				//TODO extrat best hypothesis here
+				//eventMsg.transcript = msg....
+			
+			}
+			eventMsg.final = msg.final;
+			self.emit('transcript',eventMsg);
 		}
 	});
 	this.ws.on('close',function(){

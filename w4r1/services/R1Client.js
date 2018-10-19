@@ -28,7 +28,7 @@ R1Client.prototype.testAudio = function() {
 			readStream.on('data', function (chunk) {
 				console.log("R1 sending: ",n,chunk.length,chunk);
 				n++;
-				//sleep(250);
+				sleep(250);
 			  	self.soundPortOut.write(chunk);
 			});
 }
