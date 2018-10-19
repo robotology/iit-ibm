@@ -36,7 +36,7 @@ var r1Client = new R1Client();
 
 
 console.log("sleeping");
-//sleep(1000);
+sleep(1000);
 
 //IBM R1 Client function
 R1_client_fromApp(r1Client);

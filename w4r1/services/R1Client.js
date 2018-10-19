@@ -26,9 +26,9 @@ R1Client.prototype.testAudio = function() {
 	var n =0;
 	var readStream = fs.createReadStream('./resources/test.wav',{ highWaterMark: 4 * 1024 });
 			readStream.on('data', function (chunk) {
-				console.log("R1 sending: ",n,chunk.length,chunk[0]);
+				console.log("R1 sending: ",n,chunk.length,chunk);
 				n++;
-				sleep(250);
+				//sleep(250);
 			  	self.soundPortOut.write(chunk);
 			});
 }
@@ -39,6 +39,7 @@ R1Client.prototype.connect = function() {
 
 	this.soundPortOut = new Yarp.Port('sound');
 	this.soundPortOut.open('/r1/sound.o');
+    this.soundPortOut.setStrict(true);
 	Yarp.Network.connect('/r1/sound.o','/w4r1/sound.i');
 }
 

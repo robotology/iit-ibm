@@ -16,6 +16,7 @@ function W4R1(){
 
 	var soundPortIn = new Yarp.Port('sound');
 	soundPortIn.open('/w4r1/sound.i');
+	soundPortIn.setStrict(true);
 
 	this.cmdPortOut = new Yarp.Port('bottle');
 	this.cmdPortOut.open('/w4r1/cmd.o');
@@ -30,8 +31,8 @@ function W4R1(){
 	soundPortIn.onRead(function(msg){
 
 		//Receiving from Yarp Speech Sender
-		console.log("W4R1 received: ",n,msg.toSend().content.length); n++;
-		console.log("W4R1 received from yarp-speech-sender: ",msg.toSend().content[0]); n++;
+		console.log("W4R1 received: ",n,msg.toSend().content.length, msg.toSend().content); n++;
+		//console.log("W4R1 received from yarp-speech-sender: ",msg.toSend().content[0]); n++;
 
 		self.sendAudio(msg.toSend().content);
 

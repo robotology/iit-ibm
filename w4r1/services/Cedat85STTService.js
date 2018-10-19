@@ -33,7 +33,9 @@ Cedat85SpeechToTextService.prototype.connect = function(){
 	});
 
 	this.ws.on('message', function incoming(data) {
+	  //CEDAT RESPONSE
 	  console.log(data);
+
 	  var msg = JSON.parse(data);
 	  if(msg.status == 'ready'){
 		  self.wsEmitter.emit('ready');
