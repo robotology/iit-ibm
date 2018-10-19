@@ -5,18 +5,23 @@
 
 'use strict';
 
-var Yarp= require('../yarp.js/yarp');
-//var Yarp = require('YarpJS');
+//var Yarp= require('../yarp.js/yarp');
+var Yarp = require('YarpJS');
 
 function W4R1(){
 
 	var Cedat85SpeechToTextService = require('./Cedat85STTService');
 	var stt = new Cedat85SpeechToTextService();
 	this.stt = stt;
+this.stt.on('ready',(msg)=>{
+console.log("W4R1 received STT Event: ",msg);
 
+});
 	var soundPortIn = new Yarp.Port('sound');
 	soundPortIn.open('/w4r1/sound.i');
 	soundPortIn.setStrict(true);
+	this.cmdPortOut = new Yarp.Port('bottle');
+	this.cmdPortOut.open('/w4r1/cmd.o');
 
 	this.cmdPortOut = new Yarp.Port('bottle');
 	this.cmdPortOut.open('/w4r1/cmd.o');
@@ -31,7 +36,8 @@ function W4R1(){
 	soundPortIn.onRead(function(msg){
 
 		//Receiving from Yarp Speech Sender
-		console.log("W4R1 received: ",n,msg.toSend().content.length, msg.toSend().content); n++;
+		console.log("W4R1 received: ",n,msg.toSend().content.length,msg.toSend(),msg.toSend().content); 
+		n++;
 		//console.log("W4R1 received from yarp-speech-sender: ",msg.toSend().content[0]); n++;
 
 		self.sendAudio(msg.toSend().content);
