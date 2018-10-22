@@ -14,7 +14,7 @@ var sleep = require('system-sleep');
 var app = express();
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
-//app.use(bodyParser.json());
+app.use(bodyParser.json());
 
 
 /**********************************/
@@ -42,6 +42,11 @@ sleep(1000);
 R1_client_fromApp(r1Client);
 
 
+//Test Assistant
+//console.log("Testing Assitant");
+//w4r1.sendMessage("vorrei prenotare una visita");
+
+
 /**********************************/
 /************ APP.GET *************/
 /**********************************/
@@ -50,11 +55,14 @@ R1_client_fromApp(r1Client);
 app.get('/api/test',function(req,res){ r1Client.testAudio(); res.send("OK"); });
 
 // Endpoint to be call from the client side
+var AssistantService = require('./services/AssistantService');
+var _assistant = new AssistantService();
 app.post('/api/message', function (req, res) {
 
   var payload =req.body;
+
   // Send the input to the assistant service
-  assistant.message(payload.input,payload.context,
+  _assistant.message(payload.input,payload.context,
 		  function(err,data){
 	  			return handleGenericCallback(err,data,payload,res);
 		  }

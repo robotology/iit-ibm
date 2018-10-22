@@ -7,33 +7,37 @@ var AssistantV1 = require('watson-developer-cloud/assistant/v1'); // watson sdk
 const DEFAULT_VERSION = '2018-07-10';
 const DEFAULT_WORKSPACE = process.env.WORKSPACE_ID || '<workspace-id>';
 
-let assistant;
 
 function AssistantService(){
-	assistant = new AssistantV1({
+	this.assistant = new AssistantV1({
 		  version: DEFAULT_VERSION
 		});
+	this.workspace = DEFAULT_WORKSPACE;
 }
 
-AssistantService.prototype.message = function(input,context, callback) {
-	var workspace = DEFAULT_WORKSPACE;
 
+AssistantService.prototype.message = function(input, context, callback) {
+	
+
+	console.log("AsistanService received message",input,context);
 	//input checks
-	if (!workspace || workspace === '<workspace-id>') {
+	if (!this.workspace || this.workspace === '<workspace-id>') {
 		var err = new Error("Waston Assistant workspace is missing");
 		callback(err,null);
 	}
 	
 	  var payload = {
-			    workspace_id: workspace,
+			    workspace_id: this.workspace,
 			    context: context || {},
 			    input: input || {}
 			  };
 	
-	return assistant.message(payload, function(err, data) {
+	return this.assistant.message(payload, function(err, data) {
+console.log("assistant response",err,data);
 		if (err) {
 			callback(err, data);
 		} else {
+console.log("assistant data");
 			callback(err, updateMessage(payload, data));
 		}
 
@@ -48,6 +52,8 @@ AssistantService.prototype.message = function(input,context, callback) {
  * @return {Object} The response with the updated message
  */
 function updateMessage(input, response) {
+
+console.log("update msg");
   if (!response.output) {
     response.output = {};
   }
