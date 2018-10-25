@@ -5,17 +5,24 @@
 
 'use strict';
 
-//var Yarp= require('../yarp.js/yarp');
 var Yarp = require('YarpJS');
 var Cedat85SpeechToTextService = require('./Cedat85STTService');
 var AssistantService = require('./AssistantService');
+var AudioConverter = require('../utils/AudioConverter');
 
+/**
+ * @class
+ * @classdesc W4R1 - Watson For R1
+ */
 function W4R1(){
+
+	var self = this;
 
 	//STT Sevice
 	var stt = new Cedat85SpeechToTextService();
 	this.stt = stt;
-
+	
+	//haldling STT Events
 	this.stt.on('ready',(msg)=>{
 		console.log("W4R1 received STT Ready Event: ",msg);
 
@@ -30,6 +37,13 @@ function W4R1(){
 	this.assistant = new AssistantService();
 	this.assistanContext = {};
 	
+	this.audioConverter = new AudioConverter();
+	this.audioConverter.on('data',function(data){
+		console.log("CHUNK CONVERTED");
+		self.sendAudio(data);
+
+	});
+
 	//STT Service
 
 
@@ -53,11 +67,11 @@ function W4R1(){
 	soundPortIn.onRead(function(msg){
 
 		//Receiving from Yarp Speech Sender
-		console.log("W4R1 received: ",n,msg.toSend().content.length,msg.toSend(),msg.toSend().content); 
+		//console.log("W4R1 received: ",n,msg.toSend().content.length,msg.toSend().content); 
+		console.log("W4R1 received: ",n,msg.toSend().content.length); 
 		n++;
-		//console.log("W4R1 received from yarp-speech-sender: ",msg.toSend().content[0]); n++;
 
-		self.sendAudio(msg.toSend().content);
+		self.convertAndSendAudio(msg.toSend().content);
 
 	});
 
@@ -76,8 +90,11 @@ function W4R1(){
 
 
 W4R1.prototype.sendAudio = function(buffer) {
-	//console.log("WR1 received: ",buffer);
 	this.stt.sendAudio(buffer);
+}
+
+W4R1.prototype.convertAndSendAudio = function(buffer) {
+	this.audioConverter.write(buffer);
 }
 
 W4R1.prototype.sendMessage = function(msg){
@@ -98,6 +115,7 @@ W4R1.prototype.handleCmdIn= function(cmd){
 	 * {
          * 	status: conv_start ! conv_end | turn_completed
 	 * 	notify: done | error
+	 *	results: {<parm>:<value>}
 	 * 	action: <action_name>
 	 *      action_params: { <param>:<value>... } 
          * }
@@ -129,12 +147,10 @@ function startNewConversation(){
 function onTurnCompleted(){
 }
 
+/*
 W4R1.prototype.connect = function() {
-	console.log("R1 connecting to W4R1");
-	Yarp.Network.connect('/r1/cmd.o','/w4r1/cmd.i');
-	Yarp.Network.connect('/w4r1/cmd.o','/r1/cmd.i');
-
 }
+*/
 
 
 module.exports = W4R1;
