@@ -37,6 +37,7 @@ var AssistantV1 = require('watson-developer-cloud/assistant/v1');
 //  password: 'YRWSxUmWmp2o', // replace with service password
 //  version: '2018-02-16'
 //});
+//var b = Yarp.Bottle();
 
 const conversation = new AssistantV1({
   username: process.env.ASSISTANT_USERNAME || '889ac465-58a9-4a37-8731-5c3e2954f822',

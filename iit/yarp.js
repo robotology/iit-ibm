@@ -1,5 +1,5 @@
 
-var _yarp = require('./build/Release/YarpJS'); 
+var _yarp = require('./build/Release/YarpJS');
 
 var yarp = new Object();
 
@@ -36,7 +36,7 @@ yarp.Bottle = function Bottle(_bottle) {
     _bottle._copy = _bottle.copy;
     _bottle.copy = function (obj) {
         if(_bottle.getObjType == obj.getObjType)
-            _bottle.copy(obj);
+            _bottle._copy(obj);
         else
             _bottle.fromString(obj.toString());
     }
@@ -54,7 +54,7 @@ yarp.Bottle = function Bottle(_bottle) {
 
 
 yarp.Image = function Image(_image) {
-    
+
     if(_image == undefined)
         var _image = _yarp.Image();
 
@@ -134,7 +134,7 @@ function _yarp_wrap_object(obj) {
             break;
         default:
             wrapped_obj = obj;
-    }    
+    }
 
     return wrapped_obj;
 }
@@ -156,7 +156,7 @@ yarp.Port = function Port(_port_type) {
     var port_name = undefined;
     var port_type = _port_type;
 
-    var _port; 
+    var _port;
 
     // create the port
     switch(port_type)
@@ -176,7 +176,7 @@ yarp.Port = function Port(_port_type) {
 
         default:
             console.log('Error! "' + port_type + '" is not a valid type!');
-    }    
+    }
 
 
 
@@ -217,7 +217,7 @@ yarp.Port = function Port(_port_type) {
 
     _port._open = _port.open;
     _port.open = function (_port_name) {
-        
+
         var isOpen = false;
         if(_internal_port_manager[_port_name] == undefined && _port._open(_port_name))
         {
@@ -241,7 +241,7 @@ yarp.Port = function Port(_port_type) {
             _internal_port_manager[port_name]=undefined;
             isClosed = true;
         }
-        
+
         port_name = undefined;
 
         return isClosed;
@@ -260,11 +260,11 @@ yarp.Port = function Port(_port_type) {
     {
         _port._write = _port.writeWithReply;
         _port.write = function(msg) {
-            
+
             if(msg != undefined)
             {
                 var b = new yarp.Bottle();
-                
+
                 if(b.getObjType == msg.getObjType)
                     b.copy(msg);
                 else
@@ -274,7 +274,7 @@ yarp.Port = function Port(_port_type) {
             _port._write(b);
         }
 
-    }   
+    }
     else
     {
         _port._write = _port.write;
@@ -290,16 +290,16 @@ yarp.Port = function Port(_port_type) {
 
     }
 
-    
+
     if(_port._reply == undefined)
         _port._reply = _port._write;
-    
+
     _port._reply = _port.reply;
     _port.reply = function(msg) {
         if(msg != undefined)
         {
             var b = new _yarp.Bottle();
-            
+
             if(b.getObjType == msg.getObjType)
                 b.copy(msg)
             else
@@ -337,7 +337,7 @@ yarp.portHandler = {
     },
 
     open:   function openPort(port_name,port_type) {
-        
+
         var port = undefined;
 
         if(port_name == undefined)
@@ -392,7 +392,7 @@ yarp.browserCommunicator = function (_io) {
             });
 
             if( port_type == 'rpc')
-            { 
+            {
                port.onReplyFromWrite(function (obj) {
                    io.emit('yarp ' + port_name + ' reply',obj.toSend());
                });
@@ -408,9 +408,9 @@ yarp.browserCommunicator = function (_io) {
         io.emit(port_name + 'disconnected');
     }
 
-    // initialization 
+    // initialization
     io.on('connection', function(socket){
-        
+
         console.log('connected');
 
         // Network commands
@@ -441,16 +441,16 @@ yarp.browserCommunicator = function (_io) {
             }
             else
                 port_name = port_data;
-                    
+
             port = open(port_name,port_type);
 
             if (port != undefined)
             {
                 // if a message  is received
-                socket.on('yarp ' + port_name + ' message', port.callback ); 
-                socket.on('yarp ' + port_name + ' reply', port.callback_reply ); 
+                socket.on('yarp ' + port_name + ' message', port.callback );
+                socket.on('yarp ' + port_name + ' reply', port.callback_reply );
 
-                
+
                 socket.emit('yarp ' + port_name + ' connection success');
             }
             else
@@ -462,7 +462,7 @@ yarp.browserCommunicator = function (_io) {
         socket.on('yarp close port',function(port_data){
 
             var port = yarp.portHandler.get(port_data.port_name);
-            
+
             if (port != undefined)
             {
                 socket.removeAllListeners('yarp ' + port_data.port_name + ' message');
@@ -471,7 +471,7 @@ yarp.browserCommunicator = function (_io) {
                 // close the port for good
                 if(!port_data.locally)
                     yarp.portHandler.close(port_data.port_name);
-            }    
+            }
 
             io.emit('yarp ' + port_data.port_name + 'disconnected');
         });
@@ -491,6 +491,3 @@ yarp.browserCommunicator = function (_io) {
 
 
 module.exports = yarp;
-
-
-
