@@ -43,10 +43,10 @@ Cedat85SpeechToTextService.prototype.connect = function(){
 
 	this.ws.on('message', function incoming(data) {
 		//CEDAT RESPONSE
-		console.log(data);
+		//console.log(data);
 		
 	  	var msg = JSON.parse(data);
-	  	var eventMsg = {stt_data:data};
+	  	var eventMsg = {stt_data:msg};
 
 		//handling cedat85 status
 	  	if(msg.status !== undefined){
@@ -59,11 +59,9 @@ Cedat85SpeechToTextService.prototype.connect = function(){
 		//handling transcripts
 		else if(msg.final !== undefined) {
 			if(msg.final == true){
-				eventMsg.transcript = msg.transcript;
+				eventMsg.transcript = msg.hypotheses[0].transcript; //extrats the best hypothesis here
 			} else {
-				//TODO extrat best hypothesis here
-				//eventMsg.transcript = msg....
-			
+				eventMsg.transcript = msg.transcript;
 			}
 			eventMsg.final = msg.final;
 			self.emit('transcript',eventMsg);

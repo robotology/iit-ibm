@@ -28,8 +28,12 @@ function W4R1(){
 
 	});
 	this.stt.on('transcript',(msg)=>{
-		console.log("WR1 received STT Transcript available: ",msg); 
-	
+		if(msg.final==true) {
+			console.log("WR1 received STT FINAL Transcript available: ",msg.transcript); 
+		}	
+		else { 
+			console.log("WR1 received STT PARTIAL Transcript: ",msg.transcript); 
+		}
 	});
 
 
