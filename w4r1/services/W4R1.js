@@ -77,9 +77,8 @@ function W4R1(){
 
 
 	cmdPortIn.onRead(function(msg){
-		console.log("RECEIVED COMMAND");
-		console.log("W4R1 command received: ",msg.toString());
-		self.handleCmdIn(JSON.parse(cmd));
+		console.log("W4R1 command received: ",msg.toSend().content[0]);
+		self.handleCmdIn(JSON.parse(msg.toSend().content));
 	});
 
 

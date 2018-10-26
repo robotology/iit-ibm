@@ -52,5 +52,15 @@ R1Client.prototype.testAudio = function() {
 			});
 }
 
+R1Client.prototype.testStartConversation = function() {
+	console.log("R1 Starting new conversation");
+	var msg = { 'status':'conv_start' };
+	var msgString = JSON.stringify(msg);
+	//TODO CONVERT THE TEXT HERE TO ALLOW YARP BOTTLE WORKING
+	console.log("sending",msgString);
+	this.cmdPortOut.write(msgString);
+}
+
+
 
 module.exports = R1Client;

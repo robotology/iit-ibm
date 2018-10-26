@@ -116,6 +116,9 @@ function R1_client_fromApp() {
 	console.log("Testing Audio");
     	r1Client.testAudio();
 
+//	console.log("Testing Start Conversation");
+//	r1Client.testStartConversation();
+	
 	//Test Assistant
 	//console.log("Testing Assitant");
 	//w4r1.sendMessage("vorrei prenotare una visita");
