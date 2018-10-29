@@ -116,8 +116,8 @@ function R1_client_fromApp() {
 	console.log("Testing Audio");
     	r1Client.testAudio();
 
-//	console.log("Testing Start Conversation");
-//	r1Client.testStartConversation();
+	console.log("Testing Start Conversation");
+	r1Client.testStartConversation();
 	
 	//Test Assistant
 	//console.log("Testing Assitant");

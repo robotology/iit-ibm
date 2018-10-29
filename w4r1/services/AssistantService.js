@@ -33,11 +33,10 @@ AssistantService.prototype.message = function(input, context, callback) {
 			  };
 	
 	return this.assistant.message(payload, function(err, data) {
-console.log("assistant response",err,data);
+console.log("AssistantService response",data," ERROR: ",err);
 		if (err) {
 			callback(err, data);
 		} else {
-console.log("assistant data");
 			callback(err, updateMessage(payload, data));
 		}
 

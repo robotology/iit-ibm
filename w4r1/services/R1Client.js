@@ -7,6 +7,7 @@
 
 //var Yarp= require('../yarp.js/yarp');
 var Yarp = require('YarpJS');
+var YarpUtils = require('../utils/YarpUtils.js');
 var fs = require('fs');
 var sleep = require('system-sleep');
 
@@ -55,10 +56,8 @@ R1Client.prototype.testAudio = function() {
 R1Client.prototype.testStartConversation = function() {
 	console.log("R1 Starting new conversation");
 	var msg = { 'status':'conv_start' };
-	var msgString = JSON.stringify(msg);
-	//TODO CONVERT THE TEXT HERE TO ALLOW YARP BOTTLE WORKING
-	console.log("sending",msgString);
-	this.cmdPortOut.write(msgString);
+	console.log("R1 sending: ",msg);
+	this.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
 }
 
 
