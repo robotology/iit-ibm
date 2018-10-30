@@ -8,6 +8,7 @@
 var Yarp = require('YarpJS');
 var YarpUtils = require('../utils/YarpUtils.js');
 var Cedat85SpeechToTextService = require('./Cedat85STTService');
+var TextToSpeechService = require('./TextToSpeechService');
 var AssistantService = require('./AssistantService');
 var AudioConverter = require('../utils/AudioConverter');
 
@@ -19,7 +20,7 @@ function W4R1(){
 
 	var self = this;
 
-	//STT Sevice
+	//STT Service
 	var stt = new Cedat85SpeechToTextService();
 	this.stt = stt;
 	//haldling STT Events
@@ -52,7 +53,8 @@ function W4R1(){
 	this.assistanContext = {};
 	
 
-	//STT Service
+	//TTS Service
+	this.tts = new TextToSpeechService();
 
 
 	//Yarp communication

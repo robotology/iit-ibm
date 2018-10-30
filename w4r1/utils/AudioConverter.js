@@ -23,15 +23,30 @@ function AudioConverter(){
 	}
 
 	//SOX conversoin settings
-	var command = SoxCommand();
-	command.input(this.inStream)
-  	 .inputSampleRate(16000)
+	this.command = SoxCommand();
+	this.command.input(this.inStream);
+	this.command.output(this.outStream);
+
+	_init_r12w4r1(this.command);
+
+	//logging SOX error
+	this.command.on('error', function(err, stdout, stderr) {
+  		console.log('Cannot process audio: ' + err.message);
+  		console.log('Sox Command Stdout: ', stdout);
+		console.log('Sox Command Stderr: ', stderr)
+	});
+	
+	//Startig SOX converter (Spawn process)
+	this.command.run();
+}
+
+function _init_r12w4r1(command){
+	command.inputSampleRate(16000)
   	 .inputEncoding('signed')
   	 .inputBits(16)
   	 .inputChannels(8)
   	 .inputFileType('raw');
-	command.output(this.outStream)
-  	 .outputSampleRate(16000)
+  	command.outputSampleRate(16000)
   	 .outputEncoding('signed')
   	 .outputBits(16)
  	  // .outputChannels(1)
@@ -42,17 +57,12 @@ function AudioConverter(){
 	 //selecting only meaningufull channels
 	 //(mixing empy ones causes the volume to be lowered)
 	 //during test channes 1 and 2 apperas in position 7 end 8. 
-
-	//ogging SOX error
-	command.on('error', function(err, stdout, stderr) {
-  		console.log('Cannot process audio: ' + err.message);
-  		console.log('Sox Command Stdout: ', stdout);
-		console.log('Sox Command Stderr: ', stderr)
-	});
-	
-	//Startig SOX converter (Spawn process)
-	command.run();
 }
+
+function _init_w4r12r1(command){
+
+}
+
 
 AudioConverter.prototype.__proto__ = EventEmitter.EventEmitter.prototype; //inheredits EventEmitter functions
 

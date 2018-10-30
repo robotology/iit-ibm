@@ -64,15 +64,6 @@ app.get('/api/synthesize', function (req, res) {
 
 });
 
-/* OLD STUFF FOR TESTS 
-app.get('/api/test',function(req,res){ r1Client.testAudio(); res.send("OK"); });
-
-app.get('/api/test_stt', function (req, res) {
-	var stt = new Cedat85SpeechToTextService();
-	stt.transcribeFile(null);
-	//res.send("OK");
-});
-*/
 
 /**********************************/
 /*********** FUNCTIONS ************/
