@@ -103,16 +103,32 @@ function R1_client_fromApp() {
 	var r1Client = new R1Client();
 	//Connection to W4R1
    	r1Client.connect();
-    	
-	console.log("Testing Audio");
-    	r1Client.testAudio();
+    	console.log("---------------------------------------------------");
+	sleep(3000);
+	
 
 	console.log("Testing Start Conversation");
 	r1Client.testStartConversation();
+	sleep(5000);	
+    	console.log("---------------------------------------------------");
 	
 	//Test Assistant
-	//console.log("Testing Assitant");
-	//w4r1.sendMessage("vorrei prenotare una visita");
+	console.log("Testing Assitant");
+	w4r1.sendMessage("vorrei prenotare una visita");
+	sleep(5000);	
+    	console.log("---------------------------------------------------");
+
+	//Test end turn
+	console.log("Testing End turn");
+	r1Client.testNotifyTunrCompleted();
+	sleep(5000);
+    	console.log("---------------------------------------------------");
+	
+	console.log("Testing Audio");
+	r1Client.testAudio();
+    	console.log("---------------------------------------------------");
+
+sleep(5000);
 
 }
 

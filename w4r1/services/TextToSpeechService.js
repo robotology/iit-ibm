@@ -26,18 +26,18 @@ if (process.env.TEXT_TO_SPEECH_IAM_APIKEY && process.env.TEXT_TO_SPEECH_IAM_APIK
 /**
  * Pipe the synthesize method
  */
-TextToSpeechService.prototype.synthesize = function(text,res) {
+TextToSpeechService.prototype.synthesize = function(text,res,download) {
 	
 	var synthesizeParams = {
 			  text: text,
 			  accept: 'audio/wav',
 			  voice: 'it-IT_FrancescaVoice',
-			  donwload : false
+			  donwload : download
 			};
-  const download = synthesizeParams.donwload;
+  const _download = synthesizeParams.donwload;
   const transcript = textToSpeech.synthesize(synthesizeParams);
   transcript.on('response', (response) => {
-    if (download){
+    if (_download){
       response.headers['content-disposition'] = `attachment; filename=transcript.${getFileExtension(synthesizeParams.accept)}`;
     }
   });
@@ -46,6 +46,27 @@ TextToSpeechService.prototype.synthesize = function(text,res) {
 	  return res;
   });
   transcript.pipe(res);
+};
+
+
+TextToSpeechService.prototype.stream = function(text,outputStream,errorCalback) {
+	var synthesizeParams = {
+		  text: text,
+		  accept: 'audio/wav',
+		  voice: 'it-IT_FrancescaVoice',
+		  donwload : false
+		};
+
+  const transcript = textToSpeech.synthesize(synthesizeParams);
+  transcript.on('response', (response) => {
+  });
+  transcript.on('error', function(error){
+	console.log("TTS Error",error);
+	errorCalback(error);
+  });
+  transcript.pipe(outputStream);  
+	//TODO Change to avoid closing output stream
+	//TODO add a end treanscription callback or event.
 };
 
 

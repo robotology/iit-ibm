@@ -21,6 +21,12 @@ function R1Client(){
 	this.cmdPortIn = new Yarp.Port('bottle');
 	this.soundPortOut = new Yarp.Port('sound');
 	this.soundPortOut.setStrict(true);
+
+  	this.cmdPortIn.onRead(function(msg){
+                var payload = msg.toSend().content[0];
+                payload = YarpUtils.decodeBottleJson(payload);
+                console.log("R1 command received: ",payload);
+        });
 }
 
 
@@ -60,6 +66,10 @@ R1Client.prototype.testStartConversation = function() {
 	this.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
 }
 
-
+R1Client.prototype.testNotifyTunrCompleted = function(){
+	console.log("R1 Sending turn completed notification");
+	var msg = { status : "turn_completed"};
+	this.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
+}
 
 module.exports = R1Client;
