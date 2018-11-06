@@ -41,6 +41,7 @@ R1Client.prototype.connect = function() {
 	this.cmdPortOut.open('/r1/cmd.o');
 	this.cmdPortIn.open('/r1/cmd.i');
 	this.soundPortOut.open('/r1/sound.o');
+	this.soundPortIn.open('/r1/sound.i');
 	//connecting
 	Yarp.Network.connect('/r1/sound.o','/w4r1/sound.i');
         Yarp.Network.connect('/r1/cmd.o','/w4r1/cmd.i');
