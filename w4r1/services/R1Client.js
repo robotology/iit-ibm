@@ -21,6 +21,11 @@ function R1Client(){
 	this.cmdPortIn = new Yarp.Port('bottle');
 	this.soundPortOut = new Yarp.Port('sound');
 	this.soundPortOut.setStrict(true);
+	this.soundPortIn = new Yarp.Port('sound');
+	this.soundPortIn.onRead(function(msg){
+              //  var payload = msg.toSend().content;
+                console.log("R1 sound received: ",msg);
+        });
 
   	this.cmdPortIn.onRead(function(msg){
                 var payload = msg.toSend().content[0];
@@ -40,6 +45,7 @@ R1Client.prototype.connect = function() {
 	Yarp.Network.connect('/r1/sound.o','/w4r1/sound.i');
         Yarp.Network.connect('/r1/cmd.o','/w4r1/cmd.i');
         Yarp.Network.connect('/w4r1/cmd.o','/r1/cmd.i');
+	Yarp.Network.connect('/w4r1/sound.o','/r1/sound.i');
 }
 
 

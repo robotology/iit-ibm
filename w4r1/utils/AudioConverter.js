@@ -6,10 +6,11 @@ var SoxCommand = require('sox-audio');
  * @class
  * @classdesc Utility class for converting audio
  */
-function AudioConverter(){
+function AudioConverter(config){
+
 	var self = this;
 	
-	//input strams to read incomung buffers
+	//input strams to read incoming buffers
         this.inStream = new Stream();
         this.inStream.readable = true;
 
@@ -27,8 +28,13 @@ function AudioConverter(){
 	this.command.input(this.inStream);
 	this.command.output(this.outStream);
 
-	_init_r12w4r1(this.command);
-
+	if(config == "r12w4r1")
+		_init_r12w4r1(this.command);
+	else {
+		if(config == "w4r12r1")
+		_init_w4r12r1(this.command);
+	}
+	
 	//logging SOX error
 	this.command.on('error', function(err, stdout, stderr) {
   		console.log('Cannot process audio: ' + err.message);
@@ -60,7 +66,22 @@ function _init_r12w4r1(command){
 }
 
 function _init_w4r12r1(command){
-
+        command.inputSampleRate(16000)
+         .inputEncoding('signed')
+         .inputBits(16)
+         .inputChannels(1)
+         .inputFileType('raw');
+        command.outputSampleRate(16000)
+         .outputEncoding('signed')
+         .outputBits(16)
+          // .outputChannels(1)
+         .outputFileType('wav');
+     //    command.addEffect('remix','7,8');
+         //NOTE:
+         //selects usefull audio channells
+         //selecting only meaningufull channels
+         //(mixing empy ones causes the volume to be lowered)
+         //during test channes 1 and 2 apperas in position 7 end 8.
 }
 
 

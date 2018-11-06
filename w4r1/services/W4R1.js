@@ -6,6 +6,7 @@
 'use strict';
 
 var Yarp = require('YarpJS');
+var Stream = require('stream');
 var YarpUtils = require('../utils/YarpUtils.js');
 var Cedat85SpeechToTextService = require('./Cedat85STTService');
 var TextToSpeechService = require('./TextToSpeechService');
@@ -41,12 +42,31 @@ function W4R1(){
 	});
 
 	//Audio Converter (IN)	
-	this.audioConverter = new AudioConverter();
+	this.audioConverter = new AudioConverter("r12w4r1");
 	this.audioConverter.on('data',function(data){
 		console.log("CHUNK CONVERTED");
 		self.sendAudio(data);
 
 	});
+
+
+	//Audio Converter (OUT)	
+//HERE
+      //output stream waiting for converted bufffers
+        this.sttOutStream = new Stream();
+        this.sttOutStream.writable = true;
+        this.sttOutStream.write = function(chunk){
+                //emitting 'data' event upon conversion
+                console.log("Sending to R1: ",chunk.length,chunk);
+ 		handleSendAudio(self,chunk);   //TODO CONVERT HERE IF NCECESSARY
+        }
+
+//	this.audioConverterOut = new AudioConverter("w4r12r1");
+//	this.audioConverterOut.on('data',function(data){
+//                console.log("CHUNK CONVERTED");
+//                self.haldleSendAudio(self,data);
+//        });
+
 
 
 	//Assistant Service
@@ -165,6 +185,12 @@ function handleErrorReply(self,err){
 
 function handleVoiceReply(self,text){
 	console.log("W4R1: reply text",text);
+	self.tts.stream(text,self.sttOutStream,null);
+}
+
+function handleSendAudio(self,chunk){
+	console.log("SENDINGGGGGGGGGGGGGGGGGGGGGGGGG");
+	self.soundPortOut.write(chunk);
 }
 
 function handleActionsReply(self,context){
