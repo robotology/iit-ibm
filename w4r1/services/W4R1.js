@@ -61,6 +61,9 @@ function W4R1(){
 // 		handleSendAudio(self,chunk);   //TODO CONVERT HERE IF NCECESSARY
 		self.audioConverterOut.write(chunk);
         }
+this.sttOutStream.end = function(){
+console.log("EEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNNNNNNNNNDDDDDDDDDDDDDDD");
+}
 
 	this.audioConverterOut = new AudioConverter("w4r12r1");
 	this.audioConverterOut.on('data',function(data){

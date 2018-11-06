@@ -56,10 +56,13 @@ function AudioConverter(config){
 	});
 	
 	//Startig SOX converter (Spawn process)
+
+/* example to add arguments to sox 
 this.command.__getArguments = this.command._getArguments;
 var c = this.command;
 this.command._getArguments = function() {return ['--buffer','1024'].concat(c.__getArguments());};
 console.log("AAAAAAAAAAA: ",this.command._getArguments());
+*/
 	this.command.run();
 }
 
