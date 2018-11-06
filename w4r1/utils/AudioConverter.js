@@ -27,18 +27,28 @@ function AudioConverter(config){
 	//SOX conversoin settings
 	this.command = SoxCommand();
 	this.command.input(this.inStream);
-	//this.command.output(this.outStream);
-	this.command.output(this.chunker);
-	this.chunker.pipe(this.outStream);
-	
 
-	if(config == "r12w4r1")
+
+
+
+	//TODO GESTIRE MEGLIO CON LA CONFIGURAZIONE
+	//this.command.output(this.outStream);
+	//this.command.output(this.chunker);
+	//this.chunker.pipe(this.outStream);
+	if(config == "r12w4r1"){
+		this.command.output(this.outStream);
 		_init_r12w4r1(this.command);
-	else {
-		if(config == "w4r12r1")
-		_init_w4r12r1(this.command);
 	}
-	
+	else {
+		if(config == "w4r12r1"){
+			this.command.output(this.chunker);
+			this.chunker.pipe(this.outStream);
+			_init_w4r12r1(this.command);
+		}
+	}
+	else {} //TODO handle error	
+
+
 	//logging SOX error
 	this.command.on('error', function(err, stdout, stderr) {
   		console.log('Cannot process audio: ' + err.message);
