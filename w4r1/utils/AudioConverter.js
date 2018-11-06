@@ -1,13 +1,14 @@
 var EventEmitter = require('events');
 var Stream = require('stream');
 var SoxCommand = require('sox-audio');
+var StreamChunker = require('./StreamChunker');
 
 /**
  * @class
  * @classdesc Utility class for converting audio
  */
 function AudioConverter(config){
-
+	this.chunker = new StreamChunker();
 	var self = this;
 	
 	//input strams to read incoming buffers
@@ -26,7 +27,10 @@ function AudioConverter(config){
 	//SOX conversoin settings
 	this.command = SoxCommand();
 	this.command.input(this.inStream);
-	this.command.output(this.outStream);
+	//this.command.output(this.outStream);
+	this.command.output(this.chunker);
+	this.chunker.pipe(this.outStream);
+	
 
 	if(config == "r12w4r1")
 		_init_r12w4r1(this.command);
@@ -43,10 +47,15 @@ function AudioConverter(config){
 	});
 	
 	//Startig SOX converter (Spawn process)
+this.command.__getArguments = this.command._getArguments;
+var c = this.command;
+this.command._getArguments = function() {return ['--buffer','1024'].concat(c.__getArguments());};
+console.log("AAAAAAAAAAA: ",this.command._getArguments());
 	this.command.run();
 }
 
 function _init_r12w4r1(command){
+	this.buferSize=-1;
 	command.inputSampleRate(16000)
   	 .inputEncoding('signed')
   	 .inputBits(16)
@@ -66,6 +75,10 @@ function _init_r12w4r1(command){
 }
 
 function _init_w4r12r1(command){
+//	this.bufferSize = 4096;
+//	this._buffer = new Buffer(bufferSize);
+//	this._tmpBuff = new Buffer();
+//	this.position = 0;
         command.inputSampleRate(16000)
          .inputEncoding('signed')
          .inputBits(16)
@@ -88,9 +101,15 @@ function _init_w4r12r1(command){
 AudioConverter.prototype.__proto__ = EventEmitter.EventEmitter.prototype; //inheredits EventEmitter functions
 
 AudioConverter.prototype.write = function(buffer){
-	//console.log('Converting buffer');
-	this.inStream.emit('data',buffer);
+//	if(this.bufferSize<0){
+		this.inStream.emit('data',buffer);
+//	} else {
+		
+		
+//	}
 }
+
+
 
 
 module.exports = AudioConverter;

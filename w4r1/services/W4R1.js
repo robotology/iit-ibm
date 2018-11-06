@@ -58,14 +58,15 @@ function W4R1(){
         this.sttOutStream.write = function(chunk){
                 //emitting 'data' event upon conversion
                 console.log("Sending to R1: ",chunk.length,chunk);
- 		handleSendAudio(self,chunk);   //TODO CONVERT HERE IF NCECESSARY
+// 		handleSendAudio(self,chunk);   //TODO CONVERT HERE IF NCECESSARY
+		self.audioConverterOut.write(chunk);
         }
 
-//	this.audioConverterOut = new AudioConverter("w4r12r1");
-//	this.audioConverterOut.on('data',function(data){
-//                console.log("CHUNK CONVERTED");
-//                self.haldleSendAudio(self,data);
-//        });
+	this.audioConverterOut = new AudioConverter("w4r12r1");
+	this.audioConverterOut.on('data',function(data){
+                console.log("CHUNK CONVERTED");
+                handleSendAudio(self,data);
+        });
 
 
 
@@ -141,6 +142,10 @@ W4R1.prototype.sendMessage = function(msg){
 	}); 
 }
 
+W4R1.prototype.streamReply = function(text) {
+	console.log("W4R1 Streaming: ",text);
+	this.tts.stream(text,this.sttOutStream,null);
+}
 
 function handleAssistantReply(self,err,data){
 		//ERROR
@@ -185,11 +190,12 @@ function handleErrorReply(self,err){
 
 function handleVoiceReply(self,text){
 	console.log("W4R1: reply text",text);
-	self.tts.stream(text,self.sttOutStream,null);
+//	self.tts.stream(text,self.sttOutStream,null);
+	self.streamReply(text);
 }
 
 function handleSendAudio(self,chunk){
-	console.log("SENDINGGGGGGGGGGGGGGGGGGGGGGGGG");
+	console.log("W4R1: sending audio: ",chunk.length);
 	self.soundPortOut.write(chunk);
 }
 

@@ -22,9 +22,10 @@ function R1Client(){
 	this.soundPortOut = new Yarp.Port('sound');
 	this.soundPortOut.setStrict(true);
 	this.soundPortIn = new Yarp.Port('sound');
+	this.soundPortIn.setStrict(true);
 	this.soundPortIn.onRead(function(msg){
               //  var payload = msg.toSend().content;
-                console.log("R1 sound received: ",msg);
+                console.log("R1 received sound: ",msg.toSend().content.length);
         });
 
   	this.cmdPortIn.onRead(function(msg){
