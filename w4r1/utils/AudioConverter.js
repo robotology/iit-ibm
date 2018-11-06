@@ -45,9 +45,8 @@ function AudioConverter(config){
 			this.chunker.pipe(this.outStream);
 			_init_w4r12r1(this.command);
 		}
+		else {} //TODO handle error	
 	}
-	else {} //TODO handle error	
-
 
 	//logging SOX error
 	this.command.on('error', function(err, stdout, stderr) {
