@@ -16,6 +16,7 @@ var sleep = require('system-sleep');
  * @classdesc R1Client, a test client simulating R1
  */
 function R1Client(){
+	var self = this;
 	//creating ports
 	this.cmdPortOut = new Yarp.Port('bottle');
 	this.cmdPortIn = new Yarp.Port('bottle');
@@ -24,8 +25,9 @@ function R1Client(){
 	this.soundPortIn = new Yarp.Port('sound');
 	this.soundPortIn.setStrict(true);
 	this.soundPortIn.onRead(function(msg){
-              //  var payload = msg.toSend().content;
-                console.log("R1 received sound: ",msg.toSend().content.length);
+              	var payload = msg.toSend().content;
+                console.log("R1 received sound: ",payload.length,payload);
+		self.fws.write(payload);
         });
 
   	this.cmdPortIn.onRead(function(msg){
@@ -33,6 +35,10 @@ function R1Client(){
                 payload = YarpUtils.decodeBottleJson(payload);
                 console.log("R1 command received: ",payload);
         });
+
+	this.fws     = fs.createWriteStream("./resources/tts.wav");
+	this.fws.on('error',function(err){console.log(err);});
+
 }
 
 

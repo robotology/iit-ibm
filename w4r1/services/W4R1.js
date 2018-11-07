@@ -1,4 +1,4 @@
-/**
+/**	
  * Copyright 2018 IBM Corp. All Rights Reserved.
  *
  */
@@ -12,19 +12,19 @@ var Cedat85SpeechToTextService = require('./Cedat85STTService');
 var TextToSpeechService = require('./TextToSpeechService');
 var AssistantService = require('./AssistantService');
 var AudioConverter = require('../utils/AudioConverter');
+var sleep = require('system-sleep');
 
 /**
  * @class
  * @classdesc W4R1 - Watson For R1
  */
 function W4R1(){
-
 	var self = this;
-	
 	this.listen = false;
+	//this.firstOutAudio = true;	//TEMPORANEO
+
 	//STT Service
-	var stt = new Cedat85SpeechToTextService();
-	this.stt = stt;
+	this.stt = new Cedat85SpeechToTextService();
 	//haldling STT Events
 	this.stt.on('ready',(msg)=>{
 		console.log("W4R1 received STT Ready Event: ",msg);
@@ -33,45 +33,34 @@ function W4R1(){
 	this.stt.on('transcript',(msg)=>{
 		if(msg.final==true) {
 			console.log("WR1 received STT FINAL Transcript available: ",msg.transcript); 
-			handleSttiFinalTranscript(self,msg.transcript); 
+			handleSttFinalTranscript(self,msg.transcript); 
 		}	
 		else { 
 			console.log("WR1 received STT PARTIAL Transcript: ",msg.transcript);
-			handleSttiPartialTranscript(self,msg.transcript); 
+			handleSttPartialTranscript(self,msg.transcript); 
 		}
 	});
 
 	//Audio Converter (IN)	
-	this.audioConverter = new AudioConverter("r12w4r1");
-	this.audioConverter.on('data',function(data){
-		console.log("CHUNK CONVERTED");
-		self.sendAudio(data);
+	_initAudioConverterIn(this);
 
-	});
+	//Audio Converter (OUT) will be initialized just before sending audio	
 
-
-	//Audio Converter (OUT)	
-//HERE
-      //output stream waiting for converted bufffers
+     	//output stream waiting for converted bufffers
         this.sttOutStream = new Stream();
         this.sttOutStream.writable = true;
         this.sttOutStream.write = function(chunk){
                 //emitting 'data' event upon conversion
-                console.log("Sending to R1: ",chunk.length,chunk);
-// 		handleSendAudio(self,chunk);   //TODO CONVERT HERE IF NCECESSARY
+                console.log("W4R1 received stt: ",chunk.length,chunk);
 		self.audioConverterOut.write(chunk);
         }
-this.sttOutStream.end = function(){
-console.log("EEEEEEEEEEEEEEEEEEEEEENNNNNNNNNNNNNNNNNNDDDDDDDDDDDDDDD");
-}
 
-	this.audioConverterOut = new AudioConverter("w4r12r1");
-	this.audioConverterOut.on('data',function(data){
-                console.log("CHUNK CONVERTED");
-                handleSendAudio(self,data);
-        });
+	this.sttOutStream.end = function(){
+		console.log("W4R1: END STREAMING");
+		self.audioConverterOut.end();
+	}
 
-
+//	_initAudioConverterOut(this);
 
 	//Assistant Service
 	this.assistant = new AssistantService();
@@ -132,7 +121,7 @@ W4R1.prototype.sendAudio = function(buffer) {
 }
 
 W4R1.prototype.convertAndSendAudio = function(buffer) {
-	this.audioConverter.write(buffer);
+	this.audioConverterIn.write(buffer);
 }
 
 W4R1.prototype.sendMessage = function(msg){
@@ -193,12 +182,24 @@ function handleErrorReply(self,err){
 
 function handleVoiceReply(self,text){
 	console.log("W4R1: reply text",text);
-//	self.tts.stream(text,self.sttOutStream,null);
-	self.streamReply(text);
+	if(text.length>0) {
+		_initAudioConverterOut(self);
+		self.streamReply(text);
+	}
+	else {
+		//TODO simulate end here
+	}
+	
 }
 
 function handleSendAudio(self,chunk){
-	console.log("W4R1: sending audio: ",chunk.length);
+//	console.log("W4R1: sending audio: ",chunk.length);
+/*	if(self.firstOutAudio==true){
+	   self.firstOutAudio=false;
+		console.log("W4R1 Sending aging FIRST chunk");
+		self.soundPortOut.write(chunk);
+	}
+*/	sleep(5);
 	self.soundPortOut.write(chunk);
 }
 
@@ -206,13 +207,13 @@ function handleActionsReply(self,context){
 
 }
 
-function handleSttiFinalTranscript(self,text){
+function handleSttFinalTranscript(self,text){
 	if(!self.listen) return;
 	stopListening(self);
 	self.sendMessage(text); 
 }
 
-function handleSttiPartialTranscript(self,text){
+function handleSttPartialTranscript(self,text){
 	//NOOP
 }
 
@@ -301,6 +302,24 @@ function _notifyListening(self){
 W4R1.prototype.connect = function() {
 }
 */
+
+ function _initAudioConverterIn(self){
+	self.audioConverterIn = new AudioConverter("r12w4r1");
+	self.audioConverterIn.on('data',function(data){
+		console.log("W4R1 converted: ",data.length,data);
+		self.sendAudio(data);
+
+	});
+}
+
+function _initAudioConverterOut(self){
+	self.audioConverterOut = new AudioConverter("w4r12r1");
+	self.audioConverterOut.on('data',function(data){
+		console.log("W4R1 converted: ",data.length,data);
+                handleSendAudio(self,data);
+        });
+}
+
 
 
 module.exports = W4R1;
