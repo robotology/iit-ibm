@@ -20,7 +20,7 @@ function AudioConverter(config){
 	this.outStream.writable = true;
 	this.outStream.write = function(chunk){
  		//emitting 'data' event upon conversion
-        	console.log("Converted chunk: ",chunk.length,chunk);
+        	//console.log("Converted chunk: ",chunk.length,chunk);
 		self.emit('data',chunk);
 	}
 
@@ -91,13 +91,13 @@ function _init_w4r12r1(command){
 //	this._buffer = new Buffer(bufferSize);
 //	this._tmpBuff = new Buffer();
 //	this.position = 0;
-        command.inputSampleRate(16000)
+        command.inputSampleRate(22050)
          .inputEncoding('signed')
          .inputBits(16)
          .inputChannels(1)
          .inputFileType('raw');
         command.outputSampleRate(16000)
-         .outputEncoding('signed')
+         .outputEncoding('unsigned')
          .outputBits(16)
           // .outputChannels(1)
          .outputFileType('wav');
@@ -121,7 +121,9 @@ AudioConverter.prototype.write = function(buffer){
 //	}
 }
 
-
+AudioConverter.prototype.end = function(){
+	this.inStream.emit('end');
+};
 
 
 module.exports = AudioConverter;
