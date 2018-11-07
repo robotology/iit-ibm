@@ -117,10 +117,16 @@ function R1_client_fromApp() {
     	console.log("---------------------------------------------------");
 	sleep(3000);
 
-
+	//Starting conversation and receiving welcome message
 	console.log("Testing Start Conversation");
 	r1Client.testStartConversation();
 	sleep(5000);
+    	console.log("---------------------------------------------------");
+
+	//Test end turn
+	console.log("Notify end turn");
+	r1Client.testNotifyTunrCompleted();
+	sleep(3000);
     	console.log("---------------------------------------------------");
 
 	//Test Assistant
@@ -132,9 +138,10 @@ function R1_client_fromApp() {
 	//Test end turn
 	console.log("Testing End turn");
 	r1Client.testNotifyTunrCompleted();
-	sleep(5000);
+	sleep(3000);
     	console.log("---------------------------------------------------");
 
+	//Test Assistant and STT
 	console.log("Testing Audio");
 	r1Client.testAudio();
     	console.log("---------------------------------------------------");
