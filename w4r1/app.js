@@ -1,8 +1,8 @@
 /**
  * W4R1 - Watson For R1.
- * 
+ *
  * @author IIT, IBM
- * 
+ *
  */
 
 'use strict';
@@ -12,29 +12,40 @@ var bodyParser = require('body-parser'); // parser for post requests
 var sleep = require('system-sleep');
 
 
- 
+
 var app = express();
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json());
 
+/**********************************/
+/********* TEST SPEAKER **********/
+/**********************************/
+
+console.log("Test Speaker");
+var Speaker = require('./services/speaker_test');
+var speaker = new Speaker();
+
 
 /**********************************/
 /********* WATSON FOR R1 **********/
 /**********************************/
-console.log("Starting W4R1");
-var W4R1 = require('./services/W4R1');
-var w4r1 = new W4R1();
-//sleeps a bit waitng W4R1 to connect to STT (To be optimized)
-console.log("sleeping");
-sleep(1000);
-console.log("W4R1 Ready.");
+
+//console.log("Starting W4R1");
+//var W4R1 = require('./services/W4R1');
+//var w4r1 = new W4R1();
+////sleeps a bit waitng W4R1 to connect to STT (To be optimized)
+//console.log("sleeping");
+//sleep(1000);
+//console.log("W4R1 Ready.");
+
 
 
 /***********************************/
 /******** TEST CLIENT **************/
 /***********************************/
-R1_client_fromApp(); //Only for testing
+
+//R1_client_fromApp(); //Only for testing
 
 
 
@@ -97,7 +108,7 @@ function updateResponse(input, response) {
 /********* R1 TEST CLIENT *********/
 /**********************************/
 function R1_client_fromApp() {
-	
+
 	console.log("Starting R1 Client");
 	var R1Client = require('./services/R1Client');
 	var r1Client = new R1Client();
@@ -105,17 +116,17 @@ function R1_client_fromApp() {
    	r1Client.connect();
     	console.log("---------------------------------------------------");
 	sleep(3000);
-	
+
 
 	console.log("Testing Start Conversation");
 	r1Client.testStartConversation();
-	sleep(5000);	
+	sleep(5000);
     	console.log("---------------------------------------------------");
-	
+
 	//Test Assistant
 	console.log("Testing Assitant");
 	w4r1.sendMessage("vorrei prenotare una visita");
-	sleep(5000);	
+	sleep(5000);
     	console.log("---------------------------------------------------");
 
 	//Test end turn
@@ -123,7 +134,7 @@ function R1_client_fromApp() {
 	r1Client.testNotifyTunrCompleted();
 	sleep(5000);
     	console.log("---------------------------------------------------");
-	
+
 	console.log("Testing Audio");
 	r1Client.testAudio();
     	console.log("---------------------------------------------------");
