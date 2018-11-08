@@ -22,22 +22,22 @@ app.use(bodyParser.json());
 /********* TEST SPEAKER **********/
 /**********************************/
 
-console.log("Test Speaker");
-var Speaker = require('./services/speaker_test');
-var speaker = new Speaker();
+//console.log("Test Speaker");
+//var Speaker = require('./services/speaker_test');
+//var speaker = new Speaker();
 
 
 /**********************************/
 /********* WATSON FOR R1 **********/
 /**********************************/
 
-//console.log("Starting W4R1");
-//var W4R1 = require('./services/W4R1');
-//var w4r1 = new W4R1();
-////sleeps a bit waitng W4R1 to connect to STT (To be optimized)
-//console.log("sleeping");
-//sleep(1000);
-//console.log("W4R1 Ready.");
+console.log("Starting W4R1");
+var W4R1 = require('./services/W4R1');
+var w4r1 = new W4R1();
+//sleeps a bit waitng W4R1 to connect to STT (To be optimized)
+console.log("sleeping");
+sleep(1000);
+console.log("W4R1 Ready.");
 
 
 
@@ -45,7 +45,7 @@ var speaker = new Speaker();
 /******** TEST CLIENT **************/
 /***********************************/
 
-//R1_client_fromApp(); //Only for testing
+R1_client_fromApp(); //Only for testing
 
 
 

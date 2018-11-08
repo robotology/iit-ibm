@@ -1,4 +1,4 @@
-/**	
+/**
  * Copyright 2018 IBM Corp. All Rights Reserved.
  *
  */
@@ -28,32 +28,30 @@ function W4R1(){
 	//haldling STT Events
 	this.stt.on('ready',(msg)=>{
 		console.log("W4R1 received STT Ready Event: ",msg);
-
 	});
 	this.stt.on('transcript',(msg)=>{
 		if(msg.final==true) {
-			console.log("WR1 received STT FINAL Transcript available: ",msg.transcript); 
-			handleSttFinalTranscript(self,msg.transcript); 
-		}	
-		else { 
+			console.log("WR1 received STT FINAL Transcript available: ",msg.transcript);
+			handleSttFinalTranscript(self,msg.transcript);
+		}
+		else {
 			console.log("WR1 received STT PARTIAL Transcript: ",msg.transcript);
-			handleSttPartialTranscript(self,msg.transcript); 
+			handleSttPartialTranscript(self,msg.transcript);
 		}
 	});
 
-	//Audio Converter (IN)	
+	//Audio Converter (IN)
 	_initAudioConverterIn(this);
 
-	//Audio Converter (OUT) will be initialized just before sending audio	
-
-     	//output stream waiting for converted bufffers
-        this.sttOutStream = new Stream();
-        this.sttOutStream.writable = true;
-        this.sttOutStream.write = function(chunk){
-                //emitting 'data' event upon conversion
-                console.log("W4R1 received stt: ",chunk.length,chunk);
-		self.audioConverterOut.write(chunk);
-        }
+	//Audio Converter (OUT) will be initialized just before sending audio
+    //output stream waiting for converted bufffers
+    this.sttOutStream = new Stream();
+    this.sttOutStream.writable = true;
+    this.sttOutStream.write = function(chunk){
+            //emitting 'data' event upon conversion
+            console.log("W4R1 received stt: ",chunk.length,chunk);
+			self.audioConverterOut.write(chunk);
+    }
 
 	this.sttOutStream.end = function(){
 		console.log("W4R1: END STREAMING");
@@ -65,7 +63,7 @@ function W4R1(){
 	//Assistant Service
 	this.assistant = new AssistantService();
 	this.assistanContext = {};
-	
+
 
 	//TTS Service
 	this.tts = new TextToSpeechService();
@@ -92,8 +90,8 @@ function W4R1(){
 	soundPortIn.onRead(function(msg){
 
 		//Receiving from Yarp Speech Sender
-		//console.log("W4R1 received: ",n,msg.toSend().content.length,msg.toSend().content); 
-		console.log("W4R1 received: ",n,msg.toSend().content.length); 
+		//console.log("W4R1 received: ",n,msg.toSend().content.length,msg.toSend().content);
+		console.log("W4R1 received: ",n,msg.toSend().content.length);
 		n++;
 
 		self.convertAndSendAudio(msg.toSend().content);
@@ -130,8 +128,8 @@ W4R1.prototype.sendMessage = function(msg){
 	var self = this;
 	this.assistant.message(input,this.context,function(err,data){
 		console.log("W4R1 assistant reply received");//,data);
-		handleAssistantReply(self,err,data);	
-	}); 
+		handleAssistantReply(self,err,data);
+	});
 }
 
 W4R1.prototype.streamReply = function(text) {
@@ -142,19 +140,19 @@ W4R1.prototype.streamReply = function(text) {
 function handleAssistantReply(self,err,data){
 		//ERROR
 		if(err){
-			handleErrorReply(self,err);	
+			handleErrorReply(self,err);
 			return;
 		}
-		//REPLY	
+		//REPLY
 		var outputText = data.output.text.join(' ');
 		_cleanContextReply(data.context);
 		self.context = data.context;
 		//Conversation Actions handler placeholder.
 		//performAction(self,self.context,callback);.
-		
+
 		//ACTIONS AND BEHAVIOUR REPLY
 		handleReply(self,outputText,self.context);
-} 
+}
 
 function _cleanContextReply(context){
 	if(context.R1) delete context.R1;
@@ -171,7 +169,7 @@ function _prepareContext(cmd,context){
 
 
 function handleReply(self,outputText,context){  //TODO prestare attenzione a come richiedere/gestire la notifica di fine turno
-	handleActionsReply(self,context);		
+	handleActionsReply(self,context);
 	handleVoiceReply(self,outputText);
 }
 
@@ -189,10 +187,10 @@ function handleVoiceReply(self,text){
 	else {
 		//TODO simulate end here
 	}
-	
+
 }
 
-function handleSendAudio(self,chunk){
+function handle(self,chunk){
 //	console.log("W4R1: sending audio: ",chunk.length);
 /*	if(self.firstOutAudio==true){
 	   self.firstOutAudio=false;
@@ -210,7 +208,7 @@ function handleActionsReply(self,context){
 function handleSttFinalTranscript(self,text){
 	if(!self.listen) return;
 	stopListening(self);
-	self.sendMessage(text); 
+	self.sendMessage(text);
 }
 
 function handleSttPartialTranscript(self,text){
@@ -227,13 +225,13 @@ W4R1.prototype.sendCmd= function(cmd){
 	 *      action_params: { <param>:<value>... }	//NOT SUPPORTED
          * }
          */
-	
+
 	var status=_getStatus(cmd);
 	switch(status){
 	//START_CONVERSATION
        		case "conv_start":
 			startNewConversation(this);
-			break;	
+			break;
 		case "conv_end":
 			closeConversation(this);
 			break;
@@ -253,7 +251,7 @@ function _getStatus(cmd){
 function startNewConversation(self){
 	console.log("W4R1: Starting new conversation");
 	setContext(self,{});
-	self.sendMessage("c_start");	
+	self.sendMessage("c_start");
 }
 
 function endTurn(self,cmd){
@@ -286,13 +284,13 @@ function stopListening(self){
 }
 
 
-function _notifySilence(self){ 
+function _notifySilence(self){
 	//TODO VERIFY notify R1 to start listening (if conversation is not ended)
 	var msg = {notify:"silence"};
 	self.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
 }
 
-function _notifyListening(self){ 
+function _notifyListening(self){
 	//TODO VERIFY notify R1 to start listening (if conversation is not ended)
 	var msg = {notify:"listen"};
 	self.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
@@ -308,7 +306,6 @@ W4R1.prototype.connect = function() {
 	self.audioConverterIn.on('data',function(data){
 		console.log("W4R1 converted: ",data.length,data);
 		self.sendAudio(data);
-
 	});
 }
 

@@ -11,8 +11,8 @@ var speaker_test_sound = new Yarp.Port('sound');
 var fs = require('fs');
 var sleep = require('system-sleep');
 
-var audio_file = './resources/01_stt_raw_wav.wav';
-//var audio_file = './resources/test.wav';
+//var audio_file = './resources/01_stt_raw_wav.wav';
+var audio_file = './resources/test.wav';
 
 function Speaker(){
 
