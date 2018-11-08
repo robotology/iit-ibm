@@ -18,11 +18,11 @@ var sleep = require('system-sleep');
 function R1Client(){
 	var self = this;
 	//creating ports
-	this.cmdPortOut = new Yarp.Port('bottle');
-	this.cmdPortIn = new Yarp.Port('bottle');
-	this.soundPortOut = new Yarp.Port('sound');
+	this.cmdPortOut = Yarp.Port('bottle');
+	this.cmdPortIn = Yarp.Port('bottle');
+	this.soundPortOut = Yarp.Port('sound');
 	this.soundPortOut.setStrict(true);
-	this.soundPortIn = new Yarp.Port('sound');
+	this.soundPortIn = Yarp.Port('sound');
 	this.soundPortIn.setStrict(true);
 	this.soundPortIn.onRead(function(msg){
               	var payload = msg.toSend().content;

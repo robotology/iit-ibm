@@ -70,17 +70,17 @@ function W4R1(){
 
 
 	//Yarp communication
-	var soundPortIn = new Yarp.Port('sound');
+	var soundPortIn = Yarp.Port('sound');
 	soundPortIn.open('/w4r1/sound.i');
 	soundPortIn.setStrict(true);
-	this.soundPortOut = new Yarp.Port('sound');
+	this.soundPortOut = Yarp.Port('sound');
 	this.soundPortOut.open('/w4r1/sound.o');
 	this.soundPortOut.setStrict(true);
 
-	this.cmdPortOut = new Yarp.Port('bottle');
+	this.cmdPortOut = Yarp.Port('bottle');
 	this.cmdPortOut.open('/w4r1/cmd.o');
 
-	var cmdPortIn = new Yarp.Port('bottle');
+	var cmdPortIn = Yarp.Port('bottle');
 	cmdPortIn.open('/w4r1/cmd.i');
 
 
@@ -190,7 +190,7 @@ function handleVoiceReply(self,text){
 
 }
 
-function handle(self,chunk){
+function handleSendAudio(self,chunk){
 //	console.log("W4R1: sending audio: ",chunk.length);
 /*	if(self.firstOutAudio==true){
 	   self.firstOutAudio=false;
