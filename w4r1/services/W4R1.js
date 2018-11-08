@@ -21,7 +21,7 @@ var sleep = require('system-sleep');
 function W4R1(){
 	var self = this;
 	this.listen = false;
-	//this.firstOutAudio = true;	//TEMPORANEO
+	_setSpeaking(this,false);
 
 	//STT Service
 	this.stt = new Cedat85SpeechToTextService();
@@ -44,21 +44,21 @@ function W4R1(){
 	_initAudioConverterIn(this);
 
 	//Audio Converter (OUT) will be initialized just before sending audio
-    //output stream waiting for converted bufffers
-    this.sttOutStream = new Stream();
-    this.sttOutStream.writable = true;
-    this.sttOutStream.write = function(chunk){
-            //emitting 'data' event upon conversion
-            console.log("W4R1 received stt: ",chunk.length,chunk);
-			self.audioConverterOut.write(chunk);
-    }
-
+    
+	//Output Stream waiting for data from TextToSpeach
+    	this.sttOutStream = new Stream();
+    	this.sttOutStream.writable = true;
+    	this.sttOutStream.write = function(chunk){
+        	//forwarding 'data' to out converter
+            	console.log("W4R1 received stt: ",chunk.length,chunk);
+		self.audioConverterOut.write(chunk); //the converter emits 'data' events upon conversion
+    	}
 	this.sttOutStream.end = function(){
 		console.log("W4R1: END STREAMING");
-		self.audioConverterOut.end();
+		self.audioConverterOut.end(); //close audioconverter
+		_setSpeaking(self,false);
 	}
 
-//	_initAudioConverterOut(this);
 
 	//Assistant Service
 	this.assistant = new AssistantService();
@@ -134,6 +134,7 @@ W4R1.prototype.sendMessage = function(msg){
 
 W4R1.prototype.streamReply = function(text) {
 	console.log("W4R1 Streaming: ",text);
+	_setSpeaking(this,true);
 	this.tts.stream(text,this.sttOutStream,null);
 }
 
@@ -169,8 +170,8 @@ function _prepareContext(cmd,context){
 
 
 function handleReply(self,outputText,context){  //TODO prestare attenzione a come richiedere/gestire la notifica di fine turno
-	handleActionsReply(self,context);
 	handleVoiceReply(self,outputText);
+	handleActionsReply(self,context);
 }
 
 function handleErrorReply(self,err){
@@ -317,6 +318,8 @@ function _initAudioConverterOut(self){
         });
 }
 
-
+function _setSpeaking(self,isSpeaking){
+	self.speaking = isSpeaking;
+}
 
 module.exports = W4R1;
