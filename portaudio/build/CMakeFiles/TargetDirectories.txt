@@ -1,0 +1,10 @@
+/home/gdangelo/workspace/yarp/example/portaudio/build/CMakeFiles/rebuild_cache.dir
+/home/gdangelo/workspace/yarp/example/portaudio/build/CMakeFiles/r1_simulator.dir
+/home/gdangelo/workspace/yarp/example/portaudio/build/CMakeFiles/edit_cache.dir
+/home/gdangelo/workspace/yarp/example/portaudio/build/CMakeFiles/sound_sender_mic.dir
+/home/gdangelo/workspace/yarp/example/portaudio/build/CMakeFiles/sound_receiver.dir
+/home/gdangelo/workspace/yarp/example/portaudio/build/CMakeFiles/sound_sender_file.dir
+/home/gdangelo/workspace/yarp/example/portaudio/build/CMakeFiles/yarp_speech.dir
+/home/gdangelo/workspace/yarp/example/portaudio/build/CMakeFiles/sound_sender_file_chunks.dir
+/home/gdangelo/workspace/yarp/example/portaudio/build/CMakeFiles/sound_sender_file_sum.dir
+/home/gdangelo/workspace/yarp/example/portaudio/build/CMakeFiles/sound_loopback.dir

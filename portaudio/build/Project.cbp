@@ -1,0 +1,560 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6"/>
+	<Project>
+		<Option title="Project"/>
+		<Option makefile_is_custom="1"/>
+		<Option compiler="gcc"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\build\;CMake Files\..\..\..\;CMake Files\..\..\..\robot-install\;CMake Files\..\..\..\robot-install\share\;CMake Files\..\..\..\robot-install\share\YCM\;CMake Files\..\..\..\robot-install\share\YCM\cmake\;CMake Files\..\..\cmake\;"/>
+		<Build>
+			<Target title="all">
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 all"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="rebuild_cache">
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 rebuild_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="r1_simulator">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/r1_simulator" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 r1_simulator"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="r1_simulator/fast">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/r1_simulator" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 r1_simulator/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="edit_cache">
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option type="4"/>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 edit_cache"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sound_sender_mic">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/sound_sender_mic" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 sound_sender_mic"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sound_sender_mic/fast">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/sound_sender_mic" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 sound_sender_mic/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sound_receiver">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/sound_receiver" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 sound_receiver"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sound_receiver/fast">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/sound_receiver" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 sound_receiver/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sound_sender_file">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/sound_sender_file" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 sound_sender_file"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sound_sender_file/fast">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/sound_sender_file" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 sound_sender_file/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="yarp_speech">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/yarp_speech" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 yarp_speech"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="yarp_speech/fast">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/yarp_speech" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 yarp_speech/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sound_sender_file_chunks">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/sound_sender_file_chunks" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 sound_sender_file_chunks"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sound_sender_file_chunks/fast">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/sound_sender_file_chunks" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 sound_sender_file_chunks/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sound_sender_file_sum">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/sound_sender_file_sum" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 sound_sender_file_sum"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sound_sender_file_sum/fast">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/sound_sender_file_sum" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 sound_sender_file_sum/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sound_loopback">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/sound_loopback" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 sound_loopback"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+			<Target title="sound_loopback/fast">
+				<Option output="/home/gdangelo/workspace/yarp/example/portaudio/build/sound_loopback" prefix_auto="0" extension_auto="0"/>
+				<Option working_dir="/home/gdangelo/workspace/yarp/example/portaudio/build"/>
+				<Option object_output="./"/>
+				<Option type="1"/>
+				<Option compiler="gcc"/>
+				<Compiler>
+					<Add directory="/home/gdangelo/workspace/yarp/build/src/libYARP_conf/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_OS/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_sig/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_math/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_dev/include"/>
+					<Add directory="/home/gdangelo/workspace/yarp/src/libYARP_name/include"/>
+					<Add directory="/usr/include/c++/7"/>
+					<Add directory="/usr/include/x86_64-linux-gnu/c++/7"/>
+					<Add directory="/usr/include/c++/7/backward"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include"/>
+					<Add directory="/usr/local/include"/>
+					<Add directory="/usr/lib/gcc/x86_64-linux-gnu/7/include-fixed"/>
+					<Add directory="/usr/include/x86_64-linux-gnu"/>
+					<Add directory="/usr/include"/>
+				</Compiler>
+				<MakeCommands>
+					<Build command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 sound_loopback/fast"/>
+					<CompileFile command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 &quot;$file&quot;"/>
+					<Clean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+					<DistClean command="/usr/bin/make -j4 -f &quot;/home/gdangelo/workspace/yarp/example/portaudio/build/Makefile&quot;  VERBOSE=1 clean"/>
+				</MakeCommands>
+			</Target>
+		</Build>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/r1_simulator.cpp">
+			<Option target="r1_simulator"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/sound_loopback.cpp">
+			<Option target="sound_loopback"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/sound_receiver.cpp">
+			<Option target="sound_receiver"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/sound_sender_file.cpp">
+			<Option target="sound_sender_file"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/sound_sender_file_chunks.cpp">
+			<Option target="sound_sender_file_chunks"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/sound_sender_file_sum.cpp">
+			<Option target="sound_sender_file_sum"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/sound_sender_mic.cpp">
+			<Option target="sound_sender_mic"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/yarp_speech.cpp">
+			<Option target="yarp_speech"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/../../build/YARPConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\build\"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/../../build/YARPConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\build\"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/../../build/YARPTargets.cmake">
+			<Option virtualFolder="CMake Files\..\..\build\"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/../../../robot-install/share/YCM/cmake/YCMConfig.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\robot-install\share\YCM\cmake\"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/../../../robot-install/share/YCM/cmake/YCMConfigVersion.cmake">
+			<Option virtualFolder="CMake Files\..\..\..\robot-install\share\YCM\cmake\"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/../../cmake/YarpDeprecatedWarning.cmake">
+			<Option virtualFolder="CMake Files\..\..\cmake\"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/../../cmake/YarpIDL.cmake">
+			<Option virtualFolder="CMake Files\..\..\cmake\"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/../../cmake/YarpInstallationHelpers.cmake">
+			<Option virtualFolder="CMake Files\..\..\cmake\"/>
+		</Unit>
+		<Unit filename="/home/gdangelo/workspace/yarp/example/portaudio/../../cmake/YarpPlugin.cmake">
+			<Option virtualFolder="CMake Files\..\..\cmake\"/>
+		</Unit>
+	</Project>
+</CodeBlocks_project_file>
