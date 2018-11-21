@@ -6,30 +6,6 @@ cmake_minimum_required(VERSION 3.0)
 
 find_package(YARP REQUIRED)
 
-#add_executable(sound_receiver sound_receiver.cpp)
-#target_link_libraries(sound_receiver ${YARP_LIBRARIES})
 
-#add_executable(sound_sender_mic sound_sender_mic.cpp)
-#target_link_libraries(sound_sender_mic ${YARP_LIBRARIES})
-
-#add_executable(sound_sender_file sound_sender_file.cpp)
-#target_link_libraries(sound_sender_file ${YARP_LIBRARIES})
-
-#add_executable(sound_sender_file_chunks sound_sender_file_chunks.cpp)
-#target_link_libraries(sound_sender_file_chunks ${YARP_LIBRARIES})
-
-#add_executable(sound_sender_file_sum sound_sender_file_sum.cpp)
-#target_link_libraries(sound_sender_file_sum ${YARP_LIBRARIES})
-
-#add_executable(sound_loopback sound_loopback.cpp)
-#target_link_libraries(sound_loopback ${YARP_LIBRARIES})
-
-add_executable(r1_simulator r1_simulator.cpp)
+add_executable(r1_simulator ./src/r1_simulator.cpp)
 target_link_libraries(r1_simulator ${YARP_LIBRARIES})
-
-#add_executable(yarp_speech yarp_speech.cpp)
-#target_link_libraries(yarp_speech ${YARP_LIBRARIES})
-
-
-
-
