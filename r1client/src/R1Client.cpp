@@ -22,21 +22,20 @@
 #include <iostream>
 //#include <fstream>
 
-
-#include <pthread.h>
-
+///w4r1/sound.o
 //using namespace std;
 using namespace yarp::os;
 using namespace yarp::sig;
 using namespace yarp::dev;
+#include <yarp/os/LogStream.h>
 
 
 // The function we want to execute on the new thread.
 
 
-void* SoundThread(void* port) {
+/*void* SoundThread(void* port) {
 
-	BufferedPort<Sound>* soundPortIn =(BufferedPort<Sound>*)port;
+	BufferPort<Sound>* soundPortIn =(BufferPort<Sound>*)port;
 	//   long tid;
  	//  tid = (long)port;
 	printf("Sound Reader Started.");
@@ -47,21 +46,23 @@ void* SoundThread(void* port) {
 	//printf("Sound Reader Started.");
 	//}
 			Sound *s_speech_out;
-			while(true){
-				//			printf("L");
-           			s_speech_out = soundPortIn->read(false);
-            			if (s_speech_out!=NULL){
+			while(true)
+			{
+					//printf("L");
+           			s_speech_out = soundPortIn->read();
+            		if (s_speech_out!=NULL)
+					{
 							printf("SOUND RECEIVED");
                			// put_receiver->renderSound(*s_speech_out);
-  				}
+  					}
 			}
 
 			//
  		//  pthread_exit(NULL);
-}
+}*/
 
 //#include </home/gdangelo/workspace/yarp/example/portaudio/onread.h>
-
+#include <thread>
 
 int main(int argc, char *argv[]) {
 
@@ -80,14 +81,34 @@ int main(int argc, char *argv[]) {
 
     Port soundPortOut;
     soundPortOut.open("/r1/sound.o");
-    BufferedPort<Sound> soundPortIn;
-    soundPortIn.open("/r1/sound.i");
+
+
 
     // Ports connection
-    Network::connect("/r1/cmd.o","/w4r1/cmd.i");
-    Network::connect("/r1/sound.o","/w4r1/sound.i","tcp");
-    Network::connect("/w4r1/sound.o","/r1/sound.i");
-    Network::connect("/w4r1/cmd.o","/r1/cmd.i");
+    std::thread th([]()
+    {
+		BufferedPort<Sound> soundPortIn;
+		soundPortIn.open("/r1/sound.i");
+
+        if(!Network::connect("/w4r1/sound.o","/r1/sound.i"))
+        {
+            return 0;
+        }
+		while(true)
+		{
+				//printf("L");
+				auto s_speech_out = soundPortIn.read();
+				if (s_speech_out)
+				{
+                        yDebug() << "SOUND RECEIVED";
+				}
+		}
+    });
+	Network::connect("/r1/cmd.o","/w4r1/cmd.i");
+    //Network::connect("/r1/sound.o","/w4r1/sound.i","tcp");
+    //Network::connect("/w4r1/sound.o","/r1/sound.i");
+    //Network::connect("/w4r1/cmd.o","/r1/cmd.i");
+
 
 
 
@@ -146,11 +167,12 @@ int main(int argc, char *argv[]) {
 
 
 	//SOUND THREAD
-	pthread_t soundThread;
+	//pthread_t soundThread;
 	void* status;
 	printf("STARTING SOUND LISTENER");
+
 //cout << "STATIG LISTENER";
-	pthread_create(&soundThread, NULL, SoundThread, (void *)&soundPortIn);
+	//pthread_create(&soundThread, NULL, SoundThread, (void *)&soundPortIn);
 /*  */  	//pthread_join (*soundThread, &status);
 	//
 
@@ -166,14 +188,17 @@ int main(int argc, char *argv[]) {
 
 
 	Bottle msg;
-        msg.addString("{ \"status\":\"conv_start\" }");
+    msg.addString("{ \"status\":\"conv_start\" }");
 	cmdPortOut.write(msg);
 
 
    //	pthread_join (*soundThread, &status);
 
-
     while(true)
+    {
+        yarp::os::Time::delay(0.1);
+    }
+    /*while(true)
     {
 
 printf(">>>");
@@ -229,6 +254,6 @@ printf("RECEIVED CMD");
         }
         yarp::os::Time::delay(0.01);
 */
- 	}
-    	return 0;
+    th.join();
+    return 0;
 }
