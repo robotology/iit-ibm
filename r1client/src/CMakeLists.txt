@@ -4,10 +4,10 @@
 
 cmake_minimum_required(VERSION 3.0)
 
+set(THREADS_PREFER_PTHREAD_FLAG ON)
+
 find_package(YARP REQUIRED)
-
-
-
+find_package(Threads REQUIRED)
 
 
 #set(dir ${CMAKE_CURRENT_SOURCE_DIR})
@@ -29,3 +29,4 @@ target_link_libraries(r1_simulator ${YARP_LIBRARIES})
 
 add_executable(R1Client R1Client.cpp)
 target_link_libraries(R1Client ${YARP_LIBRARIES})
+target_link_libraries(R1Client Threads::Threads)
