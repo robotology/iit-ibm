@@ -105,49 +105,68 @@ int main(int argc, char *argv[]) {
         std::string cmd_input = cmd.get(0).asString();
 
         //SENDER
-        if(cmd_input =="record")
+        if(cmd_input == "record")
         {
-            get_sender->startRecording();
-
-            double t1=yarp::os::Time::now();
-            get_sender->getSound(s_speech_in);
-            double t2=yarp::os::Time::now();
-            tTOT = tTOT+(t2-t1);
-
-            soundPortOut.write(s_speech_in);
-            std::cout << "Uint8(0) " << (int) s_speech_in.getRawData()[0] << std::endl;
-
-            std::cout << "Sending Speech Sound"<< std::endl;
-            std::cout << "getChannel " << (int) s_speech_in.getChannels() << std::endl;
-
+                start_recording();
         }
-        else if (cmd_input ==" stop recording")
+        else if (cmd_input == "stop_recording")
         {
-            Bottle msg_stop_record;
-            msg_stop_record.addString("stop recording");
-            cmdPortOut.write(msg_stop_record);
-
-            get_sender->stopRecording();
+                stop_recording();
         }
 
 
         //RECEIVER
-        if(cmd_input =="speech")
+        if(cmd_input == "speech")
         {
             //s_speech_out = soundPortIn.read(false);
             //if (s_speech_out!=NULL)
             //{
-                put_receiver->renderSound(*s_speech_out);
+                    speech();
             //}
         }
-        else if (cmd_input =="stop_speaking") //aggiungere lo stop speaking
+        else if (cmd_input == "stop_speaking") //aggiungere lo stop speaking
         {
-            Bottle msg_speech;
-            msg_speech.addString("stop speech");
-            cmdPortOut.write(msg_speech);
+                    stop_speaking();
         }
         yarp::os::Time::delay(0.01);
     }
     return 0;
 }
 
+void start_recording()
+{
+    get_sender->startRecording();
+
+    double t1=yarp::os::Time::now();
+    get_sender->getSound(s_speech_in);
+    double t2=yarp::os::Time::now();
+    tTOT = tTOT+(t2-t1);
+
+    soundPortOut.write(s_speech_in);
+    std::cout << "Uint8(0) " << (int) s_speech_in.getRawData()[0] << std::endl;
+
+    std::cout << "Sending Speech Sound"<< std::endl;
+    std::cout << "getChannel " << (int) s_speech_in.getChannels() << std::endl;
+}
+
+void stop_recording()
+{
+    Bottle msg_stop_record;
+    msg_stop_record.addString("stop_recording");
+    cmdPortOut.write(msg_stop_record);
+
+    get_sender->stopRecording();
+}
+
+
+void speech()
+{
+    put_receiver->renderSound(*s_speech_out);
+}
+
+void stop_speaking()
+{
+    Bottle msg_speech;
+    msg_speech.addString("stop_speaking");
+    cmdPortOut.write(msg_speech);
+}
