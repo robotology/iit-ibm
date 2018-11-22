@@ -36,28 +36,28 @@ using namespace yarp::dev;
 
 void* SoundThread(void* port) {
 
-BufferedPort<Sound>* soundPortIn =(BufferedPort<Sound>*)port;
-//   long tid;
- //  tid = (long)port;
-printf("Sound Reader Started.");
- //  cout << "Sound Thread started";
-//
+	BufferedPort<Sound>* soundPortIn =(BufferedPort<Sound>*)port;
+	//   long tid;
+ 	//  tid = (long)port;
+	printf("Sound Reader Started.");
+ 	//  cout << "Sound Thread started";
+	//
 
-//while(true){
-//printf("Sound Reader Started.");
-//}
-		Sound *s_speech_out;
-		while(true){
-//			printf("L");
-           		s_speech_out = soundPortIn->read(false);
-            		if (s_speech_out!=NULL){
-			printf("SOUND RECEIVED");
-               		// put_receiver->renderSound(*s_speech_out);
-  			}
-		}
+	//while(true){
+	//printf("Sound Reader Started.");
+	//}
+			Sound *s_speech_out;
+			while(true){
+				//			printf("L");
+           			s_speech_out = soundPortIn->read(false);
+            			if (s_speech_out!=NULL){
+							printf("SOUND RECEIVED");
+               			// put_receiver->renderSound(*s_speech_out);
+  				}
+			}
 
-//
- //  pthread_exit(NULL);
+			//
+ 		//  pthread_exit(NULL);
 }
 
 //#include </home/gdangelo/workspace/yarp/example/portaudio/onread.h>
@@ -143,7 +143,7 @@ int main(int argc, char *argv[]) {
 */
 
 
- 
+
 
 	//SOUND THREAD
 	pthread_t soundThread;
@@ -179,12 +179,12 @@ int main(int argc, char *argv[]) {
 printf(">>>");
         Bottle cmd;
         cmdPortIn.read(cmd);
-//if(cmd) 
+//if(cmd)
 printf("RECEIVED CMD");
 //        std::string cmd_input = cmd.get(0).asString();
 
 //        std::cout << "CMD IN: "<< cmd_input << std::endl;
- /*       
+ /*
 	//SENDER
         if(cmd_input =="record")
         {
@@ -228,8 +228,7 @@ printf("RECEIVED CMD");
             cmdPortOut.write(msg_speech);
         }
         yarp::os::Time::delay(0.01);
-*/   
+*/
  	}
     	return 0;
 }
-
