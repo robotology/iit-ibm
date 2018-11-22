@@ -1,5 +1,6 @@
 node_modules/*
 w4r1/node_modules/*
+r1client/build/*
 build/*
 npm-debug.log
 tests/*

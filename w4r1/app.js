@@ -45,7 +45,7 @@ console.log("W4R1 Ready.");
 /******** TEST CLIENT **************/
 /***********************************/
 
-R1_client_fromApp(); //Only for testing
+//R1_client_fromApp(); //Only for testing
 
 
 
