@@ -146,8 +146,8 @@ function R1_client_fromApp() {
 	r1Client.testAudio();
     	console.log("---------------------------------------------------");
 
-sleep(5000);
-
+sleep(10000);
+console.log("R1 client test end");
 }
 
 module.exports = app;

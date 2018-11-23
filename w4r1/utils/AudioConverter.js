@@ -24,6 +24,12 @@ function AudioConverter(config){
 		self.emit('data',chunk);
 	}
 
+
+this.outStream.end = function(){
+console.log("END OUT STREAM AUDIOCONVERTER");
+	self.emit('end');
+}
+
 	//SOX conversoin settings
 	this.command = SoxCommand();
 	this.command.input(this.inStream);
