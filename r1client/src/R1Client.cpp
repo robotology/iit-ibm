@@ -34,6 +34,11 @@ using namespace yarp::os;
 using namespace yarp::sig;
 using namespace yarp::dev;
 
+const char* NOTIFY = "notify";
+const char* ACTION = "action";
+const char* ACTION_PARAMS = "acrion_params";
+const char* NOTIFY_LISTEN = "listen";
+const char* NOTIFY_SILENCE = "silence";
 
 /*** THREADS ***/
 void* SoundReceiverThread(void* args)   {
@@ -67,23 +72,57 @@ char* unescape(const char* s,char quote){ //removse each second occurence of quo
         return unescapedS;
 }
 
+void startMic(){
+	yDebug() << "start mic";
+}
+void stopMic(){
+	yDebug() << "stop mic";
+}
 
-int executeAction(char* action, char* params, char** result){
+
+int executeAction(const char* action, rapidjson::Value& params, char** result){
 	//switch action ...
 	yDebug() << "Performing action" << action;
 	*result = NULL;
 	return 0;
 }
 
-int processCommand(const char* command,char** answer){
-char * c = unescape(command,'"');
-	yDebug() << "Processing cmd" << command << "=>" << c;
-Document document;
-document.Parse(c);
+int executeAction(const char* action, char** result){
+	yDebug() << "Performing action (1)" << action;
+	return 0;
+}
 
-//yDebug() << "is obk" << document.IsObject();
-if(document.HasMember("notify"))	yDebug() << "notify" << document["notify"].IsString();
-if(document.HasMember("action")) yDebug() << "action: " <<document["action"].IsString();
+int processCommand(const char* command,char** answer){
+	char * c = unescape(command,'"');
+	int  out = 0;
+	yDebug() << "Processing cmd" << command << "=>" << c;
+	Document document;
+	document.Parse(c);
+
+	//yDebug() << "is obk" << document.IsObject();
+	if(document.HasMember(NOTIFY)){
+		const char* notify = document[NOTIFY].GetString();
+		yDebug() << NOTIFY << notify;
+		if(strcmp(notify, NOTIFY_LISTEN)==0){
+			startMic();
+		} else
+		if(strcmp(notify, NOTIFY_SILENCE)==0){
+			stopMic();
+		}
+	}
+
+	if(document.HasMember(ACTION)){
+		const char* action = document[ACTION].GetString();
+		 yDebug() << ACTION << action;
+		//int status = -1;
+		if(document.HasMember(ACTION_PARAMS)){
+			 rapidjson::Value& params = document[ACTION_PARAMS];
+			out = executeAction(action,params,answer);		
+		}else 
+			out = executeAction(action,answer);		
+	}
+	return out;
+	
 }
 
 /*
