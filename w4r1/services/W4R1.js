@@ -275,6 +275,7 @@ function setContext(self,context){
 }
 
 function startListening(self){
+//	_initAudioConverterIn(this); //TODO assicurarsi che i glussi precedenti siano chiusi
 	self.listen = true;
 	_notifyListening(self);
 }
@@ -316,6 +317,7 @@ function _initAudioConverterOut(self){
 		console.log("W4R1 converted: ",data.length,data);
                 handleSendAudio(self,data);
         });
+	self.audioConverterOut.on('end',function(){endTurn(self,{});}); //XXX here can be notified internally that streaming is ended
 }
 
 function _setSpeaking(self,isSpeaking){
