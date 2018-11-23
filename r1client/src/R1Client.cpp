@@ -26,7 +26,9 @@
 //#include <yarp/sig/SoundFile.h>
 #include <yarp/os/LogStream.h>
 //#include </home/gdangelo/workspace/yarp/example/portaudio/onread.h>
-
+#include "rapidjson/document.h"
+using namespace rapidjson;
+// ...
 //using namespace std;
 using namespace yarp::os;
 using namespace yarp::sig;
@@ -51,6 +53,20 @@ void* SoundReceiverThread(void* args)   {
 }
 
 /** END TRHEADS **/
+char* unescape(const char* s,char quote){ //removse each second occurence of quote
+        char *unescapedS = new char[strlen(s)*sizeof(char)];
+        int i, j;
+        for(i = j = 0; i < (strlen(s)); i++){
+                unescapedS[j]=s[i];
+                if(s[i] == quote){
+
+                        if(s[i+1]==quote) {i++; }
+                }
+                j++;
+        }
+        return unescapedS;
+}
+
 
 int executeAction(char* action, char* params, char** result){
 	//switch action ...
@@ -59,11 +75,16 @@ int executeAction(char* action, char* params, char** result){
 	return 0;
 }
 
-void processCommand(const char* command,char** answer){
-	yDebug() << "Processing cmd" << command;
+int processCommand(const char* command,char** answer){
+char * c = unescape(command,'"');
+	yDebug() << "Processing cmd" << command << "=>" << c;
+Document document;
+document.Parse(c);
 
+//yDebug() << "is obk" << document.IsObject();
+if(document.HasMember("notify"))	yDebug() << "notify" << document["notify"].IsString();
+if(document.HasMember("action")) yDebug() << "action: " <<document["action"].IsString();
 }
-
 
 /*
 pthread_mutex_t mutex;

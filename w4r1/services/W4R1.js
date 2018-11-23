@@ -14,6 +14,7 @@ var AssistantService = require('./AssistantService');
 var AudioConverter = require('../utils/AudioConverter');
 var sleep = require('system-sleep');
 
+
 /**
  * @class
  * @classdesc W4R1 - Watson For R1

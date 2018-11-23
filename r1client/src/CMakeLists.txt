@@ -26,7 +26,7 @@ find_package(Threads REQUIRED)
 
 #add_executable(r1_simulator r1_simulator.cpp)
 #target_link_libraries(r1_simulator ${YARP_LIBRARIES})
-
+include_directories(../include)
 add_executable(R1Client R1Client.cpp)
 target_link_libraries(R1Client ${YARP_LIBRARIES})
 target_link_libraries(R1Client Threads::Threads)
