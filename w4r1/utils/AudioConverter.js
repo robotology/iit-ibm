@@ -10,7 +10,7 @@ var StreamChunker = require('./StreamChunker');
 function AudioConverter(config){
 	this.chunker = new StreamChunker();
 	var self = this;
-	
+
 	//input strams to read incoming buffers
         this.inStream = new Stream();
         this.inStream.readable = true;
@@ -51,7 +51,7 @@ console.log("END OUT STREAM AUDIOCONVERTER");
 			this.chunker.pipe(this.outStream);
 			_init_w4r12r1(this.command);
 		}
-		else {} //TODO handle error	
+		else {} //TODO handle error
 	}
 
 	//logging SOX error
@@ -60,10 +60,10 @@ console.log("END OUT STREAM AUDIOCONVERTER");
   		console.log('Sox Command Stdout: ', stdout);
 		console.log('Sox Command Stderr: ', stderr)
 	});
-	
+
 	//Startig SOX converter (Spawn process)
 
-/* example to add arguments to sox 
+/* example to add arguments to sox
 this.command.__getArguments = this.command._getArguments;
 var c = this.command;
 this.command._getArguments = function() {return ['--buffer','1024'].concat(c.__getArguments());};
@@ -84,12 +84,12 @@ function _init_r12w4r1(command){
   	 .outputBits(16)
  	  // .outputChannels(1)
   	 .outputFileType('wav');
-	 command.addEffect('remix','7,8'); 
+	 command.addEffect('remix','7,8');
 	 //NOTE:
 	 //selects usefull audio channells
 	 //selecting only meaningufull channels
 	 //(mixing empy ones causes the volume to be lowered)
-	 //during test channes 1 and 2 apperas in position 7 end 8. 
+	 //during test channes 1 and 2 apperas in position 7 end 8.
 }
 
 function _init_w4r12r1(command){
@@ -103,9 +103,9 @@ function _init_w4r12r1(command){
          .inputChannels(1)
          .inputFileType('raw');
         command.outputSampleRate(16000)
-         .outputEncoding('unsigned')
+         .outputEncoding('signed')
          .outputBits(16)
-          // .outputChannels(1)
+         .outputChannels(3)
          .outputFileType('wav');
      //    command.addEffect('remix','7,8');
          //NOTE:
@@ -122,8 +122,8 @@ AudioConverter.prototype.write = function(buffer){
 //	if(this.bufferSize<0){
 		this.inStream.emit('data',buffer);
 //	} else {
-		
-		
+
+
 //	}
 }
 

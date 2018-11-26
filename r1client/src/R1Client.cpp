@@ -4,11 +4,12 @@
 /////////////////////////////////////////////////////
 
 /*
- * Copyright: (C) 2010 RobotCub Consortium 
+ * Copyright: (C) 2010 RobotCub Consortium
  * Authors: Paul Fitzpatrick, Francesco Nori
  * CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
  */
 
+#include <unistd.h>
 #include <stdio.h>
 #include <iostream>
 //#include <string>
@@ -40,35 +41,79 @@ const char* ACTION_PARAMS = "acrion_params";
 const char* NOTIFY_LISTEN = "listen";
 const char* NOTIFY_SILENCE = "silence";
 
+IAudioRender * init_receiver()
+{
+    //RECEIVER Get an audio write device.
+    Property conf_receiver;
+    conf_receiver.put("device","portaudio");
+    conf_receiver.put("samples", "4096");
+    conf_receiver.put("write", "1");
+    PolyDriver poly_receiver(conf_receiver);
+    IAudioRender *put_receiver;
+
+    // Make sure we can write soundinit_receiver()
+    poly_receiver.view(put_receiver);
+    //if (put_receiver==NULL)
+    //{
+    //    printf("cannot open interface\n");
+    //    return 1;
+    //}
+
+    //Grab and send
+    //Sound s_speech_in;
+    //double tTOT=0;
+    //Receive and render
+    //Sound* s_speech_out;
+	//put_receiver->renderSound(*s_speech_out);
+	return put_receiver;
+}
+
 /*** THREADS ***/
 void* SoundReceiverThread(void* args)   {
+	//IAudioRender * put_receiver = init_receiver();
+	//
+	//RECEIVER Get an audio write device.
+    Property conf_receiver;
+    conf_receiver.put("device","portaudio");
+    conf_receiver.put("samples", "4096");
+    conf_receiver.put("write", "1");
+	//conf_receiver.put("channels", "1");
+    PolyDriver poly_receiver(conf_receiver);
+    IAudioRender *put_receiver;
+
+    // Make sure we can write soundinit_receiver()
+    poly_receiver.view(put_receiver);
+	//
 	BufferedPort<Sound> soundPortIn;
 	soundPortIn.open("/r1/sound.i");
 
         if(!Network::connect("/w4r1/sound.o","/r1/sound.i")){
             return 0;
         }
-	
+
 	while(true){
-		auto s_speech_out = soundPortIn.read();
+		Sound* s_speech_out = soundPortIn.read();
 		if (s_speech_out){
-                        yDebug() << "SOUND RECEIVED";
+            yDebug() << "SOUND RECEIVED";
+			put_receiver->renderSound(*s_speech_out);
 		}
 	}
 }
 
 /** END TRHEADS **/
-char* unescape(const char* s,char quote){ //removse each second occurence of quote
+char* unescape(const char* s,char quote){ //remove each second occurence of quote
         char *unescapedS = new char[strlen(s)*sizeof(char)];
         int i, j;
-        for(i = j = 0; i < (strlen(s)); i++){
+        for(i = j = 0; i < (strlen(s)); i++)
+		{
                 unescapedS[j]=s[i];
-                if(s[i] == quote){
-
+                if(s[i] == quote)
+				{
                         if(s[i+1]==quote) {i++; }
                 }
                 j++;
         }
+		unescapedS[j]='\0';
         return unescapedS;
 }
 
@@ -117,12 +162,12 @@ int processCommand(const char* command,char** answer){
 		//int status = -1;
 		if(document.HasMember(ACTION_PARAMS)){
 			 rapidjson::Value& params = document[ACTION_PARAMS];
-			out = executeAction(action,params,answer);		
-		}else 
-			out = executeAction(action,answer);		
+			out = executeAction(action,params,answer);
+		}else
+			out = executeAction(action,answer);
 	}
 	return out;
-	
+
 }
 
 /*
@@ -137,19 +182,22 @@ int main(int argc, char *argv[]) {
 	yDebug() << "*** STARTING R1 Client for W4R1. ***";
 
 	// Open the network
-    	Network yarp;
+    Network yarp;
 
-    	// Open ports
-    	Port cmdPortOut;
-    	cmdPortOut.open("/r1/cmd.o");
-    	Port cmdPortIn;
-    	cmdPortIn.open("/r1/cmd.i");
+    // Open ports
+    Port cmdPortOut;
+    cmdPortOut.open("/r1/cmd.o");
+    Port cmdPortIn;
+    cmdPortIn.open("/r1/cmd.i");
+
+	sleep(0.5);
 
 	Network::connect("/r1/cmd.o","/w4r1/cmd.i");
-    	Network::connect("/w4r1/cmd.o","/r1/cmd.i");
-    	//Network::connect("/r1/sound.o","/w4r1/sound.i","tcp");
-    	//Network::connect("/w4r1/sound.o","/r1/sound.i");
-   
+    Network::connect("/w4r1/cmd.o","/r1/cmd.i");
+    //Network::connect("/r1/}.i" sound.o","/w4r1/sound.i","tcp");
+    //Network::connect("/w4r1/sound.o","/r1/sound.i");
+
+
 
 	//SOUND THREAD
 	yDebug() << "Starting Sound Listener";
@@ -158,7 +206,7 @@ int main(int argc, char *argv[]) {
 
 	pthread_create(&soundReceiverThread, NULL, SoundReceiverThread, NULL);
   	//pthread_join (soundReceiverThread, &status);
-	
+
 
 /*
 
@@ -184,43 +232,18 @@ int main(int argc, char *argv[]) {
         printf("cannot open interface\n");
         return 1;
     }
-
-
-    //RECEIVER Get an audio write device.
-    Property conf_receiver;
-    conf_receiver.put("device","portaudio");
-    conf_receiver.put("samples", "4096");
-    conf_receiver.put("write", "1");
-    PolyDriver poly_receiver(conf_receiver);
-    IAudioRender *put_receiver;
-
-    // Make sure we can write sound
-    poly_receiver.view(put_receiver);
-    if (put_receiver==NULL)
-    {
-        printf("cannot open interface\n");
-        return 1;
-    }
-
-    //Grab and send
-    Sound s_speech_in;
-    double tTOT=0;
-    //Receive and render
-    Sound *s_speech_out;
-
 */
 
 
 
 
-	
 	bool shutdown = false;
 
-	//MAIN LOOP holding several conversations	
+	//MAIN LOOP holding several conversations
 	yDebug() << "Entering main loop.";
 	while(!shutdown){
 
-	
+
 		//TODO wait here for converstation start
 		//Send start convesation
 		yDebug() << "New Conversation";
@@ -232,17 +255,17 @@ int main(int argc, char *argv[]) {
 		//cmd handler (it could be another theread runnging)
     		while(true) {
         		yarp::os::Time::delay(0.1);
-			Bottle cmd;
-			cmdPortIn.read(cmd);
+				Bottle cmd;
+				cmdPortIn.read(cmd);
         		std::string cmd_input = cmd.get(0).asString();
         		std::cout << "CMD IN: "<< cmd_input << std::endl;
-			char* answer = NULL;
-			processCommand(cmd_input.c_str(),&answer);
-			if(answer) {
-				Bottle bottleAnswer;
+				char* answer = NULL;
+				processCommand(cmd_input.c_str(),&answer);
+				if(answer) {
+					Bottle bottleAnswer;
     				bottleAnswer.addString(answer);
-				cmdPortOut.write(bottleAnswer);
-			}
+					cmdPortOut.write(bottleAnswer);
+				}
     		}
  /*   while(true)
     {
@@ -253,7 +276,7 @@ int main(int argc, char *argv[]) {
             get_sender->startRecording();
 
             double t1=yarp::os::Time::now();
-            get_sender->getSound(s_speech_in);
+            get_sender->getSound(s_speech_in);/home/gdangelo/workspace/IIT-IBM/r1client/src/R1Client.cpp
             double t2=yarp::os::Time::now();
             tTOT = tTOT+(t2-t1);
 
@@ -294,8 +317,8 @@ int main(int argc, char *argv[]) {
    // th.join();
 
 	}//END MAIN LOOP
-   
+
 	pthread_join (soundReceiverThread, &status);
-	
+
 	return 0;
 }
