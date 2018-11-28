@@ -63,7 +63,7 @@ R1Client.prototype.testAudio = function() {
 	console.log("R1 STREAMING File");
 	var self = this;
 	var n =0;
-	var readStream = fs.createReadStream('./resources/test_R1.wav',{ highWaterMark: 4 * 1024 });
+	var readStream = fs.createReadStream('./resources/provaVadim.wav',{ highWaterMark: 4 * 1024 });
 			readStream.on('data', function (chunk) {
 				//console.log("R1 sending: ",n,chunk.length,chunk);
 				console.log("R1 sending: ",n,chunk.length);

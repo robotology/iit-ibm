@@ -13,6 +13,7 @@ var TextToSpeechService = require('./TextToSpeechService');
 var AssistantService = require('./AssistantService');
 var AudioConverter = require('../utils/AudioConverter');
 var sleep = require('system-sleep');
+var fs = require('fs');
 
 
 /**
@@ -20,6 +21,14 @@ var sleep = require('system-sleep');
  * @classdesc W4R1 - Watson For R1
  */
 function W4R1(){
+
+	this.fws     = fs.createWriteStream("./resources/stt.wav");
+	this.fws.on('error',function(err){console.log(err);});
+	this.fwsin     = fs.createWriteStream("./resources/sttin.wav");
+
+	this.fwsin.on('error',function(err){console.log(err);});
+
+
 	var self = this;
 	this.listen = false;
 	_setSpeaking(this,false);
@@ -45,17 +54,17 @@ function W4R1(){
 	_initAudioConverterIn(this);
 
 	//Audio Converter (OUT) will be initialized just before sending audio
-    
-	//Output Stream waiting for data from TextToSpeach
-    	this.sttOutStream = new Stream();
-    	this.sttOutStream.writable = true;
-    	this.sttOutStream.write = function(chunk){
+
+	//Output Stream waiting for data from TextToSpeach  /////////da cambiare in tts !!!!!
+    	this.ttsOutStream = new Stream();
+    	this.ttsOutStream.writable = true;
+    	this.ttsOutStream.write = function(chunk){
         	//forwarding 'data' to out converter
-            	console.log("W4R1 received stt: ",chunk.length,chunk);
-		self.audioConverterOut.write(chunk); //the converter emits 'data' events upon conversion
+            	console.log("W4R1 received TTS: ",chunk.length); //,chunk);
+				self.audioConverterOut.write(chunk); //the converter emits 'data' events upon conversion
     	}
-	this.sttOutStream.end = function(){
-		console.log("W4R1: END STREAMING");
+	this.ttsOutStream.end = function(){
+		console.log("W4R1: received TTS END");
 		self.audioConverterOut.end(); //close audioconverter
 		_setSpeaking(self,false);
 	}
@@ -93,6 +102,7 @@ function W4R1(){
 		//Receiving from Yarp Speech Sender
 		//console.log("W4R1 received: ",n,msg.toSend().content.length,msg.toSend().content);
 		console.log("W4R1 received: ",n,msg.toSend().content.length);
+
 		n++;
 
 		self.convertAndSendAudio(msg.toSend().content);
@@ -115,11 +125,15 @@ function W4R1(){
 
 
 W4R1.prototype.sendAudio = function(buffer) {
-	if(this.listen)
+	if(this.listen){
+		this.fws.write(buffer);
 		this.stt.sendAudio(buffer);
+	}
 }
 
 W4R1.prototype.convertAndSendAudio = function(buffer) {
+	console.log('Buffer ricevuto da R1: ',buffer.length, "=>", buffer[0]);
+	this.fwsin.write(buffer);
 	this.audioConverterIn.write(buffer);
 }
 
@@ -134,9 +148,9 @@ W4R1.prototype.sendMessage = function(msg){
 }
 
 W4R1.prototype.streamReply = function(text) {
-	console.log("W4R1 Streaming: ",text);
+	console.log("W4R1 streaming: ",text);
 	_setSpeaking(this,true);
-	this.tts.stream(text,this.sttOutStream,null);
+	this.tts.stream(text,this.ttsOutStream,null);
 }
 
 function handleAssistantReply(self,err,data){
@@ -181,7 +195,7 @@ function handleErrorReply(self,err){
 }
 
 function handleVoiceReply(self,text){
-	console.log("W4R1: reply text",text);
+	console.log("W4R1: handling voice reply: ",text);
 	if(text.length>0) {
 		_initAudioConverterOut(self);
 		self.streamReply(text);
@@ -307,7 +321,7 @@ W4R1.prototype.connect = function() {
  function _initAudioConverterIn(self){
 	self.audioConverterIn = new AudioConverter("r12w4r1");
 	self.audioConverterIn.on('data',function(data){
-		console.log("W4R1 converted: ",data.length,data);
+		console.log("W4R1 converted (In): ",data.length,data);
 		self.sendAudio(data);
 	});
 }
@@ -315,7 +329,7 @@ W4R1.prototype.connect = function() {
 function _initAudioConverterOut(self){
 	self.audioConverterOut = new AudioConverter("w4r12r1");
 	self.audioConverterOut.on('data',function(data){
-		console.log("W4R1 converted: ",data.length,data);
+		console.log("W4R1 converted (Out): ",data.length,data);
                 handleSendAudio(self,data);
         });
 	self.audioConverterOut.on('end',function(){endTurn(self,{});}); //XXX here can be notified internally that streaming is ended

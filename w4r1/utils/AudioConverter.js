@@ -72,19 +72,19 @@ console.log("AAAAAAAAAAA: ",this.command._getArguments());
 	this.command.run();
 }
 
-function _init_r12w4r1(command){
+function _init_r12w4r1(command){ //r1 16000 16 8
 	this.buferSize=-1;
-	command.inputSampleRate(16000)
+	command.inputSampleRate(44100)
   	 .inputEncoding('signed')
   	 .inputBits(16)
-  	 .inputChannels(8)
+  	 .inputChannels(1)
   	 .inputFileType('raw');
   	command.outputSampleRate(16000)
   	 .outputEncoding('signed')
   	 .outputBits(16)
  	  // .outputChannels(1)
   	 .outputFileType('wav');
-	 command.addEffect('remix','7,8');
+	 //command.addEffect('remix','7,8');
 	 //NOTE:
 	 //selects usefull audio channells
 	 //selecting only meaningufull channels
@@ -102,10 +102,10 @@ function _init_w4r12r1(command){
          .inputBits(16)
          .inputChannels(1)
          .inputFileType('raw');
-        command.outputSampleRate(16000)
+        command.outputSampleRate(44100)
          .outputEncoding('signed')
          .outputBits(16)
-         .outputChannels(3)
+         .outputChannels(2)
          .outputFileType('wav');
      //    command.addEffect('remix','7,8');
          //NOTE:

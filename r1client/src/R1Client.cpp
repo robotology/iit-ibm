@@ -12,25 +12,24 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <iostream>
-//#include <string>
-//#include <fstream>
+#include <string>
+#include <fstream>
 #include<pthread.h>
-//#include <thread>
+#include <thread>
 
 #include <yarp/os/Port.h>
 #include <yarp/os/Network.h>
 #include <yarp/dev/AudioGrabberInterfaces.h>
 #include <yarp/dev/PolyDriver.h>
-//#include <yarp/os/Property.h>
-//#include <yarp/os/Time.h>
-//#include <yarp/os/TypedReaderCallback.h>
-//#include <yarp/sig/SoundFile.h>
+
+#include <yarp/os/Property.h>
+#include <yarp/os/Time.h>
+#include <yarp/os/TypedReaderCallback.h>
+#include <yarp/sig/SoundFile.h>
+
 #include <yarp/os/LogStream.h>
-//#include </home/gdangelo/workspace/yarp/example/portaudio/onread.h>
 #include "rapidjson/document.h"
 using namespace rapidjson;
-// ...
-//using namespace std;
 using namespace yarp::os;
 using namespace yarp::sig;
 using namespace yarp::dev;
@@ -53,48 +52,89 @@ IAudioRender * init_receiver()
 
     // Make sure we can write soundinit_receiver()
     poly_receiver.view(put_receiver);
-    //if (put_receiver==NULL)
-    //{
-    //    printf("cannot open interface\n");
-    //    return 1;
-    //}
-
-    //Grab and send
-    //Sound s_speech_in;
-    //double tTOT=0;
-    //Receive and render
-    //Sound* s_speech_out;
-	//put_receiver->renderSound(*s_speech_out);
 	return put_receiver;
 }
 
 /*** THREADS ***/
+void* SoundSenderThread(void* args)   {
+    sleep(10);
+    yDebug() << "Starting SENDER THREAD";
+	Port soundPortOut;
+    soundPortOut.open("/r1/sound.o");
+
+    // Set parameters
+    Property conf;
+    int channels = 1;
+    int rate = 16000;
+    int samples = 16000;
+
+    // Get a portaudio read device.
+    conf.put("device","portaudio");
+    conf.put("read", "");
+    //conf.put("samples", "44100");
+    //conf.put("rate", rate);
+    //conf.put("channels", channels);
+    PolyDriver poly(conf);
+    IAudioGrabberSound *get;
+
+    // Make sure we can read sound
+    poly.view(get);
+    Sound s;
+    get->startRecording(); //this is optional, the first get->getsound() will do this anyway.
+
+    NetworkBase::connect("/r1/sound.o", "/w4r1/sound.i");
+
+    double tTOT=0;
+    int n=0;
+
+    while (true)
+    {
+        double t1=yarp::os::Time::now();
+        yarp::os::Time::delay(0.90);
+        get->getSound(s);
+        std::cout << "Primo bit: " << (int) s.getRawData()[0] << std::endl;
+        std::cout << "Size Array: " << (int) s.getRawDataSize() << std::endl;
+        std::cout << "n: " << n << std::endl;
+        soundPortOut.write(s);
+        n++;
+        double t2=yarp::os::Time::now();
+        tTOT = tTOT+(t2-t1);
+        std::cout << "tTOT: " << tTOT << std::endl;
+    }
+
+
+    get->stopRecording();  //stops recording.
+}
+
+
 void* SoundReceiverThread(void* args)   {
-	//IAudioRender * put_receiver = init_receiver();
-	//
+
 	//RECEIVER Get an audio write device.
     Property conf_receiver;
     conf_receiver.put("device","portaudio");
-    conf_receiver.put("samples", "4096");
-    conf_receiver.put("write", "1");
-	//conf_receiver.put("channels", "1");
+    //conf_receiver.put("samples", "4096");
+    conf_receiver.put("rate", "16000");
+    conf_receiver.put("write", "2");
     PolyDriver poly_receiver(conf_receiver);
     IAudioRender *put_receiver;
 
     // Make sure we can write soundinit_receiver()
     poly_receiver.view(put_receiver);
-	//
+
 	BufferedPort<Sound> soundPortIn;
 	soundPortIn.open("/r1/sound.i");
 
-        if(!Network::connect("/w4r1/sound.o","/r1/sound.i")){
+    if(!Network::connect("/w4r1/sound.o","/r1/sound.i"))
+    {
             return 0;
-        }
+    }
 
-	while(true){
+	while(true)
+    {
 		Sound* s_speech_out = soundPortIn.read();
-		if (s_speech_out){
-            yDebug() << "SOUND RECEIVED";
+		if (s_speech_out)
+        {
+            yDebug() << "SOUND RECEIVED: " << s_speech_out->getRawDataSize() << "=>" << s_speech_out->getRawData()[0] ;
 			put_receiver->renderSound(*s_speech_out);
 		}
 	}
@@ -172,7 +212,6 @@ int processCommand(const char* command,char** answer){
 
 /*
 pthread_mutex_t mutex;
-
 pthread_mutex_lock(&mutex);
 flag=1;
 pthread_mutex_unlock (&mutex);
@@ -194,131 +233,53 @@ int main(int argc, char *argv[]) {
 
 	Network::connect("/r1/cmd.o","/w4r1/cmd.i");
     Network::connect("/w4r1/cmd.o","/r1/cmd.i");
-    //Network::connect("/r1/}.i" sound.o","/w4r1/sound.i","tcp");
+    //Network::connect("/r1/sound.o","/w4r1/sound.i","tcp");
     //Network::connect("/w4r1/sound.o","/r1/sound.i");
 
+    //SOUND THREAD SENDER
+	yDebug() << "Starting Sound Recorder";
+	pthread_t soundSenderThread;
+	void* status_recorder;
+	pthread_create(&soundSenderThread, NULL, SoundSenderThread, NULL);
 
 
-	//SOUND THREAD
+	//SOUND THREAD RECEIVER
 	yDebug() << "Starting Sound Listener";
 	pthread_t soundReceiverThread;
 	void* status;
-
 	pthread_create(&soundReceiverThread, NULL, SoundReceiverThread, NULL);
   	//pthread_join (soundReceiverThread, &status);
 
-
-/*
-
-    //SENDER Get speech and send.
-    // Set parameters
-    Property conf_sender;
-    int rec_seconds = 1;
-    int channels=1;
-    int rate= 2048;
-
-    // Get a portaudio read device.
-    conf_sender.put("device","portaudio");
-    conf_sender.put("read", "");
-    conf_sender.put("samples", rate*rec_seconds);
-    conf_sender.put("rate", rate);
-    conf_sender.put("channels", channels);
-    PolyDriver poly_sender(conf_sender);
-    IAudioGrabberSound *get_sender;
-
-    poly_sender.view(get_sender);
-    if (get_sender==NULL)
-    {
-        printf("cannot open interface\n");
-        return 1;
-    }
-*/
-
-
-
-
-	bool shutdown = false;
-
 	//MAIN LOOP holding several conversations
+    bool shutdown = false;
 	yDebug() << "Entering main loop.";
-	while(!shutdown){
-
-
+	while(!shutdown)
+    {
 		//TODO wait here for converstation start
 		//Send start convesation
 		yDebug() << "New Conversation";
 		Bottle msg;
-    		msg.addString("{ \"status\":\"conv_start\" }");
+    	msg.addString("{ \"status\":\"conv_start\" }");
 		cmdPortOut.write(msg);
-
-
 		//cmd handler (it could be another theread runnging)
-    		while(true) {
-        		yarp::os::Time::delay(0.1);
-				Bottle cmd;
-				cmdPortIn.read(cmd);
-        		std::string cmd_input = cmd.get(0).asString();
-        		std::cout << "CMD IN: "<< cmd_input << std::endl;
-				char* answer = NULL;
-				processCommand(cmd_input.c_str(),&answer);
-				if(answer) {
-					Bottle bottleAnswer;
-    				bottleAnswer.addString(answer);
-					cmdPortOut.write(bottleAnswer);
-				}
-    		}
- /*   while(true)
-    {
-
-	//SENDER
-        if(cmd_input =="record")
+    	while(true)
         {
-            get_sender->startRecording();
-
-            double t1=yarp::os::Time::now();
-            get_sender->getSound(s_speech_in);/home/gdangelo/workspace/IIT-IBM/r1client/src/R1Client.cpp
-            double t2=yarp::os::Time::now();
-            tTOT = tTOT+(t2-t1);
-
-            soundPortOut.write(s_speech_in);
-            std::cout << "Uint8(0) " << (int) s_speech_in.getRawData()[0] << std::endl;
-
-            std::cout << "Sending Speech Sound"<< std::endl;
-            std::cout << "getChannel " << (int) s_speech_in.getChannels() << std::endl;
-
-        }
-        else if (cmd_input ==" stop recording")
-        {
-            Bottle msg_stop_record;
-            msg_stop_record.addString("stop recording");
-            cmdPortOut.write(msg_stop_record);
-
-            get_sender->stopRecording();
-        }
-
-
-        //RECEIVER
-        if(cmd_input =="speech")
-        {
-            //s_speech_out = soundPortIn.read(false);
-            //if (s_speech_out!=NULL)
-            //{
-                put_receiver->renderSound(*s_speech_out);
-            //}
-        }
-        else if (cmd_input =="stop_speaking") //aggiungere lo stop speaking
-        {
-            Bottle msg_speech;
-            msg_speech.addString("stop speech");
-            cmdPortOut.write(msg_speech);
-        }
-        yarp::os::Time::delay(0.01);
-*/
-   // th.join();
-
+        	yarp::os::Time::delay(0.1);
+			Bottle cmd;
+			cmdPortIn.read(cmd);
+        	std::string cmd_input = cmd.get(0).asString();
+        	std::cout << "CMD IN: "<< cmd_input << std::endl;
+			char* answer = NULL;
+			processCommand(cmd_input.c_str(),&answer);
+			if(answer)
+            {
+				Bottle bottleAnswer;
+    			bottleAnswer.addString(answer);
+				cmdPortOut.write(bottleAnswer);
+			}
+    	}
 	}//END MAIN LOOP
-
-	pthread_join (soundReceiverThread, &status);
-
+	pthread_join (soundSenderThread, &status_recorder);
+    pthread_join (soundReceiverThread, &status);
 	return 0;
 }
