@@ -4,3 +4,4 @@ r1client/build/*
 build/*
 npm-debug.log
 tests/*
+w4r1/ext/build/*

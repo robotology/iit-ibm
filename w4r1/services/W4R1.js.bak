@@ -5,7 +5,6 @@
 
 'use strict';
 
-
 var Yarp = require('YarpJS');
 var Stream = require('stream');
 var YarpUtils = require('../utils/YarpUtils.js');
@@ -16,13 +15,6 @@ var AudioConverter = require('../utils/AudioConverter');
 var sleep = require('system-sleep');
 var fs = require('fs');
 
-
-
-var spawn = require('child_process').spawn;
-const SENDER_PATH = "./ext/build/Sender";
-const RECEIVER_PATH = "./ext/build/Receiver";
-const USE_EXT_AUDIO_IN = true;
-const USE_EXT_AUDIO_OUT = false;
 
 /**
  * @class
@@ -35,6 +27,7 @@ function W4R1(){
 	this.fwsin     = fs.createWriteStream("./resources/sttin.wav");
 
 	this.fwsin.on('error',function(err){console.log(err);});
+
 
 	var self = this;
 	this.listen = false;
@@ -86,62 +79,47 @@ function W4R1(){
 	this.tts = new TextToSpeechService();
 
 
-	//Yarp communicationi
+	//Yarp communication
+	var soundPortIn = Yarp.Port('sound');
+	soundPortIn.open('/w4r1/sound.i');
+	soundPortIn.setStrict(true);
+	this.soundPortOut = Yarp.Port('sound');
+	this.soundPortOut.open('/w4r1/sound.o');
+	this.soundPortOut.setStrict(true);
 
-	//SOUND 
-	if(USE_EXT_AUDIO_IN){
-		var inArgs = {};
-		var inOptions = {};
-		var soundProcIn =  spawn(RECEIVER_PATH, inArgs, inOptions);
-		soundProcIn.on('exit', function(code, signal) {});
-		var n=0;
-		soundProcIn.stdout.on('data', function(data) {
-			n++;
-			self.convertAndSendAudio(data);
-		});
-		soundProcIn.stdout.on('close', function() {});
-		this.soundProcIn = soundProcIn;
-	}
-	else {
-		var soundPortIn = Yarp.Port('sound');
-		soundPortIn.open('/w4r1/sound.i');
-		soundPortIn.setStrict(true);
-		var n = 0;
-		soundPortIn.onRead(function(msg){
-			//Receiving from Yarp Speech Sender
-			//console.log("W4R1 received: ",n,msg.toSend().content.length,msg.toSend().content);
-			n++;
-			self.convertAndSendAudio(msg.toSend().content);
-		});
-		this.soundPortIn = soundPortIn;
-
-	}
-	if(USE_EXT_AUDIO_OUT){
-		var outArgs = {};
-		var outOptions = {};
-		var soundProcOut = spawn(SENDER_PATH,outArgs, outOptions);
-		soundProcOut.on('exit', function(code, signal) {});
-		this.soundProcOut = soundProcOut;
-	}
-	else {
-		this.soundPortOut = Yarp.Port('sound');
-		this.soundPortOut.open('/w4r1/sound.o');
-		this.soundPortOut.setStrict(true);
-	}
-	
-	//CMD Ports
 	this.cmdPortOut = Yarp.Port('bottle');
 	this.cmdPortOut.open('/w4r1/cmd.o');
-	//
+
 	var cmdPortIn = Yarp.Port('bottle');
 	cmdPortIn.open('/w4r1/cmd.i');
+
+
+	var n = 0;
+	var self = this;
+
+	soundPortIn.onRead(function(msg){
+
+		//Receiving from Yarp Speech Sender
+		//console.log("W4R1 received: ",n,msg.toSend().content.length,msg.toSend().content);
+		console.log("W4R1 received: ",n,msg.toSend().content.length);
+
+		n++;
+
+		self.convertAndSendAudio(msg.toSend().content);
+
+	});
+
+
 	cmdPortIn.onRead(function(msg){
 		var payload = msg.toSend().content[0];
 		console.log("W4R1 command received: ",payload);
 		payload = YarpUtils.decodeBottleJson(payload);
 		self.sendCmd(payload);
 	});
+
+
 	this.cmdPortIn=cmdPortIn;
+	this.soundPortIn = soundPortIn;
 
 }
 
@@ -154,7 +132,7 @@ W4R1.prototype.sendAudio = function(buffer) {
 }
 
 W4R1.prototype.convertAndSendAudio = function(buffer) {
-	console.log('W4R1 ricevuto da R1: ',buffer.length, "=>", buffer[0]);
+	console.log('Buffer ricevuto da R1: ',buffer.length, "=>", buffer[0]);
 	this.fwsin.write(buffer);
 	this.audioConverterIn.write(buffer);
 }
@@ -216,7 +194,6 @@ function handleErrorReply(self,err){
 	console.log("W4R1: handling error: ",err);
 }
 
-
 function handleVoiceReply(self,text){
 	console.log("W4R1: handling voice reply: ",text);
 	if(text.length>0) {
@@ -237,11 +214,7 @@ function handleSendAudio(self,chunk){
 		self.soundPortOut.write(chunk);
 	}
 */	sleep(5);
-if(USE_EXT_AUDIO_OUT)
-	self.soundProcOut.stdin.write(chunk);
-else
 	self.soundPortOut.write(chunk);
-
 }
 
 function handleActionsReply(self,context){
