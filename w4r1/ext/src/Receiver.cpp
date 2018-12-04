@@ -27,20 +27,21 @@ using namespace yarp::dev;
 
 using namespace std;
 int main(int argc, char *argv[]) {
-	yError() << "*** STARTING RECEIVER ***";
+	fprintf(stderr,"*** STARTING RECEIVER ***");
 
 	//Open the network
 
     	Network yarp;
 	BufferedPort<Sound> soundPortIn;
-	
+
 	soundPortIn.open("/w4r1/sound.i");
 
 	Sound * sound;
 	while(true){
 		sound = soundPortIn.read(true);
 		if (sound){
-            		//yDebug() << "RECEIVER, sound received: " << sound->getRawDataSize() << "=>" << sound->getRawData()[0] ;
+            //yDebug() << "RECEIVER, sound received: " << sound->getRawDataSize() << "=>" << sound->getRawData()[0] ;
+			//<< "RECEIVER, sound received: " << sound->getRawDataSize() << "=>" << sound->getRawData()[0] ;
 			write (1, sound->getRawData(),sound->getRawDataSize());
 		}
 	}

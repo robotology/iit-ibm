@@ -4,7 +4,7 @@ class StreamChunker extends Transform {
   constructor (size) {
     super();
 
-    	this.size = size || 176400
+    	this.size = size || 8192//176400
     	this.buffer = Buffer.alloc(0);
 	this.padding =false;
   }

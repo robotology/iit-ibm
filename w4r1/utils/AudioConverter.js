@@ -102,7 +102,7 @@ function _init_w4r12r1(command){
          .inputBits(16)
          .inputChannels(1)
          .inputFileType('raw');
-        command.outputSampleRate(44100)
+        command.outputSampleRate(16000)
          .outputEncoding('signed')
          .outputBits(16)
          .outputChannels(2)

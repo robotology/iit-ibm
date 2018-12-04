@@ -88,7 +88,7 @@ function W4R1(){
 
 	//Yarp communicationi
 
-	//SOUND 
+	//SOUND
 	if(USE_EXT_AUDIO_IN){
 		var inArgs = {};
 		var inOptions = {};
@@ -100,6 +100,10 @@ function W4R1(){
 			self.convertAndSendAudio(data);
 		});
 		soundProcIn.stdout.on('close', function() {});
+		soundProcIn.stderr.on('data', function(data)
+		{
+			console.log('data: ', data);
+		});
 		this.soundProcIn = soundProcIn;
 	}
 	else {
@@ -128,7 +132,7 @@ function W4R1(){
 		this.soundPortOut.open('/w4r1/sound.o');
 		this.soundPortOut.setStrict(true);
 	}
-	
+
 	//CMD Ports
 	this.cmdPortOut = Yarp.Port('bottle');
 	this.cmdPortOut.open('/w4r1/cmd.o');
