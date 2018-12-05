@@ -162,7 +162,9 @@ function W4R1(){
 
 W4R1.prototype.sendAudio = function(buffer) {
 	if(this.listen){
+console.log("_send audio");
 		this.fws.write(buffer);
+console.log("_send audio 2");
 		this.stt.sendAudio(buffer);
 	}else {
 		console.log('W4R1 -audio dropped(2)- ');
@@ -328,7 +330,8 @@ function endTurn(self,cmd){
 }
 
 function closeConversation(self){
-	self.listen = false;
+	//self.listen = false;
+	stopListening(self);
 }
 
 function setContext(self,context){
@@ -337,13 +340,20 @@ function setContext(self,context){
 }
 
 function startListening(self){
-	_initAudioConverterIn(self); //TODO assicurarsi che i glussi precedenti siano chiusi
+	_initAudioConverterIn(self); //TODO assicurarsi che i flussi precedenti siano chiusi
 	self.listen = true;
+if(USE_EXT_AUDIO_IN){
+	self.soundProcIn.kill('SIGUSR1');
+}
+
 	_notifyListening(self);
 }
 
 function stopListening(self){
         self.listen = false;
+if(USE_EXT_AUDIO_IN){
+self.soundProcIn.kill('SIGUSR2');
+}
 	self.audioConverterIn.end();
         _notifySilence(self);
 }
