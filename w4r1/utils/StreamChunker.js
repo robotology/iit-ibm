@@ -17,10 +17,10 @@ class StreamChunker extends Transform {
       for (; i <= buf.length - this.size; i += this.size) {
     	     outBuff = buf.slice(i, i + this.size);
              console.log("Chunker sending",outBuff.length,outBuff);
-             console.log("Chunker left",this.buffer.lenght);
              this.push(outBuff);
          }
-         this.buffer = buf.slice(i)
+         this.buffer = buf.slice(i);
+	 console.log("Chunker left",this.buffer.length);
          next()
   }
 

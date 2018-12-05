@@ -6,7 +6,8 @@
  */
 
 'use strict';
-
+require("log-node")();
+const log = require("log").get("app");
 var express = require('express'); // app server
 var bodyParser = require('body-parser'); // parser for post requests
 var sleep = require('system-sleep');
@@ -31,13 +32,13 @@ app.use(bodyParser.json());
 /********* WATSON FOR R1 **********/
 /**********************************/
 
-console.log("Starting W4R1");
+log.info("*** Starting W4R1 APP ***");
 var W4R1 = require('./services/W4R1');
 var w4r1 = new W4R1();
 //sleeps a bit waitng W4R1 to connect to STT (To be optimized)
-console.log("sleeping");
+log("sleeping");
 sleep(1000);
-console.log("W4R1 Ready.");
+log.info("W4R1 Ready to accept connections.");
 
 
 

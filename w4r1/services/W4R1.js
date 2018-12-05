@@ -5,7 +5,6 @@
 
 'use strict';
 
-
 var Yarp = require('YarpJS');
 var Stream = require('stream');
 var YarpUtils = require('../utils/YarpUtils.js');
@@ -15,8 +14,9 @@ var AssistantService = require('./AssistantService');
 var AudioConverter = require('../utils/AudioConverter');
 var sleep = require('system-sleep');
 var fs = require('fs');
+const log = require("log").get("w4r1");
 
-
+//grep.kill('SIGKILL');
 
 var spawn = require('child_process').spawn;
 const SENDER_PATH = "./ext/build/Sender";
@@ -29,6 +29,15 @@ const USE_EXT_AUDIO_OUT = false;
  * @classdesc W4R1 - Watson For R1
  */
 function W4R1(){
+        log.info("*** Starting W4R1 ***");
+
+	/*process.on('SIGINT', function() {
+    		console.log("Caught interrupt signal");
+		this.soundProcIn.kill('SIGKILL');
+   
+        	process.exit();
+	});
+*/
 
 	this.fws     = fs.createWriteStream("./resources/stt.wav");
 	this.fws.on('error',function(err){console.log(err);});
@@ -58,7 +67,7 @@ function W4R1(){
 	});
 
 	//Audio Converter (IN)
-	_initAudioConverterIn(this);
+	//_initAudioConverterIn(this);
 
 	//Audio Converter (OUT) will be initialized just before sending audio
 
@@ -161,7 +170,11 @@ W4R1.prototype.sendAudio = function(buffer) {
 W4R1.prototype.convertAndSendAudio = function(buffer) {
 	console.log('W4R1 ricevuto da R1: ',buffer.length, "=>", buffer[0]);
 	this.fwsin.write(buffer);
-	this.audioConverterIn.write(buffer);
+	if(this.listen){
+		this.audioConverterIn.write(buffer);
+	} else {
+		console.log('W4R1 -audio dropped- ');	
+	}
 }
 
 W4R1.prototype.sendMessage = function(msg){
@@ -297,7 +310,7 @@ function _getStatus(cmd){
 
 
 function startNewConversation(self){
-	console.log("W4R1: Starting new conversation");
+	log.info("W4R1: Starting new conversation");
 	setContext(self,{});
 	self.sendMessage("c_start");
 }
@@ -322,13 +335,14 @@ function setContext(self,context){
 }
 
 function startListening(self){
-//	_initAudioConverterIn(this); //TODO assicurarsi che i glussi precedenti siano chiusi
+	_initAudioConverterIn(self); //TODO assicurarsi che i glussi precedenti siano chiusi
 	self.listen = true;
 	_notifyListening(self);
 }
 
 function stopListening(self){
         self.listen = false;
+	self.audioConverterIn.end();
         _notifySilence(self);
 }
 
