@@ -105,7 +105,7 @@ function _init_w4r12r1(command){
         command.outputSampleRate(16000)
          .outputEncoding('signed')
          .outputBits(16)
-         .outputChannels(2)
+         .outputChannels(1)
          .outputFileType('wav');
      //    command.addEffect('remix','7,8');
          //NOTE:

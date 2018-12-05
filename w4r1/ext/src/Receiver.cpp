@@ -33,13 +33,16 @@ int main(int argc, char *argv[]) {
 
     	Network yarp;
 	BufferedPort<Sound> soundPortIn;
+	soundPortIn.setStrict(true);
 
 	soundPortIn.open("/w4r1/sound.i");
 
 	Sound * sound;
+int n =0;
 	while(true){
 		sound = soundPortIn.read(true);
-		if (sound){
+		if (sound && sound > 0){
+fprintf(stderr,"received: %d size: %d",n,sound->getRawDataSize());n++;
             //yDebug() << "RECEIVER, sound received: " << sound->getRawDataSize() << "=>" << sound->getRawData()[0] ;
 			//<< "RECEIVER, sound received: " << sound->getRawDataSize() << "=>" << sound->getRawData()[0] ;
 			write (1, sound->getRawData(),sound->getRawDataSize());

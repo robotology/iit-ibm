@@ -71,26 +71,26 @@ void* SoundSenderThread(void* args)   {
     // Get a portaudio read device.
     conf.put("device","portaudio");
     conf.put("read", "");
-    //conf.put("samples", "44100");
-    //conf.put("rate", rate);
-    //conf.put("channels", channels);
+    conf.put("samples", 44100);
+    conf.put("rate", 44100);
+    conf.put("channels", 1);
     PolyDriver poly(conf);
     IAudioGrabberSound *get;
 
     // Make sure we can read sound
     poly.view(get);
     Sound s;
-    get->startRecording(); //this is optional, the first get->getsound() will do this anyway.
+   
 
     NetworkBase::connect("/r1/sound.o", "/w4r1/sound.i");
-
+ get->startRecording(); //this is optional, the first get->getsound() will do this anyway.
     double tTOT=0;
     int n=0;
 
     while (true)
     {
         double t1=yarp::os::Time::now();
-        yarp::os::Time::delay(0.90);
+       // yarp::os::Time::delay(0.90);
         get->getSound(s);
         std::cout << "Primo bit: " << (int) s.getRawData()[0] << std::endl;
         std::cout << "Size Array: " << (int) s.getRawDataSize() << std::endl;

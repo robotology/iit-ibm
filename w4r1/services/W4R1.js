@@ -97,12 +97,13 @@ function W4R1(){
 		var n=0;
 		soundProcIn.stdout.on('data', function(data) {
 			n++;
+			console.log(n,data.length);
 			self.convertAndSendAudio(data);
 		});
 		soundProcIn.stdout.on('close', function() {});
 		soundProcIn.stderr.on('data', function(data)
 		{
-			console.log('data: ', data);
+			console.log('data: ', data.toString('utf8'));
 		});
 		this.soundProcIn = soundProcIn;
 	}
