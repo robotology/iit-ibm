@@ -39,7 +39,7 @@ const char* ACTION = "action";
 const char* ACTION_PARAMS = "acrion_params";
 const char* NOTIFY_LISTEN = "listen";
 const char* NOTIFY_SILENCE = "silence";
-
+/*
 IAudioRender * init_receiver()
 {
     //RECEIVER Get an audio write device.
@@ -54,6 +54,7 @@ IAudioRender * init_receiver()
     poly_receiver.view(put_receiver);
 	return put_receiver;
 }
+*/
 
 /*** THREADS ***/
 void* SoundSenderThread(void* args)   {
@@ -108,13 +109,19 @@ void* SoundSenderThread(void* args)   {
 
 
 void* SoundReceiverThread(void* args)   {
-
+ /*int rate = config.rate;
+     int samples = config.samples;
+     int channels = config.channels;
+     bool wantRead = config.wantRead;
+     bool wantWrite = config.wantWrite;
+  int deviceNumber = config.deviceNumber;*/
 	//RECEIVER Get an audio write device.
     Property conf_receiver;
     conf_receiver.put("device","portaudio");
-    //conf_receiver.put("samples", "4096");
+   // conf_receiver.put("samples", "2048");
     conf_receiver.put("rate", "16000");
-    conf_receiver.put("write", "2");
+    conf_receiver.put("write", "1");
+    conf_receiver.put("channels","1");
     PolyDriver poly_receiver(conf_receiver);
     IAudioRender *put_receiver;
 
@@ -122,7 +129,9 @@ void* SoundReceiverThread(void* args)   {
     poly_receiver.view(put_receiver);
 
 	BufferedPort<Sound> soundPortIn;
+soundPortIn.setStrict();
 	soundPortIn.open("/r1/sound.i");
+
 
     if(!Network::connect("/w4r1/sound.o","/r1/sound.i"))
     {

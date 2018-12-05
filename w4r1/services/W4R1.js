@@ -15,14 +15,14 @@ var AudioConverter = require('../utils/AudioConverter');
 var sleep = require('system-sleep');
 var fs = require('fs');
 const log = require("log").get("w4r1");
-
-//grep.kill('SIGKILL');
-
 var spawn = require('child_process').spawn;
+
+//Settings
 const SENDER_PATH = "./ext/build/Sender";
 const RECEIVER_PATH = "./ext/build/Receiver";
 const USE_EXT_AUDIO_IN = true;
 const USE_EXT_AUDIO_OUT = false; //NOT WORKING
+const DUMP_AUDIO = false;
 
 /**
  * @class
@@ -31,22 +31,16 @@ const USE_EXT_AUDIO_OUT = false; //NOT WORKING
 function W4R1(){
         log.info("*** Starting W4R1 ***");
 
-	/*process.on('SIGINT', function() {
-    		console.log("Caught interrupt signal");
-		this.soundProcIn.kill('SIGKILL');
-   
-        	process.exit();
-	});
-	*/
-
-	this.fws     = fs.createWriteStream("./resources/stt.wav");
-	this.fws.on('error',function(err){console.log(err);});
-	this.fwsin     = fs.createWriteStream("./resources/sttin.wav");
-
-	this.fwsin.on('error',function(err){console.log(err);});
+	if(DUMP_AUDIO){
+		log.warn("Audio Dump active");
+		this.fws     = fs.createWriteStream("./resources/stt.wav");
+		this.fws.on('error',function(err){console.log(err);});
+		this.fwsin     = fs.createWriteStream("./resources/sttin.wav");
+		this.fwsin.on('error',function(err){console.log(err);});
+	}
 
 	var self = this;
-	this.listen = false;
+	this.w4r1listen = false;
 	_setSpeaking(this,false);
 
 	//STT Service
@@ -66,18 +60,17 @@ function W4R1(){
 		}
 	});
 
-	//Audio Converter (IN)
-	//_initAudioConverterIn(this);
-
+	//Audio Converter init moved
+	//Audio Converter (IN) will be initialized just before receiving audio
 	//Audio Converter (OUT) will be initialized just before sending audio
 
-	//Output Stream waiting for data from TextToSpeach  /////////da cambiare in tts !!!!!
+	//Output Stream waiting for data from TextToSpeach 
     	this.ttsOutStream = new Stream();
     	this.ttsOutStream.writable = true;
     	this.ttsOutStream.write = function(chunk){
         	//forwarding 'data' to out converter
-            	console.log("W4R1 received TTS: ",chunk.length); //,chunk);
-				self.audioConverterOut.write(chunk); //the converter emits 'data' events upon conversion
+            	//console.log("W4R1 received TTS: ",chunk.length); //,chunk);
+		self.audioConverterOut.write(chunk); //the converter emits 'data' events upon conversion
     	}
 	this.ttsOutStream.end = function(){
 		console.log("W4R1: received TTS END");
@@ -102,7 +95,9 @@ function W4R1(){
 		var inArgs = {};
 		var inOptions = {};
 		var soundProcIn =  spawn(RECEIVER_PATH, inArgs, inOptions);
-		soundProcIn.on('exit', function(code, signal) {});
+		soundProcIn.on('exit', function(code, signal) {
+			console.log("W4R1 SOUND PROC HAS EXITED");
+		});
 		var n=0;
 		soundProcIn.stdout.on('data', function(data) {
 			n++;
@@ -161,10 +156,12 @@ function W4R1(){
 
 
 W4R1.prototype.sendAudio = function(buffer) {
-	if(this.listen){
-console.log("_send audio");
-		this.fws.write(buffer);
-console.log("_send audio 2");
+	if(this.w4r1listen){
+		if(DUMP_AUDIO){
+			console.log("_send audio");
+			this.fws.write(buffer);
+		}
+		console.log("_send audio 2");
 		this.stt.sendAudio(buffer);
 	}else {
 		console.log('W4R1 -audio dropped(2)- ');
@@ -173,8 +170,10 @@ console.log("_send audio 2");
 
 W4R1.prototype.convertAndSendAudio = function(buffer) {
 	console.log('W4R1 ricevuto da R1: ',buffer.length, "=>", buffer[0]);
-	this.fwsin.write(buffer);
-	if(this.listen){
+	if(DUMP_AUDIO){
+		this.fwsin.write(buffer);
+	}
+	if(this.w4r1listen){
 		this.audioConverterIn.write(buffer);
 	} else {
 		console.log('W4R1 -audio dropped- ');	
@@ -258,7 +257,10 @@ function handleSendAudio(self,chunk){
 		console.log("W4R1 Sending aging FIRST chunk");
 		self.soundPortOut.write(chunk);
 	}
-*/	sleep(5);
+*/
+	//sleep(100);
+
+
 if(USE_EXT_AUDIO_OUT)
 	self.soundProcOut.stdin.write(chunk);
 else
@@ -271,7 +273,7 @@ function handleActionsReply(self,context){
 }
 
 function handleSttFinalTranscript(self,text){
-	if(!self.listen) return;
+	if(!self.w4r1listen) return;
 	stopListening(self);
 	self.sendMessage(text);
 }
@@ -330,7 +332,7 @@ function endTurn(self,cmd){
 }
 
 function closeConversation(self){
-	//self.listen = false;
+	//self.w4r1listen = false;
 	stopListening(self);
 }
 
@@ -341,8 +343,9 @@ function setContext(self,context){
 
 function startListening(self){
 	_initAudioConverterIn(self); //TODO assicurarsi che i flussi precedenti siano chiusi
-	self.listen = true;
+	self.w4r1listen = true;
 if(USE_EXT_AUDIO_IN){
+	log("Sending signal SIGUSR1 to Receiver");
 	self.soundProcIn.kill('SIGUSR1');
 }
 
@@ -350,7 +353,7 @@ if(USE_EXT_AUDIO_IN){
 }
 
 function stopListening(self){
-        self.listen = false;
+        self.w4r1listen = false;
 if(USE_EXT_AUDIO_IN){
 self.soundProcIn.kill('SIGUSR2');
 }
@@ -367,8 +370,13 @@ function _notifySilence(self){
 
 function _notifyListening(self){
 	//TODO VERIFY notify R1 to start listening (if conversation is not ended)
+console.log("_notifyListening 1");
 	var msg = {notify:"listen"};
-	self.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
+console.log("_notifyListening 2");
+	var m = YarpUtils.encodeBottleJson(msg)
+console.log("_notifyListening 3");
+	self.cmdPortOut.write(m);
+console.log("_notifyListening 4");
 }
 
 /*
@@ -377,11 +385,13 @@ W4R1.prototype.connect = function() {
 */
 
  function _initAudioConverterIn(self){
+	log("init audio converter IN");
 	self.audioConverterIn = new AudioConverter("r12w4r1");
 	self.audioConverterIn.on('data',function(data){
 		console.log("W4R1 converted (In): ",data.length,data);
 		self.sendAudio(data);
 	});
+	log("init audio converter IN done");
 }
 
 function _initAudioConverterOut(self){

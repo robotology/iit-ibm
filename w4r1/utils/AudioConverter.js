@@ -32,7 +32,7 @@ function AudioConverter(config){
 
 	this.trackDelay = this._config.trackDelay;
 	this.estimateEndTimeMS = Date.now(); //only used when trackDelay is true
-	this.chunker = new StreamChunker();
+	
 	var self = this;
 
 	//input strams to read incoming buffers
@@ -54,6 +54,7 @@ function AudioConverter(config){
 			console.log("DELAY: ",delay,self.estimateEndTimeMS-now);
 			if( (self.estimateEndTimeMS-now)<=0){self.estimateEndTimeMS=(now+delay);} else {self.estimateEndTimeMS+=delay;}
 			console.log("DELAYNEW: ",self.estimateEndTimeMS-now);
+			if( (self.estimateEndTimeMS-now) > (3*delay)) sleep.msleep(self.estimateEndTimeMS-now-(delay*2));
 		}
 		//
         	//console.log("Converted chunk: ",chunk.length,chunk);
@@ -90,6 +91,7 @@ function AudioConverter(config){
 	else {
 		if(config == "w4r12r1"){
 			this.trackDelay = true;
+			this.chunker = new StreamChunker();
 			this.command.output(this.chunker);
 			this.chunker.pipe(this.outStream);
 			_init_w4r12r1(this.command,this._config);
