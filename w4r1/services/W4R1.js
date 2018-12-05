@@ -22,7 +22,7 @@ var spawn = require('child_process').spawn;
 const SENDER_PATH = "./ext/build/Sender";
 const RECEIVER_PATH = "./ext/build/Receiver";
 const USE_EXT_AUDIO_IN = true;
-const USE_EXT_AUDIO_OUT = false;
+const USE_EXT_AUDIO_OUT = false; //NOT WORKING
 
 /**
  * @class
@@ -37,7 +37,7 @@ function W4R1(){
    
         	process.exit();
 	});
-*/
+	*/
 
 	this.fws     = fs.createWriteStream("./resources/stt.wav");
 	this.fws.on('error',function(err){console.log(err);});
@@ -81,8 +81,8 @@ function W4R1(){
     	}
 	this.ttsOutStream.end = function(){
 		console.log("W4R1: received TTS END");
-		self.audioConverterOut.end(); //close audioconverter
 		_setSpeaking(self,false);
+		self.audioConverterOut.end(); //close audioconverter	
 	}
 
 
@@ -95,7 +95,7 @@ function W4R1(){
 	this.tts = new TextToSpeechService();
 
 
-	//Yarp communicationi
+	//Yarp communication
 
 	//SOUND
 	if(USE_EXT_AUDIO_IN){
@@ -164,7 +164,9 @@ W4R1.prototype.sendAudio = function(buffer) {
 	if(this.listen){
 		this.fws.write(buffer);
 		this.stt.sendAudio(buffer);
-	}
+	}else {
+		console.log('W4R1 -audio dropped(2)- ');
+		}
 }
 
 W4R1.prototype.convertAndSendAudio = function(buffer) {

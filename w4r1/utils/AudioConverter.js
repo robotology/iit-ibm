@@ -2,12 +2,36 @@ var EventEmitter = require('events');
 var Stream = require('stream');
 var SoxCommand = require('sox-audio');
 var StreamChunker = require('./StreamChunker');
+var sleep = require('sleep');
 
 /**
  * @class
  * @classdesc Utility class for converting audio
  */
 function AudioConverter(config){
+
+	this._config = {};
+	if(config == "r12w4r1"){
+			this._config.trackDelay = false;
+			this._config.out = {
+					rate : 16000,
+					bits : 16,
+					channels : 1		
+				   }
+	}
+	else
+	if(config == "w4r12r1"){
+			this._config.trackDelay = true;
+			this._config.out = {
+					rate : 16000,
+					bits : 16,
+					channels : 1		
+				   }
+	}
+
+
+	this.trackDelay = this._config.trackDelay;
+	this.estimateEndTimeMS = Date.now(); //only used when trackDelay is true
 	this.chunker = new StreamChunker();
 	var self = this;
 
@@ -18,17 +42,35 @@ function AudioConverter(config){
 	//output stream waiting for converted bufffers
 	this.outStream = new Stream();
 	this.outStream.writable = true;
+
 	this.outStream.write = function(chunk){
- 		//emitting 'data' event upon conversion
+
+		if(self.trackDelay){
+			var delay = Math.round (
+						chunk.length/
+						( (self._config.out.rate/1000)*(self._config.out.bits/8)*self._config.out.channels ) 
+						);
+			var now = Date.now();
+			console.log("DELAY: ",delay,self.estimateEndTimeMS-now);
+			if( (self.estimateEndTimeMS-now)<=0){self.estimateEndTimeMS=(now+delay);} else {self.estimateEndTimeMS+=delay;}
+			console.log("DELAYNEW: ",self.estimateEndTimeMS-now);
+		}
+		//
         	//console.log("Converted chunk: ",chunk.length,chunk);
-		self.emit('data',chunk);
+		self.emit('data',chunk); //emitting 'data' event upon conversion
 	}
 
-
-this.outStream.end = function(){
-console.log("END OUT STREAM AUDIOCONVERTER");
+	this.outStream.end = function(){
+		console.log("END OUT STREAM AUDIOCONVERTER");
+		if(self.trackDelay){
+			var delay = self.estimateEndTimeMS - Date.now();
+			if(delay>0){
+				console.log("WAITING BEFORE END ",delay);
+ 				sleep.msleep(delay);
+			}
+		}
 	self.emit('end');
-}
+	}
 
 	//SOX conversoin settings
 	this.command = SoxCommand();
@@ -43,13 +85,14 @@ console.log("END OUT STREAM AUDIOCONVERTER");
 	//this.chunker.pipe(this.outStream);
 	if(config == "r12w4r1"){
 		this.command.output(this.outStream);
-		_init_r12w4r1(this.command);
+		_init_r12w4r1(this.command,this._config);
 	}
 	else {
 		if(config == "w4r12r1"){
+			this.trackDelay = true;
 			this.command.output(this.chunker);
 			this.chunker.pipe(this.outStream);
-			_init_w4r12r1(this.command);
+			_init_w4r12r1(this.command,this._config);
 		}
 		else {} //TODO handle error
 	}
@@ -61,71 +104,57 @@ console.log("END OUT STREAM AUDIOCONVERTER");
 		console.log('Sox Command Stderr: ', stderr)
 	});
 
-	//Startig SOX converter (Spawn process)
+	
 
-/* example to add arguments to sox
-this.command.__getArguments = this.command._getArguments;
-var c = this.command;
-this.command._getArguments = function() {return ['--buffer','1024'].concat(c.__getArguments());};
-console.log("AAAAAAAAAAA: ",this.command._getArguments());
-*/
+		/* example to add arguments to sox
+		 * this.command.__getArguments = this.command._getArguments;
+		 * var c = this.command;
+		 * this.command._getArguments = function() {return ['--buffer','1024'].concat(c.__getArguments());};
+		 * console.log("AAAAAAAAAAA: ",this.command._getArguments());
+		 */
+
+	//Startig SOX converter (Spawn process)
 	this.command.run();
 }
 
-function _init_r12w4r1(command){ //r1 16000 16 8
-	this.buferSize=-1;
+function _init_r12w4r1(command,config){ //r1 16000 16 8
 	command.inputSampleRate(44100)
   	 .inputEncoding('signed')
   	 .inputBits(16)
   	 .inputChannels(1)
   	 .inputFileType('raw');
-  	command.outputSampleRate(16000)
+  	command.outputSampleRate(config.out.rate)
   	 .outputEncoding('signed')
-  	 .outputBits(16)
- 	  // .outputChannels(1)
+  	 .outputBits(config.out.bits)
+ 	  // .outputChannels(config.out.channels)
   	 .outputFileType('wav');
 	 //command.addEffect('remix','7,8');
 	 //NOTE:
-	 //selects usefull audio channells
+	 //select usefull audio channels
 	 //selecting only meaningufull channels
-	 //(mixing empy ones causes the volume to be lowered)
-	 //during test channes 1 and 2 apperas in position 7 end 8.
+	 //(mixing empty ones causes the volume to be lowered)
+	 //during test channes 1 and 2 apperas to be in 7 and 8 positions.
 }
 
-function _init_w4r12r1(command){
-//	this.bufferSize = 4096;
-//	this._buffer = new Buffer(bufferSize);
-//	this._tmpBuff = new Buffer();
-//	this.position = 0;
+function _init_w4r12r1(command,config){
         command.inputSampleRate(22050)
          .inputEncoding('signed')
          .inputBits(16)
          .inputChannels(1)
          .inputFileType('raw');
-        command.outputSampleRate(16000)
+        command.outputSampleRate(config.out.rate)
          .outputEncoding('signed')
-         .outputBits(16)
-         .outputChannels(1)
+         .outputBits(config.out.bits)
+         .outputChannels(config.out.channels)
          .outputFileType('wav');
-     //    command.addEffect('remix','7,8');
-         //NOTE:
-         //selects usefull audio channells
-         //selecting only meaningufull channels
-         //(mixing empy ones causes the volume to be lowered)
-         //during test channes 1 and 2 apperas in position 7 end 8.
 }
 
 
 AudioConverter.prototype.__proto__ = EventEmitter.EventEmitter.prototype; //inheredits EventEmitter functions
 
 AudioConverter.prototype.write = function(buffer){
-//	if(this.bufferSize<0){
-		this.inStream.emit('data',buffer);
-//	} else {
-
-
-//	}
-}
+	this.inStream.emit('data',buffer);
+};
 
 AudioConverter.prototype.end = function(){
 	this.inStream.emit('end');
