@@ -16,7 +16,8 @@ function AudioConverter(config){
 			this._config.out = {
 					rate : 16000,
 					bits : 16,
-					channels : 1		
+					channels: 1,
+					encoding : 'signed'		
 				   }
 	}
 	else
@@ -25,7 +26,8 @@ function AudioConverter(config){
 			this._config.out = {
 					rate : 16000,
 					bits : 16,
-					channels : 1		
+					channels : 1,
+					encoding: 'signed'	
 				   }
 	}
 
@@ -51,9 +53,9 @@ function AudioConverter(config){
 						( (self._config.out.rate/1000)*(self._config.out.bits/8)*self._config.out.channels ) 
 						);
 			var now = Date.now();
-			console.log("DELAY: ",delay,self.estimateEndTimeMS-now);
+			//console.log("DELAY: ",delay,self.estimateEndTimeMS-now);
 			if( (self.estimateEndTimeMS-now)<=0){self.estimateEndTimeMS=(now+delay);} else {self.estimateEndTimeMS+=delay;}
-			console.log("DELAYNEW: ",self.estimateEndTimeMS-now);
+			//console.log("DELAYNEW: ",self.estimateEndTimeMS-now);
 			if( (self.estimateEndTimeMS-now) > (3*delay)) sleep.msleep(self.estimateEndTimeMS-now-(delay*2));
 		}
 		//
@@ -126,7 +128,7 @@ function _init_r12w4r1(command,config){ //r1 16000 16 8
   	 .inputChannels(1)
   	 .inputFileType('raw');
   	command.outputSampleRate(config.out.rate)
-  	 .outputEncoding('signed')
+  	 .outputEncoding(config.out.encoding)
   	 .outputBits(config.out.bits)
  	  // .outputChannels(config.out.channels)
   	 .outputFileType('wav');
@@ -145,7 +147,7 @@ function _init_w4r12r1(command,config){
          .inputChannels(1)
          .inputFileType('raw');
         command.outputSampleRate(config.out.rate)
-         .outputEncoding('signed')
+         .outputEncoding(config.out.encoding)
          .outputBits(config.out.bits)
          .outputChannels(config.out.channels)
          .outputFileType('wav');

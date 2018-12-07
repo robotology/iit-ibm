@@ -1,5 +1,5 @@
 applications:
-- name: watson-assistant-simple
+- name: watson-for-r1
   command: npm start
   path: .
   memory: 256M

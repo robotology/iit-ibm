@@ -12,7 +12,6 @@ var Cedat85SpeechToTextService = require('./Cedat85STTService');
 var TextToSpeechService = require('./TextToSpeechService');
 var AssistantService = require('./AssistantService');
 var AudioConverter = require('../utils/AudioConverter');
-var sleep = require('system-sleep');
 var fs = require('fs');
 const log = require("log").get("w4r1");
 var spawn = require('child_process').spawn;
@@ -60,7 +59,7 @@ function W4R1(){
 		}
 	});
 
-	//Audio Converter init moved
+	//NOTE: Audio Converters need to be initialized before starting
 	//Audio Converter (IN) will be initialized just before receiving audio
 	//Audio Converter (OUT) will be initialized just before sending audio
 
@@ -68,7 +67,7 @@ function W4R1(){
     	this.ttsOutStream = new Stream();
     	this.ttsOutStream.writable = true;
     	this.ttsOutStream.write = function(chunk){
-        	//forwarding 'data' to out converter
+        	//forwarding 'chunk' to out converter
             	//console.log("W4R1 received TTS: ",chunk.length); //,chunk);
 		self.audioConverterOut.write(chunk); //the converter emits 'data' events upon conversion
     	}
@@ -169,7 +168,7 @@ W4R1.prototype.sendAudio = function(buffer) {
 }
 
 W4R1.prototype.convertAndSendAudio = function(buffer) {
-	console.log('W4R1 ricevuto da R1: ',buffer.length, "=>", buffer[0]);
+	log('W4R1 ricevuto da R1: ',buffer.length, "=>", buffer[0]);
 	if(DUMP_AUDIO){
 		this.fwsin.write(buffer);
 	}
@@ -191,7 +190,7 @@ W4R1.prototype.sendMessage = function(msg){
 }
 
 W4R1.prototype.streamReply = function(text) {
-	console.log("W4R1 streaming: ",text);
+	log("W4R1 streaming: ",text);
 	_setSpeaking(this,true);
 	this.tts.stream(text,this.ttsOutStream,null);
 }
@@ -245,31 +244,23 @@ function handleVoiceReply(self,text){
 		self.streamReply(text);
 	}
 	else {
-		//TODO simulate end here
+		//Simulating end turn here
+		log("Empty message");
+		endTurn(self,{});
 	}
 
 }
 
 function handleSendAudio(self,chunk){
-//	console.log("W4R1: sending audio: ",chunk.length);
-/*	if(self.firstOutAudio==true){
-	   self.firstOutAudio=false;
-		console.log("W4R1 Sending aging FIRST chunk");
+	if(USE_EXT_AUDIO_OUT)
+		self.soundProcOut.stdin.write(chunk);
+	else {
 		self.soundPortOut.write(chunk);
 	}
-*/
-	//sleep(100);
-
-
-if(USE_EXT_AUDIO_OUT)
-	self.soundProcOut.stdin.write(chunk);
-else
-	self.soundPortOut.write(chunk);
-
 }
 
 function handleActionsReply(self,context){
-
+	//TODO handle actions...
 }
 
 function handleSttFinalTranscript(self,text){
@@ -332,7 +323,6 @@ function endTurn(self,cmd){
 }
 
 function closeConversation(self){
-	//self.w4r1listen = false;
 	stopListening(self);
 }
 
@@ -344,45 +334,37 @@ function setContext(self,context){
 function startListening(self){
 	_initAudioConverterIn(self); //TODO assicurarsi che i flussi precedenti siano chiusi
 	self.w4r1listen = true;
-if(USE_EXT_AUDIO_IN){
-	log("Sending signal SIGUSR1 to Receiver");
-	self.soundProcIn.kill('SIGUSR1');
-}
-
+	if(USE_EXT_AUDIO_IN){
+		log("Sending Listen signal SIGUSR1 to Receiver");
+		self.soundProcIn.kill('SIGUSR1');
+	}
 	_notifyListening(self);
 }
 
 function stopListening(self){
         self.w4r1listen = false;
-if(USE_EXT_AUDIO_IN){
-self.soundProcIn.kill('SIGUSR2');
-}
+	if(USE_EXT_AUDIO_IN){
+		log("Sending Stop Listen signal SIGUSR2 to Receiver");
+		self.soundProcIn.kill('SIGUSR2');
+	}
 	self.audioConverterIn.end();
         _notifySilence(self);
 }
 
 
 function _notifySilence(self){
-	//TODO VERIFY notify R1 to start listening (if conversation is not ended)
 	var msg = {notify:"silence"};
 	self.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
 }
 
 function _notifyListening(self){
-	//TODO VERIFY notify R1 to start listening (if conversation is not ended)
-console.log("_notifyListening 1");
+	//TODO VERIFY that end conversation is correctly handled somewhere
 	var msg = {notify:"listen"};
-console.log("_notifyListening 2");
 	var m = YarpUtils.encodeBottleJson(msg)
-console.log("_notifyListening 3");
 	self.cmdPortOut.write(m);
-console.log("_notifyListening 4");
 }
 
-/*
-W4R1.prototype.connect = function() {
-}
-*/
+
 
  function _initAudioConverterIn(self){
 	log("init audio converter IN");
@@ -400,7 +382,7 @@ function _initAudioConverterOut(self){
 		console.log("W4R1 converted (Out): ",data.length,data);
                 handleSendAudio(self,data);
         });
-	self.audioConverterOut.on('end',function(){endTurn(self,{});}); //XXX here can be notified internally that streaming is ended
+	self.audioConverterOut.on('end',function(){endTurn(self,{});}); //Here is internally notified that streaming is ended
 }
 
 function _setSpeaking(self,isSpeaking){
