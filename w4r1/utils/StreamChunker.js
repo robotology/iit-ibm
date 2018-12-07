@@ -4,9 +4,9 @@ class StreamChunker extends Transform {
   constructor (size) {
     super();
 
-    	this.size = size || 4096//176400
+    	this.size = size || 32000 //NOTE: Must be two times the value of NUM_SAMPLES defined in YarpJS_Sound.cpp
     	this.buffer = Buffer.alloc(0);
-	this.padding =false;
+	this.padding =true; //use padding to avoid noise at the and of the last sound chunk
   }
 
   _transform (chunk, _, next) {
@@ -25,15 +25,17 @@ class StreamChunker extends Transform {
   }
 
   _flush (next) {
-	     console.log("Chunker flush");
-         if (this.padding && this.buffer.length > 0) {
-             const zeroes = Buffer.alloc(this.size - this.buffer.length)
-             this.push(Buffer.concat([this.buffer, zeroes]))
-         } else {
-             this.push(this.buffer)
-         }
-         next()
+	 console.log("Chunker flush");
+	 if(this.buffer.length > 0) {    
+         	if (this.padding && this.buffer.length < this.size) {
+             		const zeroes = Buffer.alloc(this.size - this.buffer.length);
+             		this.push(Buffer.concat([this.buffer, zeroes]));
+         	} else {
+             		this.push(this.buffer);
+         	}
+	}
+        next();
   }
 }
 
-module.exports = StreamChunker
+module.exports = StreamChunker;
