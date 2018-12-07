@@ -50,14 +50,10 @@ int main(int argc, char *argv[]) {
 	//Open the network
 
     	Network yarp;
-fprintf(stderr,"1");
 
 	BufferedPort<Sound> soundPortIn;
-fprintf(stderr,"2");
 	soundPortIn.setStrict(true);
-fprintf(stderr,"3");
 	soundPortIn.open("/w4r1/sound.i");
-fprintf(stderr,"4");
 	Sound * sound;
 int n =0;
 	while(true){

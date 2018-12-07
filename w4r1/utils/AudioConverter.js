@@ -150,7 +150,7 @@ function _init_w4r12r1(command,config){
          .outputEncoding(config.out.encoding)
          .outputBits(config.out.bits)
          .outputChannels(config.out.channels)
-         .outputFileType('wav');
+         .outputFileType('raw');
 }
 
 
