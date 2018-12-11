@@ -10,7 +10,7 @@ require("log-node")();
 const log = require("log").get("app");
 var express = require('express'); // app server
 var bodyParser = require('body-parser'); // parser for post requests
-var sleep = require('system-sleep');
+var sleep = require('sleep');
 
 
 
@@ -36,8 +36,8 @@ log.info("*** Starting W4R1 APP ***");
 var W4R1 = require('./services/W4R1');
 var w4r1 = new W4R1();
 //sleeps a bit waitng W4R1 to connect to STT (To be optimized)
-log("sleeping");
-sleep(1000);
+//log("sleeping");
+//sleep.msleep(1000);
 log.info("W4R1 Ready to accept connections.");
 
 
@@ -116,30 +116,30 @@ function R1_client_fromApp() {
 	//Connection to W4R1
    	r1Client.connect();
     	console.log("---------------------------------------------------");
-	sleep(3000);
+	sleep.msleep(3000);
 
 	//Starting conversation and receiving welcome message
 	console.log("Testing Start Conversation");
 	r1Client.testStartConversation();
-	sleep(5000);
+	sleep.msleep(5000);
     	console.log("---------------------------------------------------");
 
 	//Test end turn
 	console.log("Notify end turn");
 	r1Client.testNotifyTunrCompleted();
-	sleep(3000);
+	sleep.msleep(3000);
     	console.log("---------------------------------------------------");
 
 	//Test Assistant
 	console.log("Testing Assitant");
 	w4r1.sendMessage("vorrei prenotare una visita");
-	sleep(5000);
+	sleep.msleep(5000);
     	console.log("---------------------------------------------------");
 
 	//Test end turn
 	console.log("Testing End turn");
 	r1Client.testNotifyTunrCompleted();
-	sleep(3000);
+	sleep.msleep(3000);
     	console.log("---------------------------------------------------");
 
 	//Test Assistant and STT
@@ -147,7 +147,7 @@ function R1_client_fromApp() {
 	r1Client.testAudio();
     	console.log("---------------------------------------------------");
 
-sleep(10000);
+sleep.msleep(10000);
 console.log("R1 client test end");
 }
 
