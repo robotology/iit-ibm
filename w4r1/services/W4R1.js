@@ -21,7 +21,7 @@ const SENDER_PATH = "./ext/build/Sender";
 const RECEIVER_PATH = "./ext/build/Receiver";
 const USE_EXT_AUDIO_IN = true;
 const USE_EXT_AUDIO_OUT = false; //NOT WORKING
-const DUMP_AUDIO = false;
+const DUMP_AUDIO = true;
 
 /**
  * @class
@@ -50,10 +50,14 @@ function W4R1(){
 	});
 	this.stt.on('transcript',(msg)=>{
 		if(msg.final==true) {
+            +new Date;
+            console.log('MILLISECONDS FINAL TRANSCRIPT',Date.now());
 			console.log("WR1 received STT FINAL Transcript available: ",msg.transcript);
 			handleSttFinalTranscript(self,msg.transcript);
 		}
 		else {
+            //+new Date;
+            //console.log('MILLISECONDS PARTIAL TRANSCRIPT',Date.now());
 			console.log("WR1 received STT PARTIAL Transcript: ",msg.transcript);
 			handleSttPartialTranscript(self,msg.transcript);
 		}
@@ -69,6 +73,7 @@ function W4R1(){
     	this.ttsOutStream.write = function(chunk){
         	//forwarding 'chunk' to out converter
             	//console.log("W4R1 received TTS: ",chunk.length); //,chunk);
+
 		self.audioConverterOut.write(chunk); //the converter emits 'data' events upon conversion
     	}
 	this.ttsOutStream.end = function(){
@@ -112,8 +117,8 @@ function W4R1(){
 	}
 	else {
 		var soundPortIn = Yarp.Port('sound');
-		soundPortIn.open('/w4r1/sound.i');
-		soundPortIn.setStrict(true);
+		soundPortIn.open('/w4r1/sound.i');      	
+        soundPortIn.setStrict(true);
 		var n = 0;
 		soundPortIn.onRead(function(msg){
 			//Receiving from Yarp Speech Sender
@@ -360,6 +365,8 @@ function _notifySilence(self){
 function _notifyListening(self){
 	//TODO VERIFY that end conversation is correctly handled somewhere
 	var msg = {notify:"listen"};
+    +new Date;
+    console.log('MILLISECONDS NOTIFY LISTEN',Date.now());
 	var m = YarpUtils.encodeBottleJson(msg)
 	self.cmdPortOut.write(m);
 }
@@ -368,7 +375,7 @@ function _notifyListening(self){
 
  function _initAudioConverterIn(self){
 	log("init audio converter IN");
-	self.audioConverterIn = new AudioConverter("r12w4r1");
+	self.audioConverterIn = new AudioConverter("r12w4r1");  //use r12w4r1 to run on R1; r12w4r1-pc to run on PC
 	self.audioConverterIn.on('data',function(data){
 		console.log("W4R1 converted (In): ",data.length,data);
 		self.sendAudio(data);

@@ -39,22 +39,8 @@ const char* ACTION = "action";
 const char* ACTION_PARAMS = "acrion_params";
 const char* NOTIFY_LISTEN = "listen";
 const char* NOTIFY_SILENCE = "silence";
-/*
-IAudioRender * init_receiver()
-{
-    //RECEIVER Get an audio write device.
-    Property conf_receiver;
-    conf_receiver.put("device","portaudio");
-    conf_receiver.put("samples", "4096");
-    conf_receiver.put("write", "1");
-    PolyDriver poly_receiver(conf_receiver);
-    IAudioRender *put_receiver;
 
-    // Make sure we can write soundinit_receiver()
-    poly_receiver.view(put_receiver);
-	return put_receiver;
-}
-*/
+char * SENDER_DEVICE = "";
 
 /*** THREADS ***/
 void* SoundSenderThread(void* args)   {
@@ -70,10 +56,10 @@ void* SoundSenderThread(void* args)   {
     int samples = 16000;
 
     // Get a portaudio read device.
-    conf.put("device","portaudio");
+    conf.put("device",SENDER_DEVICE);
     conf.put("read", "");
-    conf.put("samples", 44100);
-    conf.put("rate", 44100);
+    conf.put("samples", 16000);
+    conf.put("rate", 16000);
     conf.put("channels", 1);
     PolyDriver poly(conf);
     IAudioGrabberSound *get;
@@ -226,7 +212,24 @@ flag=1;
 pthread_mutex_unlock (&mutex);
 */
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
+    
+    if (argc > 1)
+    {
+        printf("ARGC %d",argc);
+        
+    //    if(strcmp(argv[0],"PC")==0)
+    //    {
+            SENDER_DEVICE = "portaudio";
+    //    }
+    }   
+    else 
+    {
+        SENDER_DEVICE = "r1face_mic";
+    }
+    
+    
+    
 	yDebug() << "*** STARTING R1 Client for W4R1. ***";
 
 	// Open the network

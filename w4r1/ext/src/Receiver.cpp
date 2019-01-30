@@ -58,6 +58,7 @@ int main(int argc, char *argv[]) {
 int n =0;
 	while(true){
 		sound = soundPortIn.read(true);
+        std::cerr << " ch " << sound->getChannels() << "  freq " << sound->getFrequency();
 		if (sound && sound > 0){
 fprintf(stderr,"received: %d size: %lu",n,sound->getRawDataSize());n++;
             //yDebug() << "RECEIVER, sound received: " << sound->getRawDataSize() << "=>" << sound->getRawData()[0] ;

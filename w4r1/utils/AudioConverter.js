@@ -4,6 +4,8 @@ var SoxCommand = require('sox-audio');
 var StreamChunker = require('./StreamChunker');
 var sleep = require('sleep');
 
+
+
 /**
  * @class
  * @classdesc Utility class for converting audio
@@ -11,8 +13,10 @@ var sleep = require('sleep');
 function AudioConverter(config){
 
 	this._config = {};
-	if(config == "r12w4r1"){
-			this._config.trackDelay = false;
+	if(config == "r12w4r1" || config == "r12w4r1-pc"){
+            console.log("USING CONFIG",config);        
+			if(config == "r12w4r1-pc")this._config.usepc = true;
+            this._config.trackDelay = false;
 			this._config.out = {
 					rate : 16000,
 					bits : 16,
@@ -22,7 +26,7 @@ function AudioConverter(config){
 	}
 	else
 	if(config == "w4r12r1"){
-			this._config.trackDelay = true;
+			this._config.trackDelay = true ;  //PUT TRUE!!!!!!
 			this._config.out = {
 					rate : 16000,
 					bits : 16,
@@ -56,7 +60,7 @@ function AudioConverter(config){
 			//console.log("DELAY: ",delay,self.estimateEndTimeMS-now);
 			if( (self.estimateEndTimeMS-now)<=0){self.estimateEndTimeMS=(now+delay);} else {self.estimateEndTimeMS+=delay;}
 			//console.log("DELAYNEW: ",self.estimateEndTimeMS-now);
-			if( (self.estimateEndTimeMS-now) > (3*delay)) sleep.msleep(self.estimateEndTimeMS-now-(delay*2));
+			if( (self.estimateEndTimeMS-now) > (2*delay)) sleep.msleep(self.estimateEndTimeMS-now-(delay*1)); //era tre due proviamo con due uno
 		}
 		//
         	//console.log("Converted chunk: ",chunk.length,chunk);
@@ -86,7 +90,8 @@ function AudioConverter(config){
 	//this.command.output(this.outStream);
 	//this.command.output(this.chunker);
 	//this.chunker.pipe(this.outStream);
-	if(config == "r12w4r1"){
+	if(config == "r12w4r1" || config == "r12w4r1-pc"){
+
 		this.command.output(this.outStream);
 		_init_r12w4r1(this.command,this._config);
 	}
@@ -122,7 +127,70 @@ function AudioConverter(config){
 }
 
 function _init_r12w4r1(command,config){ //r1 16000 16 8
+    
+    
+    if(config.usepc ==true)
+    {
+    
+    command.inputSampleRate(44100)
+    //command.inputSampleRate(16000)
+  	 .inputEncoding('signed')
+  	 .inputBits(16)
+  	 .inputChannels(1)
+  	 .inputFileType('raw');
+  	command.outputSampleRate(config.out.rate)
+  	 .outputEncoding(config.out.encoding)
+  	 .outputBits(config.out.bits)
+ 	  // .outputChannels(config.out.channels)
+  	 .outputFileType('wav');
+	
+    }
+
+    else
+    {
+            command.inputSampleRate(16000)
+  	 .inputEncoding('signed')
+  	 .inputBits(16)
+  	 .inputChannels(1)
+  	 .inputFileType('raw');
+  	command.outputSampleRate(config.out.rate)
+  	 .outputEncoding(config.out.encoding)
+  	 .outputBits(config.out.bits)
+     .outputChannels(1)
+ 	  // .outputChannels(config.out.channels)
+  	 .outputFileType('wav');
+	 command.addEffect('gain','40');
+    
+	 //NOTE:
+	 //select usefull audio channels
+	 //selecting only meaningufull channels
+	 //(mixing empty ones causes the volume to be lowered)
+	 //during test channes 1 and 2 apperas to be in 7 and 8 positions.
+        
+        /*
+    command.inputSampleRate(16000)
+  	 .inputEncoding('signed')
+  	 .inputBits(16)
+  	 .inputChannels(8)
+  	 .inputFileType('raw');
+  	command.outputSampleRate(config.out.rate)
+  	 .outputEncoding(config.out.encoding)
+  	 .outputBits(config.out.bits)
+     .outputChannels(1)
+ 	  // .outputChannels(config.out.channels)
+  	 .outputFileType('wav');
+	 command.addEffect('remix','7,8');
+	 //NOTE:
+	 //select usefull audio channels
+	 //selecting only meaningufull channels
+	 //(mixing empty ones causes the volume to be lowered)
+	 //during test channes 1 and 2 apperas to be in 7 and 8 positions.
+     */
+    }
+
+    /*
 	command.inputSampleRate(44100)
+    //command.inputSampleRate(16000)
   	 .inputEncoding('signed')
   	 .inputBits(16)
   	 .inputChannels(1)
@@ -138,6 +206,7 @@ function _init_r12w4r1(command,config){ //r1 16000 16 8
 	 //selecting only meaningufull channels
 	 //(mixing empty ones causes the volume to be lowered)
 	 //during test channes 1 and 2 apperas to be in 7 and 8 positions.
+     */
 }
 
 function _init_w4r12r1(command,config){
