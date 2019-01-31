@@ -72,8 +72,6 @@ WORKDIR /
 RUN npm install --prefix app/w4r1
 
 #Configure Yarp Server
-RUN yarp namespace $DEFAULT_YarpNamespace
-RUN yarp conf $DEFAULT_YarpServerIp $DEFAULT_YarpServerPort
 
 #Uncomment following lines to autostart
 #WORKDIR /app/w4r1
