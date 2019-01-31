@@ -17,7 +17,8 @@ RUN sh -c 'echo "deb http://www.icub.org/ubuntu xenial contrib/science" > /etc/a
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 57A5ACB6110576A6
 
 #Update the list of packages and install YARP
-RUN apt-get update && apt-get install -y yarp
+RUN apt-get update
+RUN apt-get install -y yarp
 
 #-------------------------
 ### SOX and NODE ###
