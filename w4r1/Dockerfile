@@ -1,7 +1,7 @@
 FROM ubuntu:xenial
 
 ### YARP ###
-ARG W4R1_FOLDER=../
+ARG W4R1_FOLDER=.
 
 MAINTAINER Alessandro Faraotti <alessandro.faraotti@it.ibm.com>
 
@@ -83,11 +83,11 @@ CMD ["bash"]
 ########## DOCS ################################
 #
 # TO BUILD EXECUTE
-# docker build -t=w4r1_docker --build-arg YARP_NAMESPACE=/root --build-arg YARP_SERVER_IP=127.0.0.1 --build-arg YARP_SERVER_PORT=10000 .
+# docker build -t=w4r1_docker .
 #
 # TO START EXECUTE THE FOLLOWING COMMAND (add -it after run for an interactive session)
 # -> TODO specify yarp server... 
-# docker run w4r1_docker npm start -prefix=app/w4r1
+# docker run w4r1_docker start.sh -prefix=app/w4r1
 #
 # OTHER USEFULL COMMANDS
 # Enter the container
