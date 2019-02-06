@@ -172,7 +172,10 @@ Network::connect("/r1/behaviour/behaviour.o","/r1/behaviour.i");
 
         	std::cout << "behaviour recevied: "<< bb_input << std::endl;
 		
-		if(bb_input == "error"){
+		if(
+			strcmp((const char*)bb_input ,"error")==0
+			){
+			
 			Bottle msg;
     			msg.addString("{ \"status\":\"action_completed\",\"action_status\":\"error\" }");
 			cmdPortOut.write(msg);
