@@ -1,0 +1,3 @@
+/home/giulia/workspace/iit-ibm/actionsService/src/CMakeFiles/rebuild_cache.dir
+/home/giulia/workspace/iit-ibm/actionsService/src/CMakeFiles/actionsservice.dir
+/home/giulia/workspace/iit-ibm/actionsService/src/CMakeFiles/edit_cache.dir
