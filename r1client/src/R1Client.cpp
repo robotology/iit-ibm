@@ -135,6 +135,60 @@ soundPortIn.setStrict();
 	}
 }
 
+
+
+/****************/
+void* BehaviourReceiverThread(void* args)   {
+
+
+	Port behaviourPortIn;
+    	behaviourPortIn.open("/r1/behaviour.i");
+	 sleep(0.5);
+	
+
+
+Port cmdPortOut;
+    cmdPortOut.open("/r1/cmdbehaviour.o");
+   
+
+
+
+    
+
+
+
+Network::connect("/r1/behaviour/behaviour.o","/r1/behaviour.i");
+    Network::connect("/r1/cmdbehaviour.o","/w4r1/cmd.i");
+
+	//LOOP
+//MAIN LOOP holding several conversations
+  	
+    	while(true)
+        {
+        	yarp::os::Time::delay(0.1);
+			Bottle bb;
+			behaviourPortIn.read(bb);
+        	std::string bb_input = bb.get(0).asString();
+
+        	std::cout << "behaviour recevied: "<< bb_input << std::endl;
+		
+		if(bb_input == "error"){
+			Bottle msg;
+    			msg.addString("{ \"status\":\"action_completed\",\"action_status\":\"error\" }");
+			cmdPortOut.write(msg);
+		}
+		else {
+			Bottle msg;
+    			msg.addString("{ \"status\":\"action_completed\" }");
+			cmdPortOut.write(msg);
+		}
+    	
+	}//END MAIN LOOP
+
+}
+
+/****************/
+
 /** END TRHEADS **/
 char* unescape(const char* s,char quote){ //remove each second occurence of quote
         char *unescapedS = new char[strlen(s)*sizeof(char)];
@@ -241,12 +295,30 @@ int main(int argc, char* argv[]) {
     Port cmdPortIn;
     cmdPortIn.open("/r1/cmd.i");
 
-	sleep(0.5);
+    Port behaviourPortOut;
+    behaviourPortOut.open("/r1/behaviour.o");
 
-	Network::connect("/r1/cmd.o","/w4r1/cmd.i");
+    
+
+
+    sleep(0.5);
+
+    Network::connect("/r1/cmd.o","/w4r1/cmd.i");
     Network::connect("/w4r1/cmd.o","/r1/cmd.i");
+
+//TODO CONNECT BEHAVIOUR PORT HERE
+    Network::connect("/r1/behaviour.o","/r1/behaviour/behaviour.i");
+
+
     //Network::connect("/r1/sound.o","/w4r1/sound.i","tcp");
     //Network::connect("/w4r1/sound.o","/r1/sound.i");
+
+
+//BEHAVIOUR RECEIVER THREAD
+yDebug() << "Starting BehaviourReceiverThread";
+pthread_t behaviourReceiverThread;
+void* status_behaviour;
+pthread_create(&behaviourReceiverThread, NULL, BehaviourReceiverThread, NULL);
 
     //SOUND THREAD SENDER
 	yDebug() << "Starting Sound Recorder";
@@ -262,7 +334,7 @@ int main(int argc, char* argv[]) {
 	pthread_create(&soundReceiverThread, NULL, SoundReceiverThread, NULL);
   	//pthread_join (soundReceiverThread, &status);
 
-	//MAIN LOOP holding several conversations
+//MAIN LOOP holding several conversations
     bool shutdown = false;
 	yDebug() << "Entering main loop.";
 	while(!shutdown)
@@ -293,5 +365,6 @@ int main(int argc, char* argv[]) {
 	}//END MAIN LOOP
 	pthread_join (soundSenderThread, &status_recorder);
     pthread_join (soundReceiverThread, &status);
+pthread_join (behaviourReceiverThread,&status_behaviour);
 	return 0;
 }

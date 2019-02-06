@@ -40,7 +40,10 @@ function W4R1(){
 
 	var self = this;
 	this.w4r1listen = false;
+
+	//init internal status.
 	_setSpeaking(this,false);
+	_setDoing(this,false);
 
 	//STT Service
 	this.stt = new Cedat85SpeechToTextService();
@@ -196,7 +199,7 @@ W4R1.prototype.sendMessage = function(msg){
 
 W4R1.prototype.streamReply = function(text) {
 	log("W4R1 streaming: ",text);
-	_setSpeaking(this,true);
+	
 	this.tts.stream(text,this.ttsOutStream,null);
 }
 
@@ -223,17 +226,19 @@ function _cleanContextReply(context){
 
 function _prepareContext(cmd,context){
 		context.R1 = {};
-		if(cmd.notify)
-			context.R1.notify = cmd.notify;
-		if(cmd.results)
-			context.R1.results = cmd.results;
+		if(cmd.action_status)
+			context.R1.status = cmd.action_status;
+		if(cmd.action_results)
+			context.R1.results = cmd.action_results;
 }
 
 
 
 function handleReply(self,outputText,context){  //TODO prestare attenzione a come richiedere/gestire la notifica di fine turno
-	handleVoiceReply(self,outputText);
+	
 	handleActionsReply(self,context);
+	handleVoiceReply(self,outputText);
+
 }
 
 function handleErrorReply(self,err){
@@ -245,13 +250,14 @@ function handleErrorReply(self,err){
 function handleVoiceReply(self,text){
 	console.log("W4R1: handling voice reply: ",text);
 	if(text.length>0) {
+		_setSpeaking(self,true);
 		_initAudioConverterOut(self);
 		self.streamReply(text);
 	}
 	else {
 		//Simulating end turn here
 		log("Empty message");
-		endTurn(self,{});
+		endTurn(self);
 	}
 
 }
@@ -265,7 +271,22 @@ function handleSendAudio(self,chunk){
 }
 
 function handleActionsReply(self,context){
+	if(context.action){
+		log("Handling action: ",action);
+		_setDoing(self,true);
+		var params = (context.action_params)?context.action_params:{};
+		executeAction(self,context.action,params);	
+	}
+
 	//TODO handle actions...
+}
+
+
+function executeAction(self,action,params){
+	log("Executing action");
+	var msg = {action:action};
+	msg.action_params = params;
+	self.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
 }
 
 function handleSttFinalTranscript(self,text){
@@ -281,11 +302,12 @@ function handleSttPartialTranscript(self,text){
 W4R1.prototype.sendCmd= function(cmd){
 	/* MESSAGE TEMPLATE  R1 => W4R1
 	 * {
-         * 	status: conv_start ! conv_end | turn_completed
-	 * 	notify: done | error
+         * 	status: conv_start | conv_end | action_completed
 	 *	results: {<parm>:<value>}
-	 * 	action: <action_name>			//NOT SUPPORTED
-	 *      action_params: { <param>:<value>... }	//NOT SUPPORTED
+	 * 	action: <action_name> //NOT SUPPORTED	
+	 *      action_params: { <param>:<value>... } //NOT SUPPORTED	
+	 *	action_results: {<any_object>}
+	 *	action_status: done | error
          * }
          */
 
@@ -298,9 +320,13 @@ W4R1.prototype.sendCmd= function(cmd){
 		case "conv_end":
 			closeConversation(this);
 			break;
-		case "turn_completed":
-			endTurn(this,cmd);
-			break;
+		case "action_completed":
+			//expecting action_status and action_results
+			endAction(this,cmd);
+			break;		
+//		case "turn_completed":
+//			endTurn(this,cmd);
+//			break;
 		default:
 			break;
 	}
@@ -317,10 +343,34 @@ function startNewConversation(self){
 	self.sendMessage("c_start");
 }
 
-function endTurn(self,cmd){
+
+function endAction(self,cmd){
+	log.info("Action completed: ",cmd);
+	_prepareContext(cmd,self.context);
+	_setDoing(self,false);
+	_endTurn(self);
+	//TODO
+	//funzionamento:
+	//2 variablili speaking e doing 
+	//quando finisce di parlare controlla se c'è una azione pending e se non c'è abbia il listening/chiude il turno
+	//analogamente quando finisce l'azione controlla se sta parlano e se non sta parlando finisce il turno
+	//in questo modo l'ultimo dei due che chiama la chiusura effettivamente la fa
+	//chiaramente le variabili speaking e doing sono inizializzate a falso
+	//le variabili vengono portate a true solo se necessario.
+	//prima viene valutata action e poi speaking
+	//le variabili vanno messe a vero come prima cosa
+	//doing viene messa a vero solo se necessario
+}
+
+function endTurn(self){
 	console.log("W4R1: End turn received");
-	if(cmd.notify){
-		_prepareContext(cmd,self.context);
+	if(self._isSpeaking()||self._isDoing()){
+		console.log("end turn not possible something is pending");
+		return;
+	}
+	
+	if(self.context.R1){ //TODO verify and enhance this condition
+		
 		self.sendMessage("");
 	}
 	else
@@ -395,5 +445,12 @@ function _initAudioConverterOut(self){
 function _setSpeaking(self,isSpeaking){
 	self.speaking = isSpeaking;
 }
+function _isSpeaking(slef){ return self.speaking;}
+
+
+function _setDoing(self,isDoing){
+	self.doing = isDoing;
+}
+function _isDoing(self) { return self.doing};
 
 module.exports = W4R1;
