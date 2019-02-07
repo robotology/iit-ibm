@@ -40,7 +40,7 @@ const char* ACTION_PARAMS = "acrion_params";
 const char* NOTIFY_LISTEN = "listen";
 const char* NOTIFY_SILENCE = "silence";
 
-char * SENDER_DEVICE = "";
+const char *SENDER_DEVICE = "";
 
 /*** THREADS ***/
 void* SoundSenderThread(void* args)   {
@@ -168,12 +168,15 @@ Network::connect("/r1/behaviour/behaviour.o","/r1/behaviour.i");
         	yarp::os::Time::delay(0.1);
 			Bottle bb;
 			behaviourPortIn.read(bb);
-        	std::string bb_input = bb.get(0).asString();
 
-        	std::cout << "behaviour recevied: "<< bb_input << std::endl;
+		//changed Giulia
+        	std::string bb_input = bb.get(0).asString();
+		const char* string_input = bb_input.c_str();
+
+        	std::cout << "behaviour recevied: "<< string_input << std::endl;
 		
 		if(
-			strcmp((const char*)bb_input ,"error")==0
+			strcmp((const char*)string_input ,"error")==0
 			){
 			
 			Bottle msg;
