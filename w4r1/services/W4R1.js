@@ -272,18 +272,16 @@ function handleSendAudio(self,chunk){
 
 function handleActionsReply(self,context){
 	if(context.action){
-		log("Handling action: ",action);
+		log("Handling action: ",context.action);
 		_setDoing(self,true);
 		var params = (context.action_params)?context.action_params:{};
 		executeAction(self,context.action,params);	
 	}
-
-	//TODO handle actions...
 }
 
 
 function executeAction(self,action,params){
-	log("Executing action");
+	log("Executing Action: ",action,"; Params: ",params);
 	var msg = {action:action};
 	msg.action_params = params;
 	self.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
@@ -348,7 +346,7 @@ function endAction(self,cmd){
 	log.info("Action completed: ",cmd);
 	_prepareContext(cmd,self.context);
 	_setDoing(self,false);
-	_endTurn(self);
+	endTurn(self);
 	//TODO
 	//funzionamento:
 	//2 variablili speaking e doing 
@@ -364,7 +362,7 @@ function endAction(self,cmd){
 
 function endTurn(self){
 	console.log("W4R1: End turn received");
-	if(self._isSpeaking()||self._isDoing()){
+	if(_isSpeaking(self)||_isDoing(self)){
 		console.log("end turn not possible something is pending");
 		return;
 	}
@@ -445,7 +443,7 @@ function _initAudioConverterOut(self){
 function _setSpeaking(self,isSpeaking){
 	self.speaking = isSpeaking;
 }
-function _isSpeaking(slef){ return self.speaking;}
+function _isSpeaking(self){ return self.speaking;}
 
 
 function _setDoing(self,isDoing){

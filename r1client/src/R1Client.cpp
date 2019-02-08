@@ -36,7 +36,7 @@ using namespace yarp::dev;
 
 const char* NOTIFY = "notify";
 const char* ACTION = "action";
-const char* ACTION_PARAMS = "acrion_params";
+const char* ACTION_PARAMS = "action_params";
 const char* NOTIFY_LISTEN = "listen";
 const char* NOTIFY_SILENCE = "silence";
 
@@ -157,7 +157,7 @@ Port cmdPortOut;
 
 
 
-Network::connect("/r1/behaviour/behaviour.o","/r1/behaviour.i");
+Network::connect("/behaviour/actions.o","/r1/behaviour.i");
     Network::connect("/r1/cmdbehaviour.o","/w4r1/cmd.i");
 
 	//LOOP
@@ -220,26 +220,17 @@ void stopMic(){
 }
 
 
-int executeAction(const char* action, rapidjson::Value& params, char** result){
-	//switch action ...
-	yDebug() << "Performing action" << action;
-	*result = NULL;
-	return 0;
-}
 
-int executeAction(const char* action, char** result){
-	yDebug() << "Performing action (1)" << action;
-	return 0;
-}
-
-int processCommand(const char* command,char** answer){
-	char * c = unescape(command,'"');
+int processCommand(const char* command,char** answer,Port* behaviourPortOut){
 	int  out = 0;
+
+
+	char * c = unescape(command,'"');
 	yDebug() << "Processing cmd" << command << "=>" << c;
 	Document document;
 	document.Parse(c);
+	//yDebug() << "is ok:" << document.IsObject();
 
-	//yDebug() << "is obk" << document.IsObject();
 	if(document.HasMember(NOTIFY)){
 		const char* notify = document[NOTIFY].GetString();
 		yDebug() << NOTIFY << notify;
@@ -252,18 +243,32 @@ int processCommand(const char* command,char** answer){
 	}
 
 	if(document.HasMember(ACTION)){
+		yDebug() << "Action found";
 		const char* action = document[ACTION].GetString();
-		 yDebug() << ACTION << action;
-		//int status = -1;
-		if(document.HasMember(ACTION_PARAMS)){
-			 rapidjson::Value& params = document[ACTION_PARAMS];
-			out = executeAction(action,params,answer);
-		}else
-			out = executeAction(action,answer);
+		
+		//yDebug() << ACTION << action;
+		
+		if(document.HasMember(ACTION_PARAMS))  yDebug() << "PARAMS FOUND...";		
+		//{
+		//	 rapidjson::Value& params = document[ACTION_PARAMS];
+		//	out = executeAction(action,params,answer);
+		//}else
+		//	out = executeAction(action,answer);
+	
+		/////////////////
+		yDebug() << "Performing action:" << action;
+		Bottle bottle;
+		bottle.addString(action);
+		bottle.addString("PARAMETRO_DI_PROVA");
+		behaviourPortOut->write(bottle);
+		//*result = NULL;
+			
+		/////////////////
+
 	}
 	return out;
-
 }
+
 
 /*
 pthread_mutex_t mutex;
@@ -273,51 +278,41 @@ pthread_mutex_unlock (&mutex);
 */
 
 int main(int argc, char* argv[]) {
-    
-    if (argc > 1)
-    {
-        printf("ARGC %d",argc);
-        
-    //    if(strcmp(argv[0],"PC")==0)
-    //    {
-            SENDER_DEVICE = "portaudio";
-    //    }
-    }   
-    else 
-    {
-        SENDER_DEVICE = "r1face_mic";
-    }
-    
-    
-    
 	yDebug() << "*** STARTING R1 Client for W4R1. ***";
+   
+	//Select input device according args.
+    	if (argc > 1){
+        	if(strcmp(argv[1],"PC")==0){ SENDER_DEVICE = "portaudio"; }
+		else if(strcmp(argv[1],"R1")==0){ SENDER_DEVICE = "r1face_mic"; }
+       		else { printf("Wrong argument %s, use either PC or R1",argv[1]); exit(-1);}    
+    	}   
+    	else SENDER_DEVICE = "r1face_mic"; //defaulting to R1 
+    	printf("Using input device %s\n",SENDER_DEVICE);
+    	//
+    
+	
 
 	// Open the network
-    Network yarp;
+    	Network yarp;
 
-    // Open ports
-    Port cmdPortOut;
-    cmdPortOut.open("/r1/cmd.o");
-    Port cmdPortIn;
-    cmdPortIn.open("/r1/cmd.i");
+	// Open ports
+	Port cmdPortOut;
+	cmdPortOut.open("/r1/cmd.o");
+	Port cmdPortIn;
+	cmdPortIn.open("/r1/cmd.i");
 
-    Port behaviourPortOut;
-    behaviourPortOut.open("/r1/behaviour.o");
+	Port behaviourPortOut;
+	behaviourPortOut.open("/r1/behaviour.o");
 
-    
+	//Spleeps a bit to allow ports to start
+	sleep(0.5);
 
+	//Conncet to W4R1
+    	Network::connect("/r1/cmd.o","/w4r1/cmd.i");
+    	Network::connect("/w4r1/cmd.o","/r1/cmd.i");
 
-    sleep(0.5);
-
-    Network::connect("/r1/cmd.o","/w4r1/cmd.i");
-    Network::connect("/w4r1/cmd.o","/r1/cmd.i");
-
-//TODO CONNECT BEHAVIOUR PORT HERE
-    Network::connect("/r1/behaviour.o","/r1/behaviour/behaviour.i");
-
-
-    //Network::connect("/r1/sound.o","/w4r1/sound.i","tcp");
-    //Network::connect("/w4r1/sound.o","/r1/sound.i");
+	//Connect to onboard behaviour service
+    	Network::connect("/r1/behaviour.o","/behaviour/actions.i");
 
 
 //BEHAVIOUR RECEIVER THREAD
@@ -360,17 +355,19 @@ pthread_create(&behaviourReceiverThread, NULL, BehaviourReceiverThread, NULL);
         	std::string cmd_input = cmd.get(0).asString();
         	std::cout << "CMD IN: "<< cmd_input << std::endl;
 			char* answer = NULL;
-			processCommand(cmd_input.c_str(),&answer);
-			if(answer)
-            {
+			processCommand(cmd_input.c_str(),&answer,&behaviourPortOut);
+			/* if(answer){
 				Bottle bottleAnswer;
-    			bottleAnswer.addString(answer);
+    				bottleAnswer.addString(answer);
 				cmdPortOut.write(bottleAnswer);
-			}
+			} */
     	}
 	}//END MAIN LOOP
+
+	//Wait for threads to join
 	pthread_join (soundSenderThread, &status_recorder);
-    pthread_join (soundReceiverThread, &status);
-pthread_join (behaviourReceiverThread,&status_behaviour);
+    	pthread_join (soundReceiverThread, &status);
+	pthread_join (behaviourReceiverThread,&status_behaviour);
+	
 	return 0;
 }

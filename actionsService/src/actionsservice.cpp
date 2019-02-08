@@ -33,14 +33,61 @@ using namespace yarp::os;
 using namespace yarp::sig;
 using namespace yarp::dev;
 
-char INDICA_word[10]="INDICA";
-char COLORA_word[10]="COLORA";
-char CAMMINA_word[10]="CAMMINA";
-char HOT_WORD[10];
+
+//CONSTANTS SHARED WITH R1 CLIENT
+const char* DIRECTIONS ="directions";
+const char* MOVE = "move";
+const char* FACE_COLOR = "color";
+
+const char* RESULT_DONE = "done";
+const char* RESULT_ERROR = "error";
+
+const char* PORT_ACTION_IN = "/behaviour/actions.i";
+const char* PORT_ACTION_OUT = "/behaviour/actions.o";
+
+
+/*****************************/
+/*** R1 Specific Behaviour ***/
+/*****************************/
+
+const char* move(char* place){
+	yDebug() << "Moving to " << place;
+	yarp::os::Time::delay(2.0);
+	return RESULT_DONE;
+}
+
+const char* provideDirections(char* place){
+	yDebug() << "Giving Directions to " << place;
+	yarp::os::Time::delay(2.0);
+	return RESULT_DONE;
+}
+
+const char* highlightPath(char* color){
+	yDebug() << "Highlighting path color "<< color;
+	yarp::os::Time::delay(2.0);
+
+	return RESULT_DONE;
+}
+
+
+/*****************************/
+
+
+
+Bottle process(Bottle inMsg){
+	yDebug() << "Processing action: " <<  inMsg.get(0).asString();
+	yarp::os::Time::delay(2.0);
+	const char* result = RESULT_DONE;  	
+	Bottle bottle;
+    	bottle.addString(result);
+	return bottle;
+}
+
+
 
 int main(int argc, char* argv[]) {
 
-    yDebug() << "*** STARTING R1 Client for W4R1. ***";
+    yDebug() << "*** Starting ACTION Service for R1 Client. ***";
 
     char name[30] = "/ctpservice/right_arm/rpc";
 
@@ -52,24 +99,23 @@ int main(int argc, char* argv[]) {
     port.open(name);
 
     // Open Bottle ports 
-    Port cmdPortOut;
-    cmdPortOut.open("/r1/actions.o");
+    Port portOut;
+    portOut.open(PORT_ACTION_OUT);
 
     // Open Bottle ports 
-    Port cmdPortIn;
-    cmdPortIn.open("/r1/actions.i");
+    Port portIn;
+    portIn.open(PORT_ACTION_IN);
 
     while(true){
-/*
-        HOT_WORD=cmdPortIn.read();
-
-	if (strcmp( HOT_WORD, INDICA_word));
-	else if (strcmp( HOT_WORD, COLORA_word))
-	else if (strcmp( HOT_WORD, CAMMINA_word))
-        else
-*/ 
+	//
+	yarp::os::Time::delay(0.1);
+	//
+	Bottle inBottle,outBottle;
+	portIn.read(inBottle); //showuld be blocking
+	outBottle = process(inBottle);
+	portOut.write(outBottle);
    }
-
 
     return 0;
 }
+

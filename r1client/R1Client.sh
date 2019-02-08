@@ -1,1 +1,1 @@
-./build/R1Client
+./build/R1Client $1
