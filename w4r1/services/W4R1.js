@@ -211,32 +211,35 @@ function handleAssistantReply(self,err,data){
 		}
 		//REPLY
 		var outputText = data.output.text.join(' ');
+		var action = data.context.action;
+		var action_params = data.context.action_params;
 		_cleanContextReply(data.context);
 		self.context = data.context;
 		//Conversation Actions handler placeholder.
 		//performAction(self,self.context,callback);.
 
 		//ACTIONS AND BEHAVIOUR REPLY
-		handleReply(self,outputText,self.context);
+		handleReply(self,outputText,action,action_params);
 }
 
 function _cleanContextReply(context){
 	if(context.R1) delete context.R1;
+	if(context.action) delete context.action;
+	if(context.action_params) delete context.action_params;
 }
 
 function _prepareContext(cmd,context){
 		context.R1 = {};
 		if(cmd.action_status)
-			context.R1.status = cmd.action_status;
+			context.R1.action_status = cmd.action_status;
 		if(cmd.action_results)
-			context.R1.results = cmd.action_results;
+			context.R1.action_results = cmd.action_results;
 }
 
 
 
-function handleReply(self,outputText,context){  //TODO prestare attenzione a come richiedere/gestire la notifica di fine turno
-	
-	handleActionsReply(self,context);
+function handleReply(self,outputText,action,action_params){  //TODO prestare attenzione a come richiedere/gestire la notifica di fine turno
+	handleActionsReply(self,action,action_params);
 	handleVoiceReply(self,outputText);
 
 }
@@ -270,12 +273,12 @@ function handleSendAudio(self,chunk){
 	}
 }
 
-function handleActionsReply(self,context){
-	if(context.action){
-		log("Handling action: ",context.action);
+function handleActionsReply(self,action,action_params){
+	if(action){
+		log("Handling action: ",action);
 		_setDoing(self,true);
-		var params = (context.action_params)?context.action_params:{};
-		executeAction(self,context.action,params);	
+		var params = (action_params)?action_params:{};
+		executeAction(self,action,params);	
 	}
 }
 
@@ -368,7 +371,7 @@ function endTurn(self){
 	}
 	
 	if(self.context.R1){ //TODO verify and enhance this condition
-		
+		console.log("sending action result to assistant");
 		self.sendMessage("");
 	}
 	else

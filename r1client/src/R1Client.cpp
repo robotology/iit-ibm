@@ -4,8 +4,8 @@
 /////////////////////////////////////////////////////
 
 /*
- * Copyright: (C) 2010 RobotCub Consortium
- * Authors: Paul Fitzpatrick, Francesco Nori
+ * Copyright: (C) 2010 RobotCub Consortium & IBM Italia S.p.a
+ * Authors: Giulia D'Angelo, Alessandro Faraotti
  * CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
  */
 
@@ -42,9 +42,12 @@ const char* NOTIFY_SILENCE = "silence";
 
 const char *SENDER_DEVICE = "";
 
-/*** THREADS ***/
+
+/********** THREADS **********/
+
+//SOUND SENDER THREAD
 void* SoundSenderThread(void* args)   {
-    sleep(10);
+    sleep(5);
     yDebug() << "Starting SENDER THREAD";
 	Port soundPortOut;
     soundPortOut.open("/r1/sound.o");
@@ -70,7 +73,7 @@ void* SoundSenderThread(void* args)   {
    
 
     NetworkBase::connect("/r1/sound.o", "/w4r1/sound.i");
- get->startRecording(); //this is optional, the first get->getsound() will do this anyway.
+    get->startRecording(); //this is optional, the first get->getsound() will do this anyway.
     double tTOT=0;
     int n=0;
 
@@ -89,22 +92,24 @@ void* SoundSenderThread(void* args)   {
         std::cout << "tTOT: " << tTOT << std::endl;
     }
 
-
     get->stopRecording();  //stops recording.
 }
 
 
+//SOUND RECEIVER THREAD
 void* SoundReceiverThread(void* args)   {
- /*int rate = config.rate;
+   /*int rate = config.rate;
      int samples = config.samples;
      int channels = config.channels;
      bool wantRead = config.wantRead;
      bool wantWrite = config.wantWrite;
-  int deviceNumber = config.deviceNumber;*/
-	//RECEIVER Get an audio write device.
+     int deviceNumber = config.deviceNumber;
+    */
+    
+    //RECEIVER Get an audio write device.
     Property conf_receiver;
     conf_receiver.put("device","portaudio");
-   // conf_receiver.put("samples", "2048");
+    // conf_receiver.put("samples", "2048");
     conf_receiver.put("rate", "16000");
     conf_receiver.put("write", "1");
     conf_receiver.put("channels","1");
@@ -115,7 +120,7 @@ void* SoundReceiverThread(void* args)   {
     poly_receiver.view(put_receiver);
 
 	BufferedPort<Sound> soundPortIn;
-soundPortIn.setStrict();
+	soundPortIn.setStrict();
 	soundPortIn.open("/r1/sound.i");
 
 
@@ -124,44 +129,32 @@ soundPortIn.setStrict();
             return 0;
     }
 
-	while(true)
+    while(true)
     {
-		Sound* s_speech_out = soundPortIn.read();
-		if (s_speech_out)
-        {
-            yDebug() << "SOUND RECEIVED: " << s_speech_out->getRawDataSize() << "=>" << s_speech_out->getRawData()[0] ;
-			put_receiver->renderSound(*s_speech_out);
-		}
+	Sound* s_speech_out = soundPortIn.read();
+	if (s_speech_out) {
+        	yDebug() << "SOUND RECEIVED: " << s_speech_out->getRawDataSize() << "=>" << s_speech_out->getRawData()[0] ;
+		put_receiver->renderSound(*s_speech_out);
 	}
+    }
 }
 
 
 
-/****************/
+//BEHAVIOUR RESULT RECEIVER THREAD
 void* BehaviourReceiverThread(void* args)   {
-
-
 	Port behaviourPortIn;
     	behaviourPortIn.open("/r1/behaviour.i");
-	 sleep(0.5);
-	
+	sleep(0.5);
 
-
-Port cmdPortOut;
-    cmdPortOut.open("/r1/cmdbehaviour.o");
+	Port cmdPortOut;
+    	cmdPortOut.open("/r1/cmdbehaviour.o");
    
-
-
-
-    
-
-
-
-Network::connect("/behaviour/actions.o","/r1/behaviour.i");
-    Network::connect("/r1/cmdbehaviour.o","/w4r1/cmd.i");
+	Network::connect("/behaviour/actions.o","/r1/behaviour.i");
+    	Network::connect("/r1/cmdbehaviour.o","/w4r1/cmd.i");
 
 	//LOOP
-//MAIN LOOP holding several conversations
+	//MAIN LOOP holding several conversations
   	
     	while(true)
         {
@@ -185,7 +178,7 @@ Network::connect("/behaviour/actions.o","/r1/behaviour.i");
 		}
 		else {
 			Bottle msg;
-    			msg.addString("{ \"status\":\"action_completed\" }");
+    			msg.addString("{ \"status\":\"action_completed\",\"action_status\":\"done\" }");
 			cmdPortOut.write(msg);
 		}
     	
@@ -193,9 +186,11 @@ Network::connect("/behaviour/actions.o","/r1/behaviour.i");
 
 }
 
-/****************/
+//END TRHEADS
+/*******************************************************************************************************/
 
-/** END TRHEADS **/
+
+
 char* unescape(const char* s,char quote){ //remove each second occurence of quote
         char *unescapedS = new char[strlen(s)*sizeof(char)];
         int i, j;
@@ -213,10 +208,12 @@ char* unescape(const char* s,char quote){ //remove each second occurence of quot
 }
 
 void startMic(){
-	yDebug() << "start mic";
+	yDebug() << "start mic"; 
+	//TODO notify to the sound sender thread to start recording audio
 }
 void stopMic(){
 	yDebug() << "stop mic";
+	//TODO notify to the sound sender thread to stop recording audio
 }
 
 
@@ -248,7 +245,10 @@ int processCommand(const char* command,char** answer,Port* behaviourPortOut){
 		
 		//yDebug() << ACTION << action;
 		
-		if(document.HasMember(ACTION_PARAMS))  yDebug() << "PARAMS FOUND...";		
+		if(document.HasMember(ACTION_PARAMS))  yDebug() << "PARAMS FOUND...";	//TODO READ PARAMETERS HERE
+
+
+	//	yDebug() << "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII " << document.IsObject(ACTION_PARAMS);
 		//{
 		//	 rapidjson::Value& params = document[ACTION_PARAMS];
 		//	out = executeAction(action,params,answer);
@@ -270,12 +270,18 @@ int processCommand(const char* command,char** answer,Port* behaviourPortOut){
 }
 
 
-/*
-pthread_mutex_t mutex;
-pthread_mutex_lock(&mutex);
-flag=1;
-pthread_mutex_unlock (&mutex);
+/* //sample code for mutex
+   pthread_mutex_t mutex;
+   pthread_mutex_lock(&mutex);
+   flag=1;
+   pthread_mutex_unlock (&mutex);
 */
+
+
+
+/***********************************************************/
+/*************** MAIN **************************************/
+/***********************************************************/
 
 int main(int argc, char* argv[]) {
 	yDebug() << "*** STARTING R1 Client for W4R1. ***";
@@ -289,8 +295,6 @@ int main(int argc, char* argv[]) {
     	else SENDER_DEVICE = "r1face_mic"; //defaulting to R1 
     	printf("Using input device %s\n",SENDER_DEVICE);
     	//
-    
-	
 
 	// Open the network
     	Network yarp;
@@ -315,18 +319,17 @@ int main(int argc, char* argv[]) {
     	Network::connect("/r1/behaviour.o","/behaviour/actions.i");
 
 
-//BEHAVIOUR RECEIVER THREAD
-yDebug() << "Starting BehaviourReceiverThread";
-pthread_t behaviourReceiverThread;
-void* status_behaviour;
-pthread_create(&behaviourReceiverThread, NULL, BehaviourReceiverThread, NULL);
+	//BEHAVIOUR RECEIVER THREAD
+	yDebug() << "Starting BehaviourReceiverThread";
+	pthread_t behaviourReceiverThread;
+	void* status_behaviour;
+	pthread_create(&behaviourReceiverThread, NULL, BehaviourReceiverThread, NULL);
 
-    //SOUND THREAD SENDER
+    	//SOUND THREAD SENDER
 	yDebug() << "Starting Sound Recorder";
 	pthread_t soundSenderThread;
 	void* status_recorder;
 	pthread_create(&soundSenderThread, NULL, SoundSenderThread, NULL);
-
 
 	//SOUND THREAD RECEIVER
 	yDebug() << "Starting Sound Listener";
@@ -335,25 +338,26 @@ pthread_create(&behaviourReceiverThread, NULL, BehaviourReceiverThread, NULL);
 	pthread_create(&soundReceiverThread, NULL, SoundReceiverThread, NULL);
   	//pthread_join (soundReceiverThread, &status);
 
-//MAIN LOOP holding several conversations
-    bool shutdown = false;
+
+	//MAIN LOOP holding several conversations
+    	bool shutdown = false;
 	yDebug() << "Entering main loop.";
 	while(!shutdown)
-    {
+    	{
 		//TODO wait here for converstation start
 		//Send start convesation
 		yDebug() << "New Conversation";
 		Bottle msg;
-    	msg.addString("{ \"status\":\"conv_start\" }");
+    		msg.addString("{ \"status\":\"conv_start\" }");
 		cmdPortOut.write(msg);
 		//cmd handler (it could be another theread runnging)
-    	while(true)
-        {
-        	yarp::os::Time::delay(0.1);
+    		while(true)
+        	{
+        		yarp::os::Time::delay(0.1);
 			Bottle cmd;
 			cmdPortIn.read(cmd);
-        	std::string cmd_input = cmd.get(0).asString();
-        	std::cout << "CMD IN: "<< cmd_input << std::endl;
+        		std::string cmd_input = cmd.get(0).asString();
+        		std::cout << "CMD IN: "<< cmd_input << std::endl;
 			char* answer = NULL;
 			processCommand(cmd_input.c_str(),&answer,&behaviourPortOut);
 			/* if(answer){
@@ -361,7 +365,7 @@ pthread_create(&behaviourReceiverThread, NULL, BehaviourReceiverThread, NULL);
     				bottleAnswer.addString(answer);
 				cmdPortOut.write(bottleAnswer);
 			} */
-    	}
+    		}
 	}//END MAIN LOOP
 
 	//Wait for threads to join
@@ -370,4 +374,4 @@ pthread_create(&behaviourReceiverThread, NULL, BehaviourReceiverThread, NULL);
 	pthread_join (behaviourReceiverThread,&status_behaviour);
 	
 	return 0;
-}
+} //END MAIN
