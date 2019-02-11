@@ -22,6 +22,12 @@ const RECEIVER_PATH = "./ext/build/Receiver";
 const USE_EXT_AUDIO_IN = true;
 const USE_EXT_AUDIO_OUT = false; //NOT WORKING
 const DUMP_AUDIO = true;
+const ENABLE_LIPS = false;
+
+//ports
+const PORT_LIPS_I = "/r1/lips.i";
+
+const LIPS_SPEAK = "parla";
 
 /**
  * @class
@@ -29,6 +35,7 @@ const DUMP_AUDIO = true;
  */
 function W4R1(){
         log.info("*** Starting W4R1 ***");
+	var self = this;
 
 	if(DUMP_AUDIO){
 		log.warn("Audio Dump active");
@@ -38,7 +45,7 @@ function W4R1(){
 		this.fwsin.on('error',function(err){console.log(err);});
 	}
 
-	var self = this;
+	
 	this.w4r1listen = false;
 
 	//init internal status.
@@ -145,6 +152,24 @@ function W4R1(){
 		this.soundPortOut.setStrict(true);
 	}
 
+	//LIPS Sevice (like HotWord detection)
+	if(ENABLE_LIPS){this.lipsExpected = false;}
+	else { this.lipsExpected = false; } //chane here if needed for conversation start
+	var lipsPortIn = Yarp.Port('bottle');
+	lipsPortIn.open(PORT_LIPS_I);
+	lipsPortIn.onRead(function(msg){
+		var payload = msg.toSend().content[0];
+		log("Lips received: ",payload);
+		if(payload == LIPS_SPEAK){
+			if(self.lipsExpected){
+				self.lipsExpected = false;
+				startListening(self);			
+			} 
+		}
+		
+	});
+
+
 	//CMD Ports
 	this.cmdPortOut = Yarp.Port('bottle');
 	this.cmdPortOut.open('/w4r1/cmd.o');
@@ -218,6 +243,25 @@ function handleAssistantReply(self,err,data){
 		//Conversation Actions handler placeholder.
 		//performAction(self,self.context,callback);.
 
+
+		//CHECK HotWord need
+		
+		
+		if(ENABLE_LIPS){
+			if(data.context.system.dialog_stack[0].dialog_node=="root";
+			self.lipsExpected = true;
+		}
+		/*
+		"context": {
+		    "conversation_id": "a96ec62f-773c-4e84-8be9-f9dbca9f83d0",
+		    "system": {
+		      "dialog_stack": [
+			{
+			  "dialog_node": "root"
+			}
+		      ],
+		*/
+
 		//ACTIONS AND BEHAVIOUR REPLY
 		handleReply(self,outputText,action,action_params);
 }
@@ -239,8 +283,14 @@ function _prepareContext(cmd,context){
 
 
 function handleReply(self,outputText,action,action_params){  //TODO prestare attenzione a come richiedere/gestire la notifica di fine turno
+
+
+
+
 	handleActionsReply(self,action,action_params);
 	handleVoiceReply(self,outputText);
+
+
 
 }
 
@@ -252,6 +302,7 @@ function handleErrorReply(self,err){
 
 function handleVoiceReply(self,text){
 	console.log("W4R1: handling voice reply: ",text);
+
 	if(text.length>0) {
 		_setSpeaking(self,true);
 		_initAudioConverterOut(self);
@@ -387,7 +438,12 @@ function setContext(self,context){
 	self.context = context;
 }
 
+
 function startListening(self){
+	
+	if(lipsExpected) return;
+	
+
 	_initAudioConverterIn(self); //TODO assicurarsi che i flussi precedenti siano chiusi
 	self.w4r1listen = true;
 	if(USE_EXT_AUDIO_IN){
@@ -396,6 +452,8 @@ function startListening(self){
 	}
 	_notifyListening(self);
 }
+
+
 
 function stopListening(self){
         self.w4r1listen = false;
