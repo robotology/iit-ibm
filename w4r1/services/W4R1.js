@@ -25,7 +25,7 @@ const DUMP_AUDIO = true;
 const ENABLE_LIPS = false;
 
 //ports
-const PORT_LIPS_I = "/r1/lips.i";
+const PORT_LIPS_I = "/w4r1/lips.i";
 
 const LIPS_SPEAK = "parla";
 
