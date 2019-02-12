@@ -248,8 +248,10 @@ function handleAssistantReply(self,err,data){
 		
 		
 		if(ENABLE_LIPS){
-			if(data.context.system.dialog_stack[0].dialog_node=="root";
-			self.lipsExpected = true;
+			if(data.context.system.dialog_stack[0].dialog_node=="root"){
+				log.debug("Waiting for Lips movement");
+				self.lipsExpected = true;
+				}
 		}
 		/*
 		"context": {
@@ -441,7 +443,7 @@ function setContext(self,context){
 
 function startListening(self){
 	
-	if(lipsExpected) return;
+	if(self.lipsExpected) return;
 	
 
 	_initAudioConverterIn(self); //TODO assicurarsi che i flussi precedenti siano chiusi
