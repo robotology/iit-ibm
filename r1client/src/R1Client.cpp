@@ -8,7 +8,6 @@
  * Authors: Giulia D'Angelo, Alessandro Faraotti
  * CopyPolicy: Released under the terms of the LGPLv2.1 or later, see LGPL.TXT
  */
-
 #include <unistd.h>
 #include <stdio.h>
 #include <iostream>
@@ -42,6 +41,11 @@ const char* NOTIFY_SILENCE = "silence";
 
 const char *SENDER_DEVICE = "";
 
+struct w4r1_t_parameter{
+char* name;
+char* value;
+w4r1_t_parameter* next;
+};
 
 /********** THREADS **********/
 
@@ -244,9 +248,35 @@ int processCommand(const char* command,char** answer,Port* behaviourPortOut){
 		const char* action = document[ACTION].GetString();
 		
 		//yDebug() << ACTION << action;
-		
-		if(document.HasMember(ACTION_PARAMS))  yDebug() << "PARAMS FOUND...";	//TODO READ PARAMETERS HERE
+		w4r1_t_parameter*  paramList = NULL;
+		w4r1_t_parameter* p = NULL;
+		 
+		if(document.HasMember(ACTION_PARAMS))  {
+			yDebug() << "PARAMS FOUND...";	//TODO READ PARAMETERS HERE
+			auto& params = document[ACTION_PARAMS];
+			if(params.IsObject()){
+				yDebug() << "IS OJBECT OK";
+				for(auto& par: params.GetObject()){
+					if(par.value.IsString()){
+						if(paramList == NULL){ paramList = new w4r1_t_parameter; p = paramList;}
+						else { p->next= new w4r1_t_parameter;  p=p->next;}
+						
+						p->name = strdup(par.name.GetString());
+						p->value = strdup(par.value.GetString());
+						p->next = NULL;
+						printf("PARAMETRO: %s : %s\n",p->name,p->value);
+					}
+				}
+			}
 
+			
+		}
+		
+/*
+for (auto& m : document.GetObject())
+    printf("Type of member %s is %s\n",
+        m.name.GetString(), kTypeNames[m.value.GetType()]);
+*/
 
 	//	yDebug() << "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII " << document.IsObject(ACTION_PARAMS);
 		//{
@@ -259,8 +289,30 @@ int processCommand(const char* command,char** answer,Port* behaviourPortOut){
 		yDebug() << "Performing action:" << action;
 		Bottle bottle;
 		bottle.addString(action);
-		bottle.addString("PARAMETRO_DI_PROVA");
+w4r1_t_parameter* pr =paramList;
+while(pr){
+
+yDebug() << "Adding parameter name:" << pr->name;
+bottle.addString(pr->name);		
+
+yDebug() << "Adding parameter value:" << pr->value;
+bottle.addString(pr->value);
+pr=pr->next;
+}
 		behaviourPortOut->write(bottle);
+
+//
+yDebug()<<"clean param list";
+w4r1_t_parameter* pd = paramList;
+w4r1_t_parameter* pdd = pd;
+while(pd){
+
+pd = pdd->next;
+delete pdd->name;
+delete pdd->value;
+delete pdd;
+} 
+
 		//*result = NULL;
 			
 		/////////////////
