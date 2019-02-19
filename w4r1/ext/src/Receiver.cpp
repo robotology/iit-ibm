@@ -19,9 +19,12 @@
 #include <yarp/os/Property.h>
 #include <yarp/os/Time.h>
 #include <yarp/os/TypedReaderCallback.h>
+#include <yarp/sig/Sound.h>
 #include <yarp/sig/SoundFile.h>
+#include <functional>
 
 #include <yarp/os/LogStream.h>
+#include <vector>
 using namespace yarp::os;
 using namespace yarp::sig;
 using namespace yarp::dev;
@@ -55,21 +58,34 @@ int main(int argc, char *argv[]) {
 	soundPortIn.setStrict(true);
 	soundPortIn.open("/w4r1/sound.i");
 	Sound * sound;
-int n =0;
-	while(true){
-		sound = soundPortIn.read(true);
-        std::cerr << " ch " << sound->getChannels() << "  freq " << sound->getFrequency();
-		if (sound && sound > 0){
-fprintf(stderr,"received: %d size: %lu",n,sound->getRawDataSize());n++;
-            //yDebug() << "RECEIVER, sound received: " << sound->getRawDataSize() << "=>" << sound->getRawData()[0] ;
-			//<< "RECEIVER, sound received: " << sound->getRawDataSize() << "=>" << sound->getRawData()[0] ;
-if(r1listen>0){
- fprintf(stderr,"writing");
-			write (1, sound->getRawData(),sound->getRawDataSize());
-}
-else fprintf(stderr,"dropping");
-		}
-	}
+        int n =0;
+	while(true)
+        {
+        sound = soundPortIn.read(false);
+        if (sound && sound > 0)
+        {
+#if DEBUG_PRINT
+            yError(">>>>>>received: %d, size: %lu samples, %d channels",n,sound->getSamples(), sound->getChannels());
+#endif
+            n++;
+            if(r1listen>0)
+            {
+#if DEBUG_PRINT
+                yError(">>>>>>writing");
+#endif
+                auto sss = sound->getInterleavedAudioRawData();
+                size_t size_sss = sss.size()*2; //short to char
+                auto data_vec = std::vector<short>(sss.begin(), sss.end());
+                unsigned char* sss_uc= (unsigned char*)(data_vec.data());
+                write (1, sss_uc,size_sss);
+            }
+            else
+            {
+                fprintf(stderr,"dropping");
+            }
+        }
+        yarp::os::Time::delay(0.005);
+    }
 
 
 	//END CODE

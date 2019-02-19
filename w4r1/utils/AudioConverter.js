@@ -49,8 +49,9 @@ function AudioConverter(config){
 	this.outStream = new Stream();
 	this.outStream.writable = true;
 
-	this.outStream.write = function(chunk){
-
+	this.outStream.write = function(chunk)
+        {
+#if 0 //disabled by RANDAZ
 		if(self.trackDelay){
 			var delay = Math.round (
 						chunk.length/
@@ -64,6 +65,9 @@ function AudioConverter(config){
 		}
 		//
         	//console.log("Converted chunk: ",chunk.length,chunk);
+#endif
+                //added delay to prevent race condition on data write. At least 100ms.
+        	console.log("EMITTING"); sleep.msleep(100);
 		self.emit('data',chunk); //emitting 'data' event upon conversion
 	}
 
