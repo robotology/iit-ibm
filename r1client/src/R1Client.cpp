@@ -52,8 +52,8 @@ w4r1_t_parameter* next;
 //SOUND SENDER THREAD
 void* SoundSenderThread(void* args)   {
     sleep(5);
-    yDebug() << "Starting SENDER THREAD";
-	Port soundPortOut;
+    yError() << "Starting SENDER THREAD";
+    Port soundPortOut;
     soundPortOut.open("/r1/sound.o");
 
     // Set parameters
@@ -64,11 +64,13 @@ void* SoundSenderThread(void* args)   {
 
     // Get a portaudio read device.
     conf.put("device",SENDER_DEVICE);
-    conf.put("read", "");
+    conf.put("read", "1");
     conf.put("samples", 16000);
     conf.put("rate", 16000);
-    conf.put("channels", 1);
-    PolyDriver poly(conf);
+    conf.put("channels", 1); //total number of channels to broadcast
+    conf.put("channel", 0);  //channel to be selected
+    PolyDriver poly;
+    poly.open(conf);
     IAudioGrabberSound *get;
 
     // Make sure we can read sound
@@ -86,14 +88,11 @@ void* SoundSenderThread(void* args)   {
         double t1=yarp::os::Time::now();
        // yarp::os::Time::delay(0.90);
         get->getSound(s);
-        std::cout << "Primo bit: " << (int) s.getRawData()[0] << std::endl;
-        std::cout << "Size Array: " << (int) s.getRawDataSize() << std::endl;
-        std::cout << "n: " << n << std::endl;
         soundPortOut.write(s);
         n++;
         double t2=yarp::os::Time::now();
         tTOT = tTOT+(t2-t1);
-        std::cout << "tTOT: " << tTOT << std::endl;
+        std::cerr << "tTOT: " << tTOT << std::endl;
     }
 
     get->stopRecording();  //stops recording.
@@ -113,10 +112,10 @@ void* SoundReceiverThread(void* args)   {
     //RECEIVER Get an audio write device.
     Property conf_receiver;
     conf_receiver.put("device","portaudio");
-    // conf_receiver.put("samples", "2048");
-    conf_receiver.put("rate", "16000");
-    conf_receiver.put("write", "1");
-    conf_receiver.put("channels","1");
+    conf_receiver.put("samples", 160000 );
+    conf_receiver.put("rate", 16000);
+    conf_receiver.put("write", 1);
+    conf_receiver.put("channels",1);
     PolyDriver poly_receiver(conf_receiver);
     IAudioRender *put_receiver;
 
@@ -133,13 +132,27 @@ void* SoundReceiverThread(void* args)   {
             return 0;
     }
 
+	yarp::dev::AudioBufferSize bufsize;
     while(true)
     {
-	Sound* s_speech_out = soundPortIn.read();
-	if (s_speech_out) {
-        	yDebug() << "SOUND RECEIVED: " << s_speech_out->getRawDataSize() << "=>" << s_speech_out->getRawData()[0] ;
-		put_receiver->renderSound(*s_speech_out);
-	}
+	   int pr=	soundPortIn.getPendingReads();
+	   if (soundPortIn.getPendingReads()>0)
+	   {
+		   yDebug() << "Pending reads in buffer" <<pr;
+	   }
+	   
+	   Sound* s_speech_out = soundPortIn.read(false);
+	   
+	   if (s_speech_out)
+       {   
+		   yDebug() << "received sound of "<< s_speech_out->getSamples() ;
+           put_receiver->renderSound(*s_speech_out);
+	   }
+	   yarp::os::Time::delay(0.1);
+	   #if 0
+	   		   put_receiver->getPlaybackAudioBufferCurrentSize(bufsize);
+		   yDebug() << "buffer->" << bufsize.getSamples();
+	   #endif
     }
 }
 

@@ -1,0 +1,3814 @@
+{
+  "name": "Ricevimento",
+  "intents": [
+    {
+      "intent": "CC_Orario",
+      "examples": [
+        {
+          "text": "che ore sono"
+        },
+        {
+          "text": "sai l'ora"
+        },
+        {
+          "text": "sai che ora è"
+        },
+        {
+          "text": "che ora è"
+        },
+        {
+          "text": "sai che ore sono"
+        }
+      ]
+    },
+    {
+      "intent": "a_no",
+      "examples": [
+        {
+          "text": "basta grazie"
+        },
+        {
+          "text": "no"
+        },
+        {
+          "text": "no grazie"
+        },
+        {
+          "text": "non posso"
+        },
+        {
+          "text": "adesso no"
+        },
+        {
+          "text": "ora non posso"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "CC_CosaSaiFare",
+      "examples": [
+        {
+          "text": "che cosa puoi fare"
+        },
+        {
+          "text": "che cosa sai"
+        },
+        {
+          "text": "ne sai qualcosa"
+        },
+        {
+          "text": "cosa sai"
+        },
+        {
+          "text": "posso chiederti"
+        },
+        {
+          "text": "sai qualcosa"
+        },
+        {
+          "text": "cosa ne sai"
+        },
+        {
+          "text": "informazioni utili"
+        },
+        {
+          "text": "cosa posso chiederti"
+        },
+        {
+          "text": "che informazioni hai"
+        },
+        {
+          "text": "mazioni sai darmi"
+        },
+        {
+          "text": "che tipo di informazioni"
+        },
+        {
+          "text": "che tipo di informazioni hai"
+        }
+      ]
+    },
+    {
+      "intent": "x_Ticket",
+      "examples": [
+        {
+          "text": "ticket"
+        },
+        {
+          "text": "ho il ticket da pagare"
+        },
+        {
+          "text": "devo pagare ticket"
+        },
+        {
+          "text": "come faccio a pagare il ticket"
+        },
+        {
+          "text": "evo pagare"
+        },
+        {
+          "text": "come devo fare con il ticket"
+        },
+        {
+          "text": "come si paga il ticket"
+        }
+      ]
+    },
+    {
+      "intent": "CC_Arrivederci",
+      "examples": [
+        {
+          "text": "grazie alla prossima volta"
+        },
+        {
+          "text": "sto andando, grazie"
+        },
+        {
+          "text": "arrivaderci"
+        },
+        {
+          "text": "ora devo andare grazie"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "CC_ComeTiChiami",
+      "examples": [
+        {
+          "text": "quale è il tuo nome"
+        },
+        {
+          "text": "tuo nome"
+        },
+        {
+          "text": "il tuo nome"
+        },
+        {
+          "text": "chi sei?"
+        },
+        {
+          "text": "hai un nome"
+        },
+        {
+          "text": "qual'è il tuo nome"
+        },
+        {
+          "text": "come ti chiami"
+        }
+      ]
+    },
+    {
+      "intent": "CC_Greeting",
+      "examples": [
+        {
+          "text": "salve"
+        },
+        {
+          "text": "ciao"
+        },
+        {
+          "text": "buongiorno"
+        },
+        {
+          "text": "buona sera"
+        },
+        {
+          "text": "buon giorno"
+        },
+        {
+          "text": "buonasera"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "Ricovero",
+      "examples": [
+        {
+          "text": "Voglio ricoverarmi"
+        },
+        {
+          "text": "fare ricovero"
+        },
+        {
+          "text": "ricovero"
+        },
+        {
+          "text": "ricoverato"
+        },
+        {
+          "text": "devo fare ricovero"
+        },
+        {
+          "text": "devono ricoverarmi"
+        }
+      ]
+    },
+    {
+      "intent": "x_NonMiHaiAiutato",
+      "examples": [
+        {
+          "text": "non mi dai la risposta che cerco"
+        },
+        {
+          "text": "non hai fatto il tuo dovere"
+        },
+        {
+          "text": "non mi stai aiutando"
+        },
+        {
+          "text": "non mi hai aiutato"
+        },
+        {
+          "text": "non lo sai"
+        },
+        {
+          "text": "ho ancora bisogno di aiuto"
+        }
+      ]
+    },
+    {
+      "intent": "Ritiro",
+      "examples": [
+        {
+          "text": "ho richiesto la cartella clinica e dovrei ritirarla"
+        },
+        {
+          "text": "devo prendere la cartella clinica"
+        },
+        {
+          "text": "dovrei ritirare la cartella clinica"
+        },
+        {
+          "text": "dovrei ritirare il certificato di dimissioni"
+        },
+        {
+          "text": "devo ritirare le lastre"
+        },
+        {
+          "text": "devo prendere i risultati"
+        },
+        {
+          "text": "devo ritirare il cd della tac"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "z_CheGiorno",
+      "examples": [
+        {
+          "text": "che data è"
+        },
+        {
+          "text": "sai la data"
+        },
+        {
+          "text": "che giorno è"
+        },
+        {
+          "text": "che data"
+        },
+        {
+          "text": "oggi che giorno è"
+        },
+        {
+          "text": "che giorno è oggi"
+        },
+        {
+          "text": "sai oggi che giorno è"
+        },
+        {
+          "text": "sai che giorno è oggi ?"
+        }
+      ]
+    },
+    {
+      "intent": "z_CercarePaziente",
+      "examples": [
+        {
+          "text": "sto cercando mio figlio"
+        },
+        {
+          "text": "sto cercando un paziente"
+        },
+        {
+          "text": "devo trovare qualcuno"
+        },
+        {
+          "text": "paziente"
+        },
+        {
+          "text": "dove si trova il paziente"
+        },
+        {
+          "text": "sto cercando mia figlia"
+        },
+        {
+          "text": "sto cercando mia moglie"
+        },
+        {
+          "text": "sto cercando mio marito"
+        },
+        {
+          "text": "sto cercando un parente"
+        },
+        {
+          "text": "sto cercando qualcuno"
+        },
+        {
+          "text": "devo trovare un paziente"
+        },
+        {
+          "text": "i pazienti"
+        },
+        {
+          "text": "il paziente"
+        }
+      ]
+    },
+    {
+      "intent": "Indicazioni",
+      "examples": [
+        {
+          "text": "@Luogo"
+        },
+        {
+          "text": "dove sta la @Luogo"
+        },
+        {
+          "text": "dove si trova il @Luogo"
+        },
+        {
+          "text": "come posso trovare il @Luogo"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "x_NonCapisco",
+      "examples": [
+        {
+          "text": "non ho capito"
+        },
+        {
+          "text": "cos'hai detto"
+        },
+        {
+          "text": "non ti capisco"
+        },
+        {
+          "text": "cosa hai detto"
+        },
+        {
+          "text": "non ti ho capito"
+        },
+        {
+          "text": "non capisco"
+        }
+      ]
+    },
+    {
+      "intent": "z_negate",
+      "examples": [
+        {
+          "text": "non sono con la mutua"
+        },
+        {
+          "text": "non sono venuto con la mutua"
+        },
+        {
+          "text": "non sono con l'assicurazione"
+        },
+        {
+          "text": "non sono venuto come privato"
+        },
+        {
+          "text": "non sono assicurato"
+        },
+        {
+          "text": "non sono venuto con l'assicurazione"
+        },
+        {
+          "text": "non sono un privato"
+        }
+      ],
+      "description": "Intento che permette di identificare un azione di negazione"
+    },
+    {
+      "intent": "x_HoBisognoAiuto",
+      "examples": [
+        {
+          "text": "posso chiederti aiuto"
+        },
+        {
+          "text": "aiuto"
+        },
+        {
+          "text": "ho bisogno di aiuto"
+        },
+        {
+          "text": "ho bisogno"
+        },
+        {
+          "text": "mi aiuti"
+        },
+        {
+          "text": "a chi posso chiedere aiuto"
+        },
+        {
+          "text": "sai aiutarmi"
+        },
+        {
+          "text": "aiutami"
+        },
+        {
+          "text": "puoi aiutarmi"
+        },
+        {
+          "text": "ho bisogno di informazioni"
+        }
+      ]
+    },
+    {
+      "intent": "Esame",
+      "examples": [
+        {
+          "text": "mi hanno prescritto una risonanza"
+        },
+        {
+          "text": "devo esaminare le urine"
+        },
+        {
+          "text": "devo fare una lastra"
+        },
+        {
+          "text": "devo fare le analisi"
+        },
+        {
+          "text": "ho bisogno di fare un prelievo"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "a_si",
+      "examples": [
+        {
+          "text": "si grazie mille"
+        },
+        {
+          "text": "si"
+        },
+        {
+          "text": "certo"
+        },
+        {
+          "text": "certamente"
+        },
+        {
+          "text": "si per farvore"
+        },
+        {
+          "text": "grazie si"
+        },
+        {
+          "text": "ok"
+        },
+        {
+          "text": "va bene"
+        },
+        {
+          "text": "va benissimo"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "x_PossoParalreConQualcuno",
+      "examples": [
+        {
+          "text": "parlo con te"
+        },
+        {
+          "text": "con chi sto parlando"
+        },
+        {
+          "text": "umano"
+        },
+        {
+          "text": "voglio parlare con un umano"
+        },
+        {
+          "text": "posso parlare con un umano"
+        },
+        {
+          "text": "chi parla"
+        },
+        {
+          "text": "con chi parlo"
+        },
+        {
+          "text": "posso parlare con qualcuno"
+        },
+        {
+          "text": "voglio parlare con"
+        }
+      ]
+    },
+    {
+      "intent": "Richiedere",
+      "examples": [
+        {
+          "text": "come richiedo i risultati della mia ecografia"
+        },
+        {
+          "text": "vorrei richiedere la cartella clinica"
+        },
+        {
+          "text": "ho bisogno del certificato di dimissioni"
+        },
+        {
+          "text": "vorrei avere la cartella clinica"
+        },
+        {
+          "text": "posso richiedere il cd della tac"
+        }
+      ],
+      "description": "richiesta di una cartella clininica, un certificato o dei risultati"
+    },
+    {
+      "intent": "Prenotazione",
+      "examples": [
+        {
+          "text": "avrei bisogno di fare una prenotazione"
+        },
+        {
+          "text": "dovrei prenotare"
+        },
+        {
+          "text": "come posso prenotare"
+        },
+        {
+          "text": "vorrei prenotare un esame con il mio fondo assicurazioni"
+        },
+        {
+          "text": "vorrei prenotare"
+        },
+        {
+          "text": "vorrei prenotare un esame delle urine"
+        },
+        {
+          "text": "vorrei prendere un appuntamento"
+        }
+      ],
+      "description": "l'utente desidera prenotare una visita od un esame"
+    },
+    {
+      "intent": "Visita",
+      "examples": [
+        {
+          "text": "ho prenotato una visita per oggi"
+        },
+        {
+          "text": "ho una visita medica"
+        },
+        {
+          "text": "devo fare una visita medica"
+        },
+        {
+          "text": "ho un appuntamento"
+        },
+        {
+          "text": "devo effettuare una visita"
+        },
+        {
+          "text": "ho una prenotazione per la visita"
+        }
+      ],
+      "description": ""
+    },
+    {
+      "intent": "z_CheOspedali",
+      "examples": [
+        {
+          "text": "spedali limitrofi"
+        },
+        {
+          "text": "ospedali vicini"
+        },
+        {
+          "text": "strutture ci sono qui vicini"
+        },
+        {
+          "text": "strutture ospedaliere"
+        },
+        {
+          "text": "strutture"
+        },
+        {
+          "text": "strutture vicine"
+        },
+        {
+          "text": "il più vicino"
+        },
+        {
+          "text": "il piu vicino"
+        },
+        {
+          "text": "i più vicini"
+        },
+        {
+          "text": "che strutture avete"
+        },
+        {
+          "text": "i piu vicini"
+        },
+        {
+          "text": "che strutture ci sono"
+        },
+        {
+          "text": "le strutture più vicine"
+        },
+        {
+          "text": "nomi degli ospedali"
+        },
+        {
+          "text": "che ospedali"
+        },
+        {
+          "text": "che ospedali ci sono"
+        },
+        {
+          "text": "strutture qui vicino"
+        },
+        {
+          "text": "che reparti ci sono"
+        },
+        {
+          "text": "dove posso andare"
+        },
+        {
+          "text": "quali ospedali"
+        },
+        {
+          "text": "che ambulatorio"
+        }
+      ]
+    }
+  ],
+  "entities": [
+    {
+      "entity": "Luogo",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "botteghe",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "bar",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "toilette",
+          "synonyms": [
+            "bagno"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "fastpass",
+          "synonyms": [
+            "fast pass"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "risposta",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "si",
+          "synonyms": [
+            "chiaro",
+            "invece si",
+            "va benissimo",
+            "vabbene",
+            "va bene",
+            "hai informazioni",
+            "si volevo sapere",
+            "puoi aiutarmi",
+            "mi puoi aiutare",
+            "si vorrei",
+            "mi serve",
+            "si ho bisogno",
+            "ok",
+            "si mi serve",
+            "si grazie"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "no",
+          "synonyms": [
+            "invece no",
+            "nulla",
+            "no nulla",
+            "non credo",
+            "no grazie",
+            "non mi serve",
+            "non ora",
+            "posso farne a meno",
+            "posso fare a meno",
+            "non ne ho bisogno",
+            "non adesso"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "COMMAND",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "c_start",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": false
+    },
+    {
+      "entity": "prenotazione",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "visita",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "appuntamento",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "esame",
+          "synonyms": [
+            "esami"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "analisi",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "cartellericovero",
+          "synonyms": [
+            "cartella clinica",
+            "ricovero",
+            "rimozione punti",
+            "post ricovero",
+            "operare",
+            "operazione",
+            "pre ricovero",
+            "pre operatorio",
+            "post operatorio"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "sostanza_organica",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "sangue",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "globuli bianchi",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "urine",
+          "synonyms": [
+            "urina"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "feci",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "VaBene",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "va bene",
+          "synonyms": [
+            "benissimo",
+            "bene",
+            "vabbene",
+            "vabene"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "modalita",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "assicurazioni",
+          "synonyms": [
+            "assicurazioni",
+            "assicurazione",
+            "ente",
+            "enti",
+            "fondi",
+            "ente convenzionato",
+            "convenzione",
+            "ente privato"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "ssn",
+          "synonyms": [
+            "servizio sanitario",
+            "ssn",
+            "mutua",
+            "esente",
+            "esenti",
+            "esenzione"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "pagamento",
+          "synonyms": [
+            "privatamente",
+            "privato",
+            "pagamento",
+            "pagando",
+            "pago",
+            "pagare"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "exam_type",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "medicina nucleare",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "analisi",
+          "synonyms": [
+            "prelievo"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "elettrocardiogramma",
+          "synonyms": [
+            "cardiologo",
+            "cuore",
+            "ecg"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "oculistica",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "esami",
+          "synonyms": [
+            "laboratorio",
+            "sangue",
+            "urine"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "radio oncoterapia",
+          "synonyms": []
+        }
+      ]
+    },
+    {
+      "entity": "user_type",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "assicurazione",
+          "synonyms": [
+            "ente privato"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "privato",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "mutua",
+          "synonyms": [
+            "SSN",
+            "Servizio Sanitario Nazionale",
+            "Servizio Sanitario Regionale",
+            "SSR"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "Esame",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "tac",
+          "synonyms": [
+            "tomografia"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "ecg",
+          "synonyms": [
+            "elettrocardiogramma",
+            "ECG"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "ecografia",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "analisi",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "rmn",
+          "synonyms": [
+            "risonanza"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "documento",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "cartella clinica",
+          "synonyms": [
+            "cartelle cliniche"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "grazie",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "grazie",
+          "synonyms": [
+            "ringrazio",
+            "tank you"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "ospedale",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "Istituto Baluardo",
+          "synonyms": [
+            "baluardo",
+            "expo"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "evangelico",
+          "synonyms": [
+            "evangelico internazionale",
+            "internazionale"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "villa scassi",
+          "synonyms": [
+            "sampiardarena",
+            "sampierdarena",
+            "scassi"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "San Martino",
+          "synonyms": [
+            "sanmartino",
+            "monoblocco"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "galliera",
+          "synonyms": [
+            "carignano",
+            "castelletto"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Gallino",
+          "synonyms": []
+        }
+      ]
+    },
+    {
+      "entity": "saluti",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "buonasera",
+          "synonyms": [
+            "sera",
+            "buona sera"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "salve",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "buongiorno",
+          "synonyms": [
+            "buondì",
+            "buondi",
+            "buon dì",
+            "buon di",
+            "buon giorno",
+            "giorno"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "ciao",
+          "synonyms": [
+            "hei"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "buonpomeriggio",
+          "synonyms": [
+            "pomeriggio",
+            "buon pomeriggio"
+          ]
+        }
+      ]
+    },
+    {
+      "entity": "insurance_type",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "ALDAI",
+          "synonyms": [
+            "Associazione Lombarda Dirigenti Aziende Industriali",
+            "federmanager"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "myrete",
+          "synonyms": [
+            "dimservice"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "previmedical",
+          "synonyms": [
+            "fondo sanitario integrativo del gruppo intesa"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "PROGESA",
+          "synonyms": [
+            "Pro.Ge.Sa for all",
+            "progesa for all"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "QuAS",
+          "synonyms": [
+            "Cassa Assistenza sanitaria quadri",
+            "quas pensionati"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "RCAM",
+          "synonyms": [
+            "regime comune di assicurazione"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "mapfre warranty",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "mapfre assistance",
+          "synonyms": [
+            "mapfre assistencia expat"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "IPA S.A.",
+          "synonyms": [
+            "inter partner assistance",
+            "axa assistance"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "insieme salute",
+          "synonyms": [
+            "mutua sanitaria"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "international sos",
+          "synonyms": [
+            "international sos assistance france",
+            "international sos assistance ltd"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "IAG ATLAS PROGRAM",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "HTH WORLDWIDE",
+          "synonyms": [
+            "international student health insurance"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "generali italia",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "fondo salute",
+          "synonyms": [
+            "FONDO SALUTE SOC. COOPERATIVA EUROPEA A R.L.",
+            "FONDO DI ASSISTENZA SANITARIA INTEGRATIVA"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "FISDE",
+          "synonyms": [
+            "fondo integrativo sanitario dei dipendenti delle aziende eni",
+            "fisde eni"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "FD service",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "FISDAF",
+          "synonyms": [
+            "fondo sanitario integrativo",
+            "fondo integrativo sanitario dirigenti aziende fiat"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "filo diretto assicurazioni",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "fasiopen",
+          "synonyms": [
+            "fondo aperto di assistenza sanitaria integrativa"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "FASI",
+          "synonyms": [
+            "fondo assistenza sanitaria integrativa"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "CADGI IBM",
+          "synonyms": [
+            "cadgi",
+            "cassa di assistenza dipendenti gruppo ibm",
+            "cassa di assistenza dipendenti",
+            "cassa di assistenza"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Blue Assistance",
+          "synonyms": [
+            "blue asistance",
+            "assistance",
+            "blue",
+            "reale mutua"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "cassa assistenza",
+          "synonyms": [
+            "cassa mutua di assistenza",
+            "banca popolare milano cassa mutua",
+            "cassa mutua"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "AWP",
+          "synonyms": [
+            "AWP P&C S.A.",
+            "Allianz Global Assistance",
+            "avp"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Assirete",
+          "synonyms": [
+            "Assirete srl"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Aon",
+          "synonyms": [
+            "Aon Hewitt Risk & Consulting",
+            "Hewitt Risk"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "Aramco Overseas",
+          "synonyms": [
+            "Aramco",
+            "Aramco Overseas Company"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "my assistance",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "UniSalute",
+          "synonyms": [
+            "specialisti assicurazione medica",
+            "sisalute"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "SICRED",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "sara assicurazioni",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "MED24",
+          "synonyms": [
+            "MED 24"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "medi call italia",
+          "synonyms": [
+            "medi call"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "WIT",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "medic4all",
+          "synonyms": [
+            "medic for all italia"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "FASDAC",
+          "synonyms": [
+            "Fondo di assistenza sanitaria dei dirigenti aziende commerciali"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "FASCHIM",
+          "synonyms": [
+            "fondo di assistenza sanitaria",
+            "fondo assistenza sanitaria industria chimica"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "europ assistance",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "ente mutuo",
+          "synonyms": [
+            "ente mutuo commercio",
+            "Unione Confcommercio"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "coop salute",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "consolato generale turchia",
+          "synonyms": [
+            "consolato turco"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "cigna",
+          "synonyms": [
+            "cigna international"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "CASPIE",
+          "synonyms": [
+            "assicurazione sanitarie"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "CASAGIT",
+          "synonyms": [
+            "cassa autonoma di assistenza integrativa dei giornalisti"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "ALDAC",
+          "synonyms": [
+            "associazione lombarda dirigenti aziende commerciali"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "A.C. MILAN",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "Consorzio Mu. Sa.",
+          "synonyms": [
+            "Mutua Sanitaria Integrativa",
+            "campa mutua sanitaria integrativa",
+            "mutua sanitaria",
+            "campa",
+            "cassa nazionale assistenza"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "ParteCorpo",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "anca",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "cuore",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "testa",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "colon",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "piede",
+          "synonyms": [
+            "piedi"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "gamba",
+          "synonyms": [
+            "gambe"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "collo",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "braccio",
+          "synonyms": [
+            "braccia"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "reni",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "mano",
+          "synonyms": [
+            "mani"
+          ]
+        }
+      ],
+      "fuzzy_match": true
+    },
+    {
+      "entity": "visit",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "specialistica",
+          "synonyms": []
+        },
+        {
+          "type": "synonyms",
+          "value": "diagnostica",
+          "synonyms": []
+        }
+      ],
+      "fuzzy_match": false
+    },
+    {
+      "entity": "azione",
+      "values": [
+        {
+          "type": "synonyms",
+          "value": "prenotazione",
+          "synonyms": [
+            "prenoto",
+            "prendere appuntamento",
+            "prenotare"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "ritirare",
+          "synonyms": [
+            "ritiro",
+            "prendere"
+          ]
+        },
+        {
+          "type": "synonyms",
+          "value": "cancellare",
+          "synonyms": [
+            "togliere",
+            "elimino",
+            "cancello"
+          ]
+        }
+      ]
+    }
+  ],
+  "language": "it",
+  "metadata": {
+    "api_version": {
+      "major_version": "v1",
+      "minor_version": "2018-09-20"
+    }
+  },
+  "description": "Workspace dedicato ad R1 per il ricevimento presso il San Raffaele",
+  "dialog_nodes": [
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "In questo momento però è chiuso. Può tornare dal lunedì al sabato dalle ore 7:00 alle 11:00.",
+            "La sala prelievi è aperta dal lunedì al sabato, dalle ore 7 alle ore 11. "
+          ],
+          "selection_policy": "random"
+        }
+      },
+      "parent": "node_2_1547816281467",
+      "metadata": {},
+      "conditions": "true",
+      "dialog_node": "node_4_1547816450188",
+      "previous_sibling": "node_3_1547816393203"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Può andare direttamente adesso."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1547816281467",
+      "metadata": {},
+      "conditions": "(now().split(' ').get(1).split(':').get(0)>=7) && (now().split(' ').get(1).split(':').get(0)<=11)",
+      "dialog_node": "node_3_1547816393203"
+    },
+    {
+      "type": "standard",
+      "title": "Non solvente chiarimento",
+      "output": {
+        "text": {
+          "values": [
+            "Lei è venuto con la mutua?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_11_1524496635268",
+      "metadata": {},
+      "conditions": "$user_type:privato || $user_type:assicurazione",
+      "dialog_node": "node_15_1524497058600",
+      "previous_sibling": "node_12_1524496747026"
+    },
+    {
+      "type": "standard",
+      "title": "Non mutua chiarimento",
+      "output": {
+        "text": {
+          "values": [
+            "Lei è venuto come privato o con un assicurazione?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_11_1524496635268",
+      "metadata": {},
+      "conditions": "$user_type:mutua",
+      "dialog_node": "node_12_1524496747026"
+    },
+    {
+      "type": "standard",
+      "title": "No response +  Answer + Goodbye",
+      "output": {
+        "text": {
+          "values": [
+            "Deve selezionare su Totem la categoria Privati a pagamento (fila D)"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_16_1523533793108",
+      "context": {
+        "last_entity": "user_type:privato"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_14_1523532928162"
+      },
+      "conditions": "@answer:no",
+      "dialog_node": "node_22_1523535557746",
+      "previous_sibling": "node_21_1523535226036"
+    },
+    {
+      "type": "standard",
+      "title": "Yes response + Answer + Goodbye",
+      "output": {
+        "text": {
+          "values": [
+            "Deve selezionare su Totem la categoria Fondi-assicurazioni ente privato (fila E)"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_16_1523533793108",
+      "context": {
+        "last_entity": "user_type:assicurazione"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_14_1523532928162"
+      },
+      "conditions": "@answer:si",
+      "dialog_node": "node_21_1523535226036"
+    },
+    {
+      "type": "standard",
+      "title": "DEBUG",
+      "output": {
+        "text": {
+          "values": [
+            "jump to debug"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_13_1523547021446",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_6_1524488083326"
+      },
+      "conditions": "anything_else",
+      "dialog_node": "node_1_1524486762558",
+      "previous_sibling": "node_3_1524487599728"
+    },
+    {
+      "type": "standard",
+      "title": "Numero entita uguale a 1",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_13_1523547021446",
+      "metadata": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "entities['user_type'].size() == 1",
+      "dialog_node": "node_3_1524487599728",
+      "previous_sibling": "node_2_1524487429602"
+    },
+    {
+      "type": "standard",
+      "title": "Numero entita maggiore di 1",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_13_1523547021446",
+      "context": {
+        "num_entity_user": "<? entities['user_type'].size().toInt() -1 ?>"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "entities['user_type'].size() > 1",
+      "dialog_node": "node_2_1524487429602"
+    },
+    {
+      "type": "standard",
+      "title": "Richiesta del pagamento",
+      "output": {
+        "text": {
+          "values": [
+            "Ha già provveduto al pagamento?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_25_1523535859908",
+      "metadata": {},
+      "dialog_node": "node_26_1523535878972"
+    },
+    {
+      "type": "standard",
+      "title": "Richiesta assicurazione",
+      "output": {
+        "text": {
+          "values": [
+            "Hai un'assicurazione privata?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_15_1523533742692",
+      "metadata": {},
+      "dialog_node": "node_16_1523533793108"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Che <? $cosa ? $cosa : 'cosa' ?>  vuole prenotare?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_7_1544626319308",
+      "context": {
+        "cosa": "<? @prenotazione.literal ?>",
+        "modalita": "<? @modalita.literal ?>"
+      },
+      "metadata": {},
+      "conditions": "$modalita == null",
+      "dialog_node": "node_2_1544694157112",
+      "previous_sibling": "node_3_1544796604456"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Che <? $cosa  ? $cosa : 'cosa' ?>  vuole prenotare a pagamento?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_7_1544626319308",
+      "context": {
+        "cosa": "<? @prenotazione.literal ?>"
+      },
+      "metadata": {},
+      "conditions": "$modalita == 'pagamento'",
+      "dialog_node": "node_3_1544694172268",
+      "previous_sibling": "node_2_1544694157112"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Che <? $cosa    ? $cosa : 'cosa' ?>  vuole prenotare tremite il suo <? @modalita.literal ?> ?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_7_1544626319308",
+      "context": {
+        "cosa": "<? @prenotazione.literal ?>"
+      },
+      "metadata": {},
+      "conditions": "$modalita == 'assicurazioni'",
+      "dialog_node": "node_16_1544702727174",
+      "previous_sibling": "node_15_1544702671401"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Che <? $cosa   ? $cosa : 'cosa' ?>  vuole prenotare con $modalita ?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_7_1544626319308",
+      "context": {
+        "cosa": "<? @prenotazione.literal ?>"
+      },
+      "metadata": {},
+      "conditions": "$modalita == 'ssn' ||  $modalita == 'mutua' ||  $modalita == 'servizio sanitario nazionale'",
+      "dialog_node": "node_15_1544702671401",
+      "previous_sibling": "node_3_1544694172268"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_7_1544626319308",
+      "context": {
+        "prestazione": "UNKNOWN"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_2_1544451724249"
+      },
+      "conditions": "true",
+      "dialog_node": "node_3_1544796604456"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "Grazie e arrivederci!",
+            "Spero di averti aiutato, arrivederci!",
+            "Arrivederci, sono sempre al tuo servizio!"
+          ],
+          "selection_policy": "random"
+        }
+      },
+      "parent": "node_6_1543486462956",
+      "metadata": {},
+      "conditions": "#CC_Arrivederci",
+      "dialog_node": "node_14_1523532928162",
+      "previous_sibling": "node_3_1543485741292"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "Ciao! Posso aiutarti?",
+            "Salve, posso fare qualcosa per te?"
+          ],
+          "selection_policy": "random"
+        }
+      },
+      "parent": "node_6_1543486462956",
+      "metadata": {},
+      "conditions": "#CC_Greeting",
+      "dialog_node": "node_12_1543488809102",
+      "previous_sibling": "node_14_1523532928162"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "Adesso sono le <? now().split(' ').get(1).split(':').get(0) ?> e <? now().split(' ').get(1).split(':').get(1) ?>."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_6_1543486462956",
+      "metadata": {},
+      "conditions": "#CC_Orario",
+      "dialog_node": "node_3_1543485741292",
+      "previous_sibling": "node_9_1543486646365"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "Sono qui per per aiutarti con il totem e per orientarti",
+            "Posso darti informazioni sul totem, sugli orari dell'ospedale"
+          ],
+          "selection_policy": "random"
+        }
+      },
+      "parent": "node_6_1543486462956",
+      "metadata": {},
+      "conditions": "#CC_CosaSaiFare",
+      "dialog_node": "node_9_1543486646365",
+      "previous_sibling": "node_7_1543486503908"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "Sono R1",
+            "Mi chiamo R1",
+            "Il mio nome è R1"
+          ],
+          "selection_policy": "random"
+        }
+      },
+      "parent": "node_6_1543486462956",
+      "metadata": {},
+      "conditions": "#CC_ComeTiChiami",
+      "dialog_node": "node_7_1543486503908"
+    },
+    {
+      "type": "standard",
+      "title": "TEST TIME",
+      "output": {},
+      "parent": "node_1_1544790471072",
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_2_1544715963169"
+      },
+      "conditions": "true",
+      "dialog_node": "node_2_1547816281467",
+      "digress_out": "allow_all"
+    },
+    {
+      "type": "standard",
+      "title": "No response",
+      "output": {},
+      "parent": "node_26_1523535878972",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_1_1523537872426"
+      },
+      "conditions": "@answer:no",
+      "dialog_node": "node_35_1523537555236",
+      "previous_sibling": "node_34_1523537534786"
+    },
+    {
+      "type": "standard",
+      "title": "Yes response + Answer + Goodbye",
+      "output": {
+        "text": {
+          "values": [
+            "Deve recarsi direttamente allo sportello FAST PASS"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_26_1523535878972",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_14_1523532928162"
+      },
+      "conditions": "@answer:si",
+      "dialog_node": "node_34_1523537534786"
+    },
+    {
+      "type": "standard",
+      "title": "No response",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_7_1523524058542",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_1_1524562713996"
+      },
+      "conditions": "@answer:no",
+      "dialog_node": "node_10_1523524473276",
+      "previous_sibling": "node_8_1523524229092"
+    },
+    {
+      "type": "standard",
+      "title": "Yes response",
+      "output": {},
+      "parent": "node_7_1523524058542",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1523524271918"
+      },
+      "conditions": "@answer:si",
+      "dialog_node": "node_8_1523524229092"
+    },
+    {
+      "type": "standard",
+      "title": "Risposta negativa",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_3_1524487599728",
+      "context": {
+        "user_type": "<? entities['user_type'].value ?>"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "#negate && @user_type",
+      "dialog_node": "node_11_1524496635268",
+      "previous_sibling": "node_5_1524487714098"
+    },
+    {
+      "type": "standard",
+      "title": "Reindirizzamento Servizio Solventi",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_3_1524487599728",
+      "context": {
+        "last_entity": "user_type:<? entities[0] ?>",
+        "last_intent": "<? intents[0].intent ?>"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1523524271918"
+      },
+      "conditions": "( entities[0].value.equals(\"privato\") || entities[0].value.equals(\"assicurazione\") ) && intents[0].intent.equals(\"negate\") == false",
+      "dialog_node": "node_5_1524487714098",
+      "previous_sibling": "node_4_1524487676738"
+    },
+    {
+      "type": "standard",
+      "title": "Reindirizzamento Servizio SSN",
+      "output": {
+        "text": {
+          "values": []
+        }
+      },
+      "parent": "node_3_1524487599728",
+      "context": {
+        "user_type": "<? entities[0].value ?>",
+        "last_entity": "user_type:<? entities[0].value ?>",
+        "last_intent": "<? intents[0].intent ?>"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_5_1523523900102"
+      },
+      "conditions": "entities[0].value.equals(\"mutua\") && intents[0].intent.equals(\"negate\") == false",
+      "dialog_node": "node_4_1524487676738"
+    },
+    {
+      "type": "folder",
+      "title": "Servizio Solventi",
+      "parent": "node_2_1539420516616",
+      "metadata": {},
+      "conditions": "@user_type:privato || @user_type:assicurazione",
+      "dialog_node": "node_3_1523521535226",
+      "previous_sibling": "node_1_1523521454788"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1539420516616",
+      "metadata": {},
+      "conditions": "false",
+      "dialog_node": "node_1_1543485721340",
+      "previous_sibling": "node_3_1523521535226"
+    },
+    {
+      "type": "folder",
+      "title": "Servizio SSN",
+      "parent": "node_2_1539420516616",
+      "metadata": {},
+      "conditions": "@user_type:mutua",
+      "dialog_node": "node_1_1523521454788",
+      "previous_sibling": "node_17_1523534593428"
+    },
+    {
+      "type": "standard",
+      "title": "Richiesta iniziale",
+      "output": {
+        "text": {
+          "values": [
+            "Molto bene, ha una richiesta SSN?",
+            "Scusa non ho capito, potresti dirmi se hai una richiesta di tipo SSN?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1539420516616",
+      "metadata": {},
+      "dialog_node": "node_17_1523534593428"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "il bar è di la"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1545048041023",
+      "context": {
+        "action": "directions",
+        "action_params": {
+          "place": "bar"
+        }
+      },
+      "conditions": "@Luogo:bar",
+      "dialog_node": "node_6_1549551968458",
+      "previous_sibling": "node_1_1545050122781"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "Sto ancora imparando a dare indicazione per il @Luogo"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1545048041023",
+      "metadata": {},
+      "conditions": "true",
+      "dialog_node": "node_2_1545050141255",
+      "previous_sibling": "node_3_1549552042498"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "I servizi si trovano dietro"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1545048041023",
+      "conditions": "@Luogo:toilette",
+      "dialog_node": "node_3_1549552042498",
+      "previous_sibling": "node_6_1549551968458"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "Vai di qua."
+          ],
+          "selection_policy": "sequential"
+        },
+        "context": {
+          "r1": {
+            "type": "sinistra",
+            "acton": "direzione"
+          }
+        }
+      },
+      "parent": "node_1_1545048041023",
+      "metadata": {},
+      "conditions": "@Luogo:fastpass",
+      "dialog_node": "node_1_1545050122781"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "Oggi è: <? now().split(' ').get(0) ?> Hai ancora bisogno di me ?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1543485721340",
+      "metadata": {},
+      "conditions": "#CheGiorno",
+      "dialog_node": "node_4_1543485804180"
+    },
+    {
+      "type": "standard",
+      "title": "Diagnostica per immagini + Goodbye",
+      "output": {
+        "text": {
+          "values": [
+            "Selezionare su Totem la categoria Mutua SSN,poi diagnostica per immagini"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_8_1523541010110",
+      "metadata": {},
+      "conditions": "@visit:diagnostica",
+      "dialog_node": "node_10_1523541396768",
+      "previous_sibling": "node_9_1523541306540"
+    },
+    {
+      "type": "standard",
+      "title": "Visita specialistica + Goodbye",
+      "output": {
+        "text": {
+          "values": [
+            "Selezionare su Totem la categoria Mutua SSN,poi pagamento ticket/esenti per visite (già prenotate)"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_8_1523541010110",
+      "metadata": {},
+      "conditions": "@visit:specialistica",
+      "dialog_node": "node_9_1523541306540"
+    },
+    {
+      "type": "standard",
+      "title": "Domanda SSN",
+      "output": {
+        "text": {
+          "values": [
+            "Ha con lei l'impegnativa del medico?",
+            "Possiede l'impegnativa del medico?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1544456438929",
+      "metadata": {},
+      "dialog_node": "node_1_1544803215388",
+      "previous_sibling": "node_2_1544800954063"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "Ha già una prenotazione per oggi?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1544456438929",
+      "metadata": {},
+      "conditions": "true",
+      "dialog_node": "node_2_1544800954063"
+    },
+    {
+      "type": "standard",
+      "title": "Solventi response",
+      "output": {},
+      "parent": "node_1_1524562713996",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1523524271918"
+      },
+      "conditions": "@user_type:assicurazione || @user_type:privato",
+      "dialog_node": "node_12_1523526647380",
+      "previous_sibling": "node_11_1523526605436"
+    },
+    {
+      "type": "standard",
+      "title": "Risposta non classificata",
+      "output": {},
+      "parent": "node_1_1524562713996",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_8_1524489078106"
+      },
+      "conditions": "anything_else",
+      "dialog_node": "node_2_1524562788178",
+      "previous_sibling": "node_12_1523526647380"
+    },
+    {
+      "type": "standard",
+      "title": "Mutua response",
+      "output": {},
+      "parent": "node_1_1524562713996",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_5_1523523900102"
+      },
+      "conditions": "@user_type:mutua",
+      "dialog_node": "node_11_1523526605436"
+    },
+    {
+      "type": "standard",
+      "title": "Richiesta tipo utente",
+      "output": {
+        "text": {
+          "values": [
+            "Mi può dire con che tipo di convenzione è venuto?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_10_1523524473276",
+      "metadata": {},
+      "dialog_node": "node_1_1524562713996"
+    },
+    {
+      "type": "standard",
+      "title": "No Answer",
+      "output": {},
+      "parent": "node_15_1524497058600",
+      "metadata": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "@answer:no",
+      "dialog_node": "node_18_1524497557712",
+      "previous_sibling": "node_16_1524497184376"
+    },
+    {
+      "type": "standard",
+      "title": "Risposta non contemplata",
+      "output": {},
+      "parent": "node_15_1524497058600",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_17_1523534593428"
+      },
+      "conditions": "anything_else",
+      "dialog_node": "node_17_1524497216844",
+      "previous_sibling": "node_18_1524497557712"
+    },
+    {
+      "type": "standard",
+      "title": "Yes Answer",
+      "output": {},
+      "parent": "node_15_1524497058600",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_5_1523523900102"
+      },
+      "conditions": "@answer:si",
+      "dialog_node": "node_16_1524497184376"
+    },
+    {
+      "type": "standard",
+      "title": "Esame oculistica + Goodbye",
+      "output": {
+        "text": {
+          "values": [
+            "Deve recarsi al settore B piano -1"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_24_1523535780844",
+      "metadata": {},
+      "conditions": "@exam_type:oculistica",
+      "dialog_node": "node_30_1523537034674",
+      "previous_sibling": "node_28_1523536504588"
+    },
+    {
+      "type": "standard",
+      "title": "Esame radio oncoterapia + Goodbye",
+      "output": {
+        "text": {
+          "values": [
+            "Deve recarsi al settore B piano -2"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_24_1523535780844",
+      "metadata": {},
+      "conditions": "@exam_type:radio oncoterapia",
+      "dialog_node": "node_31_1523537103976",
+      "previous_sibling": "node_29_1523536969714"
+    },
+    {
+      "type": "standard",
+      "title": "Altro + Goodbye",
+      "output": {
+        "text": {
+          "values": [
+            "Deve recarsi all'area prenotazioni nella galleria delle Botteghe"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_24_1523535780844",
+      "metadata": {},
+      "conditions": "anything_else",
+      "dialog_node": "node_32_1523537195944",
+      "previous_sibling": "node_31_1523537103976"
+    },
+    {
+      "type": "standard",
+      "title": "Esame medicina nucleare + Goodbye",
+      "output": {
+        "text": {
+          "values": [
+            "Deve recarsi al settore C piano -2"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_24_1523535780844",
+      "metadata": {},
+      "conditions": "@exam_type:(medicina nucleare)",
+      "dialog_node": "node_29_1523536969714",
+      "previous_sibling": "node_30_1523537034674"
+    },
+    {
+      "type": "standard",
+      "title": "Esame elettrocardiogramma + Goodbye",
+      "output": {
+        "text": {
+          "values": [
+            "Non serve la prenotazione, deve eseguire l'accettazione e poi recarsi all'Ambulatorio di Cardiologia settore Q 1, piano terra, dal lunedì al venerdì, dalle 8:30 alle 10:30"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_24_1523535780844",
+      "metadata": {},
+      "conditions": "@exam_type:elettrocardiogramma",
+      "dialog_node": "node_28_1523536504588",
+      "previous_sibling": "node_27_1523536254462"
+    },
+    {
+      "type": "standard",
+      "title": "Esami di laboratorio + Goodbye",
+      "output": {
+        "text": {
+          "values": [
+            "Non è necessario prenotare, è sufficiente recarsi presso il punto di prelievo, dal lunedì al sabato dalle ore 7:00 alle 11:00"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_24_1523535780844",
+      "metadata": {},
+      "conditions": "@exam_type:esami",
+      "dialog_node": "node_27_1523536254462"
+    },
+    {
+      "type": "standard",
+      "title": "No Answer",
+      "output": {},
+      "parent": "node_19_1524497584022",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_17_1524497216844"
+      },
+      "conditions": "@answer:no",
+      "dialog_node": "node_21_1524497680144",
+      "previous_sibling": "node_20_1524497636662"
+    },
+    {
+      "type": "standard",
+      "title": "Yes Answer",
+      "output": {},
+      "parent": "node_19_1524497584022",
+      "context": {
+        "user_type": "assicurazione"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1523524271918"
+      },
+      "conditions": "@answer:si",
+      "dialog_node": "node_20_1524497636662"
+    },
+    {
+      "type": "standard",
+      "title": "T_CARDIO",
+      "output": {
+        "text": {
+          "values": [
+            "Deve eseguire l'accettazione (dove?)\ne poi recarsi all'Ambulatorio di Cardiologia\nsettore Q 1, piano terra, dal lunedì al venerdì, dalle 8:30 - 10:30"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_9_1544455918815",
+      "metadata": {},
+      "conditions": "false",
+      "dialog_node": "node_2_1544794049249",
+      "previous_sibling": "node_1_1544790471072"
+    },
+    {
+      "type": "standard",
+      "title": "T_RICOVERI_CARTELLE",
+      "output": {
+        "text": {
+          "values": [
+            "Seleziona sul totem il tasto Ricoveri, Dimissioni e Cartelle Cliniche"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_9_1544455918815",
+      "metadata": {},
+      "conditions": "false",
+      "dialog_node": "node_1_1547808973852",
+      "previous_sibling": "node_2_1544794049249"
+    },
+    {
+      "type": "standard",
+      "title": "Reset context variables",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_9_1544455918815",
+      "context": {
+        "cosa": null,
+        "azione": null,
+        "modalita": null
+      },
+      "metadata": {},
+      "conditions": "false",
+      "dialog_node": "node_2_1544715963169",
+      "previous_sibling": "node_11_1544697052815"
+    },
+    {
+      "type": "standard",
+      "title": "T_D_PRIVATI",
+      "output": {
+        "text": {
+          "values": [
+            "Premere il pulsante Privati a pagamento e recarsi all'accettazione centrale, Fila D.",
+            "Per effettuare visite o esami, sia a pagamento che con esenzione, premere sul totem il pulsante \"Privati a Pagamento/Esenti\" e recarsi all'accetazione centrale nella fila D. "
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_9_1544455918815",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_2_1544715963169"
+      },
+      "conditions": "false",
+      "dialog_node": "node_11_1544456080734",
+      "previous_sibling": "node_10_1544455951725"
+    },
+    {
+      "type": "standard",
+      "title": "T_E_ASSICURAZIONI",
+      "output": {
+        "text": {
+          "values": [
+            "Premere il pulsante Fondi ass./enti privati e recarsi all'accettazione centrale, Fila E."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_9_1544455918815",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_2_1544715963169"
+      },
+      "conditions": "false",
+      "dialog_node": "node_11_1544697052815",
+      "previous_sibling": "node_7_1544695975218"
+    },
+    {
+      "type": "standard",
+      "title": "T_PRELIEVO",
+      "output": {
+        "text": {
+          "values": [
+            "E' sufficiente recarsi presso il punto prelievo. ",
+            "Ottimo. Basta recarsi al punto di prelievo.",
+            "Bene. Deve recarsi alla sala prelievi."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_9_1544455918815",
+      "metadata": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "false",
+      "dialog_node": "node_1_1544790471072",
+      "previous_sibling": "node_2_1544715963169"
+    },
+    {
+      "type": "standard",
+      "title": "T_SSN_BOTTEGHE",
+      "output": {
+        "text": {
+          "values": [
+            "Se deve effettuare <? $azione == 'prenotazione' || $azione == 'visita' ?  'la sua' : 'il suo' ?>  $azione tramite il servizio sanitario nazionale basta recarsi all'area delle prenotazioni nella galleria delle Botteghe.",
+            "Per effettuare visite o prenotazioni con il servizio sanitario nazionale è sufficiente recarsi all'area delle prenotazioni nella galleria delle Botteghe"
+          ],
+          "selection_policy": "random"
+        }
+      },
+      "parent": "node_9_1544455918815",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_2_1544715963169"
+      },
+      "conditions": "false",
+      "dialog_node": "node_7_1544695975218",
+      "previous_sibling": "node_11_1544456080734"
+    },
+    {
+      "type": "standard",
+      "title": "Linea Prioritaria Mutua",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_9_1544455918815",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_2_1544715963169"
+      },
+      "dialog_node": "node_10_1544455951725"
+    },
+    {
+      "type": "standard",
+      "title": "No response",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_9_1523524271918",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_16_1523533793108"
+      },
+      "conditions": "@answer:no",
+      "dialog_node": "node_15_1523533742692",
+      "previous_sibling": "node_13_1523527443466"
+    },
+    {
+      "type": "standard",
+      "title": "Yes response + Answer + GoodBye",
+      "output": {
+        "text": {
+          "values": [
+            "Deve recarsi direttamente allo sportello FAST PASS"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_9_1523524271918",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_14_1523532928162"
+      },
+      "conditions": "@answer:si",
+      "dialog_node": "node_13_1523527443466"
+    },
+    {
+      "type": "standard",
+      "title": "@risposta:no",
+      "output": {
+        "text": {
+          "values": [
+            "In alternativa può effettuare una prenotazione a pagamento o servendosi di un'assicurazione o ente privato. Quale tra questi due desidera scegliere (modalita: <? @modalita.literal ?> azione: $azione ) ?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_4_1544694757410",
+      "context": {
+        "azione": "prenotazione"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "user_input",
+        "dialog_node": "node_1_1544778373800"
+      },
+      "conditions": "#a_no",
+      "dialog_node": "node_1_1544712271988",
+      "previous_sibling": "node_8_1544696764763"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_4_1544694757410",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "condition",
+        "dialog_node": "node_1_1544693487134"
+      },
+      "conditions": "@modalita && #a_no",
+      "dialog_node": "node_8_1544696764763",
+      "previous_sibling": "node_6_1544695902930"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_4_1544694757410",
+      "context": {
+        "modalita": "ssn"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_7_1544695975218"
+      },
+      "conditions": "#a_si",
+      "dialog_node": "node_6_1544695902930"
+    },
+    {
+      "type": "standard",
+      "title": "Richiesta Prenotazione",
+      "output": {
+        "text": {
+          "values": [
+            "Deve effettuare una prenotazione?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1523521454788",
+      "context": {
+        "service": "SSN"
+      },
+      "metadata": {},
+      "dialog_node": "node_5_1523523900102"
+    },
+    {
+      "type": "standard",
+      "title": "No response",
+      "output": {},
+      "parent": "node_5_1523523900102",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_26_1523535878972"
+      },
+      "conditions": "@answer:no",
+      "dialog_node": "node_25_1523535859908",
+      "previous_sibling": "node_23_1523535654182"
+    },
+    {
+      "type": "standard",
+      "title": "Yes response",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_5_1523523900102",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_24_1523535780844"
+      },
+      "conditions": "@answer:si",
+      "dialog_node": "node_23_1523535654182"
+    },
+    {
+      "type": "standard",
+      "title": "No response",
+      "output": {},
+      "parent": "node_4_1523540668280",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_8_1523541010110"
+      },
+      "conditions": "@answer:no",
+      "dialog_node": "node_6_1523540741306",
+      "previous_sibling": "node_5_1523540716598"
+    },
+    {
+      "type": "standard",
+      "title": "Yes response + Answer + Goodbye",
+      "output": {
+        "text": {
+          "values": [
+            "Deve recarsi direttamente allo sportello FAST PASS"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_4_1523540668280",
+      "metadata": {},
+      "conditions": "@answer:si",
+      "dialog_node": "node_5_1523540716598"
+    },
+    {
+      "type": "standard",
+      "title": "Richiesta tipologia prestazione",
+      "output": {
+        "text": {
+          "values": [
+            "Che tipo di prestazione?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_23_1523535654182",
+      "metadata": {},
+      "dialog_node": "node_24_1523535780844"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1544800954063",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_2_1544451724249"
+      },
+      "conditions": "true",
+      "dialog_node": "node_4_1544801018623",
+      "previous_sibling": "node_3_1544800984047"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "Molto bene può andare in accettazione"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1544800954063",
+      "metadata": {},
+      "conditions": "#a_si",
+      "dialog_node": "node_3_1544800984047"
+    },
+    {
+      "type": "response_condition",
+      "output": {},
+      "parent": "node_2_1544451724249",
+      "disabled": true,
+      "metadata": {},
+      "dialog_node": "node_1_1544627029645",
+      "previous_sibling": "node_7_1544626319308"
+    },
+    {
+      "type": "standard",
+      "title": "Esami/Visite",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1544451724249",
+      "metadata": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "$prestazione!=null",
+      "dialog_node": "node_1_1544693487134",
+      "previous_sibling": "node_1_1544778373800"
+    },
+    {
+      "type": "standard",
+      "title": "Domanda per cosa prenotare",
+      "output": {},
+      "parent": "node_2_1544451724249",
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "conditions": "true",
+      "dialog_node": "node_7_1544626319308",
+      "digress_out": "allow_all",
+      "previous_sibling": "node_1_1544693487134"
+    },
+    {
+      "type": "standard",
+      "title": "Cartelle cliniche / Ricoveri",
+      "output": {
+        "text": {
+          "values": [
+            "Premere il pulsante Ricoveri/Cartelle cliniche e recarsi all'accettazione centrale",
+            "Per effettuare una prenotazione per il ritiro delle cartelle cliniche premere sul totem il pulsante chiamato Ricoveri/Cartelle cliniche. Successivamente occorre recarsi all'accettazione centrale."
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1544451724249",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_2_1544715963169"
+      },
+      "conditions": "@prenotazione:cartellericovero && $azione == 'prenotazione' || $cosa == 'cartella clinica'",
+      "dialog_node": "node_1_1544778373800",
+      "previous_sibling": "node_1_1544807282519"
+    },
+    {
+      "type": "standard",
+      "title": "Prestazioni senza necessità di prenotazione - copy1",
+      "output": {},
+      "parent": "node_2_1544451724249",
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_1_1544790471072"
+      },
+      "conditions": "@sostanza_organica || @Esame:analisi",
+      "dialog_node": "node_1_1544807282519",
+      "digress_out": "allow_all"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "ok",
+            "va bene"
+          ],
+          "selection_policy": "random"
+        }
+      },
+      "parent": "node_13_1543488877767",
+      "metadata": {},
+      "conditions": "#a_si || #a_no",
+      "dialog_node": "node_14_1543488932103",
+      "previous_sibling": "node_1_1544794911520"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "prego",
+            "è un piacere esserti di aiuto"
+          ],
+          "selection_policy": "random"
+        }
+      },
+      "parent": "node_13_1543488877767",
+      "metadata": {},
+      "conditions": "@grazie",
+      "dialog_node": "node_1_1544794911520"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "vai alla tua destra"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_6_1549551968458",
+      "conditions": "true",
+      "dialog_node": "node_6_1549555657797",
+      "previous_sibling": "node_6_1549555641519"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "buona colazione"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_6_1549551968458",
+      "conditions": "$R1 and $R1.action_status==\"done\"",
+      "dialog_node": "node_6_1549555641519"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1544693487134",
+      "context": {
+        "azione": null
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_11_1544697052815"
+      },
+      "conditions": "@modalita:assicurazioni || $modalita == 'assicurazioni'",
+      "dialog_node": "node_10_1544697026620",
+      "previous_sibling": "node_12_1544697909697"
+    },
+    {
+      "type": "standard",
+      "title": "Domanda Con SSN",
+      "output": {
+        "text": {
+          "values": [
+            "Vuoi prenotare servendoti del il servizio sanitario nazionale?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1544693487134",
+      "metadata": {},
+      "conditions": "$azione == 'prenotazione' && $modalita == null",
+      "dialog_node": "node_4_1544694757410",
+      "previous_sibling": "node_10_1544697026620"
+    },
+    {
+      "type": "standard",
+      "title": "@modalita:ssn or modalita == 'ssn'",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1544693487134",
+      "context": {
+        "azione": null
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_7_1544695975218"
+      },
+      "conditions": "@modalita:ssn || $modalita == 'mutua' || $modalita == 'ssn' || $modalita == 'servizio sanitario nazionale'",
+      "dialog_node": "node_12_1544697909697",
+      "previous_sibling": "node_9_1544696822358"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1544693487134",
+      "context": {
+        "azione": null
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_11_1544456080734"
+      },
+      "conditions": "@modalita:pagamento || $modalita =='pagamento'",
+      "dialog_node": "node_9_1544696822358"
+    },
+    {
+      "type": "standard",
+      "title": "Richiesta accettazione",
+      "output": {
+        "text": {
+          "values": [
+            "Ha già effettuato l'accettazione?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1523540608592",
+      "metadata": {},
+      "dialog_node": "node_4_1523540668280"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1544803215388",
+      "metadata": {},
+      "conditions": "#a_no",
+      "dialog_node": "node_3_1544803536560",
+      "previous_sibling": "node_2_1544803504903"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1544803215388",
+      "metadata": {},
+      "conditions": "#a_si",
+      "dialog_node": "node_2_1544803504903"
+    },
+    {
+      "type": "standard",
+      "title": "Richiesta di pagamento",
+      "output": {
+        "text": {
+          "values": [
+            "Lei ha gia provveduto al pagamento?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_3_1523521535226",
+      "context": {
+        "service": "solventi"
+      },
+      "metadata": {},
+      "dialog_node": "node_9_1523524271918"
+    },
+    {
+      "type": "standard",
+      "title": "_INIT_",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        },
+        "context": {
+          "service": "",
+          "exam_type": "",
+          "user_type": "",
+          "last_entity": "",
+          "last_intent": ""
+        }
+      },
+      "parent": "Welcome",
+      "metadata": {},
+      "conditions": "true",
+      "dialog_node": "node_11_1543487077757"
+    },
+    {
+      "type": "standard",
+      "title": "Reindirizzamento Servizio Solventi",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1524487429602",
+      "context": {
+        "last_entity": "user_type:<? entities[$num_entity_user] ?>",
+        "last_intent": "<? intents[0].intent ?>"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1523524271918"
+      },
+      "conditions": "( entities[$num_entity_user].value.equals(\"privato\") || entities[$num_entity_user].value.equals(\"assicurazione\") ) && intents[0].intent.equals(\"negate\") == true",
+      "dialog_node": "node_15_1523547205354",
+      "previous_sibling": "node_14_1523547064628"
+    },
+    {
+      "type": "standard",
+      "title": "DEBUG",
+      "output": {
+        "text": {
+          "values": [
+            "jump to debug"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1524487429602",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_6_1524488083326"
+      },
+      "dialog_node": "node_7_1524488314614",
+      "previous_sibling": "node_10_1524496488142"
+    },
+    {
+      "type": "standard",
+      "title": "Risposta non classificata",
+      "output": {
+        "text": {
+          "values": [
+            "<? entities[$num_entity_user].value ?>"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1524487429602",
+      "context": {
+        "user_type": "<? entities['user_type'].value ?>"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_8_1524489078106"
+      },
+      "conditions": "#negate && @user_type",
+      "dialog_node": "node_10_1524496488142",
+      "previous_sibling": "node_15_1523547205354"
+    },
+    {
+      "type": "standard",
+      "title": "Reindirizzamento Servizio SSN",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_2_1524487429602",
+      "context": {
+        "last_entity": "user_type:<? entities[$num_entity_user].value ?>",
+        "last_intent": "<? intents[0].intent ?>"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_5_1523523900102"
+      },
+      "conditions": "entities[$num_entity_user].value.equals(\"mutua\") && intents[0].intent.equals(\"negate\") == true",
+      "dialog_node": "node_14_1523547064628"
+    },
+    {
+      "type": "standard",
+      "title": "Richiesta tipo visita",
+      "output": {
+        "text": {
+          "values": [
+            "Deve fare una visita specialistica o una prestazione di diagnostica per immagini?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_3_1523540625372",
+      "metadata": {},
+      "dialog_node": "node_8_1523541010110"
+    },
+    {
+      "type": "standard",
+      "title": "Yes response",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_17_1523534593428",
+      "context": {
+        "user_type": "mutua"
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_5_1523523900102"
+      },
+      "conditions": "@answer:si",
+      "dialog_node": "node_4_1523523836408",
+      "previous_sibling": "node_13_1523547021446"
+    },
+    {
+      "type": "standard",
+      "title": "Risposta non classificata",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_17_1523534593428",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_17_1523534593428"
+      },
+      "conditions": "anything_else",
+      "dialog_node": "node_8_1524489078106",
+      "previous_sibling": "node_6_1523524020512"
+    },
+    {
+      "type": "standard",
+      "title": "No response",
+      "output": {},
+      "parent": "node_17_1523534593428",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_7_1523524058542"
+      },
+      "conditions": "@answer:no",
+      "dialog_node": "node_6_1523524020512",
+      "previous_sibling": "node_4_1523523836408"
+    },
+    {
+      "type": "standard",
+      "title": "Reindirizzamento",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_17_1523534593428",
+      "metadata": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "@user_type",
+      "dialog_node": "node_13_1523547021446"
+    },
+    {
+      "type": "standard",
+      "title": "Richiesta esenzione",
+      "output": {
+        "text": {
+          "values": [
+            "Ha un'esenzione?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_35_1523537555236",
+      "metadata": {},
+      "dialog_node": "node_1_1523537872426"
+    },
+    {
+      "type": "standard",
+      "title": "Richiesta tipo solventi",
+      "output": {
+        "text": {
+          "values": [
+            "Ha una convenzione assicurativa o è un privato?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_6_1523524020512",
+      "metadata": {},
+      "dialog_node": "node_7_1523524058542"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Non c'è bisogno di prenotare"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1544807282519",
+      "metadata": {},
+      "conditions": "#Prenotazione",
+      "dialog_node": "node_2_1544807282537"
+    },
+    {
+      "type": "response_condition",
+      "output": {
+        "text": {
+          "values": [
+            "Non c'è bisogno di prenotare"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_1_1544806226008",
+      "metadata": {},
+      "conditions": "#Prenotazione",
+      "dialog_node": "node_2_1544806336983"
+    },
+    {
+      "type": "standard",
+      "title": "No response",
+      "output": {},
+      "parent": "node_1_1523537872426",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_8_1523541010110"
+      },
+      "conditions": "@answer:no",
+      "dialog_node": "node_3_1523540625372",
+      "previous_sibling": "node_2_1523540608592"
+    },
+    {
+      "type": "standard",
+      "title": "Yes response",
+      "output": {},
+      "parent": "node_1_1523537872426",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_4_1523540668280"
+      },
+      "conditions": "@answer:si",
+      "dialog_node": "node_2_1523540608592"
+    },
+    {
+      "type": "standard",
+      "title": "Risposta non contemplata",
+      "output": {},
+      "parent": "node_12_1524496747026",
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_17_1523534593428"
+      },
+      "conditions": "anything_else",
+      "dialog_node": "node_14_1524496990424",
+      "previous_sibling": "node_13_1524496880038"
+    },
+    {
+      "type": "standard",
+      "title": "Yes Answer",
+      "output": {},
+      "parent": "node_12_1524496747026",
+      "context": {},
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_9_1523524271918"
+      },
+      "conditions": "@answer:si",
+      "dialog_node": "node_13_1524496880038"
+    },
+    {
+      "type": "standard",
+      "title": "Assicurazione chiarimento",
+      "output": {
+        "text": {
+          "values": [
+            "Lei è venuto con un assicurazione?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "parent": "node_18_1524497557712",
+      "metadata": {},
+      "conditions": "anything_else",
+      "dialog_node": "node_19_1524497584022"
+    },
+    {
+      "type": "folder",
+      "title": "Fallbacks",
+      "metadata": {},
+      "conditions": "#a_si || #a_no",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_13_1543488877767",
+      "previous_sibling": "node_6_1543486462956"
+    },
+    {
+      "type": "folder",
+      "title": "Chit Chat",
+      "metadata": {},
+      "conditions": "#CC_ComeTiChiami || #CC_CosaSaiFare || #CC_Arrivederci || #CC_Orario",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_6_1543486462956",
+      "previous_sibling": "node_1_1545048041023"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "conditions": "#Richiedere",
+      "dialog_node": "node_3_1544808427646",
+      "previous_sibling": "node_3_1544451787754"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "Per i ricoveri"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_1_1547808973852"
+      },
+      "conditions": "#Ricovero",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_3_1544451787754",
+      "previous_sibling": "node_2_1544456438929"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [
+            "Ritiro. Sto ancora imparando"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "conditions": "#Ritiro",
+      "dialog_node": "node_2_1544795513920",
+      "previous_sibling": "node_3_1544808427646"
+    },
+    {
+      "type": "standard",
+      "title": "OLD",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "conditions": "false",
+      "dialog_node": "node_2_1539420516616",
+      "previous_sibling": "node_6_1524488083326"
+    },
+    {
+      "type": "standard",
+      "title": "DEBUG",
+      "output": {
+        "text": {
+          "values": [
+            "ENTITY: <? entities ?>",
+            "INTENT: <? intents ?>"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "conditions": "anything_else",
+      "dialog_node": "node_6_1524488083326",
+      "previous_sibling": "node_9_1544455918815"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "#Visita || #Esame",
+      "dialog_node": "node_2_1544456438929",
+      "previous_sibling": "node_2_1544451724249"
+    },
+    {
+      "type": "folder",
+      "title": "Totem Responses",
+      "metadata": {},
+      "dialog_node": "node_9_1544455918815",
+      "previous_sibling": "node_1_1539419969096"
+    },
+    {
+      "type": "standard",
+      "title": "Anything Else",
+      "output": {
+        "text": {
+          "values": [
+            "Sto ancora imparando, puoi ripetermi la domanda?",
+            "Mi dispiace non capisco, potresti provare a dirlo con altre parole?"
+          ],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "conditions": "anything_else",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_1_1539419969096",
+      "previous_sibling": "node_13_1543488877767"
+    },
+    {
+      "type": "standard",
+      "title": "Prestazioni senza necessità di prenotazione",
+      "output": {},
+      "metadata": {
+        "_customization": {
+          "mcr": true
+        }
+      },
+      "next_step": {
+        "behavior": "jump_to",
+        "selector": "body",
+        "dialog_node": "node_1_1544790471072"
+      },
+      "conditions": "@sostanza_organica || @Esame:analisi",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_1_1544806226008",
+      "digress_out": "allow_all",
+      "previous_sibling": "Welcome"
+    },
+    {
+      "type": "standard",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "#Indicazioni",
+      "dialog_node": "node_1_1545048041023",
+      "previous_sibling": "node_2_1544795513920"
+    },
+    {
+      "type": "standard",
+      "title": "Prenotazione",
+      "output": {
+        "text": {
+          "values": [],
+          "selection_policy": "sequential"
+        }
+      },
+      "context": {
+        "azione": "prenotazione",
+        "modalita": " <? @modalita ?  @modalita : $modalita ?>"
+      },
+      "metadata": {
+        "_customization": {
+          "mcr": false
+        }
+      },
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "#Prenotazione || $azione == \"prenotazione\"",
+      "digress_in": "does_not_return",
+      "dialog_node": "node_2_1544451724249",
+      "digress_out": "allow_all",
+      "previous_sibling": "node_1_1544806226008"
+    },
+    {
+      "type": "standard",
+      "title": "Welcome",
+      "output": {
+        "text": {
+          "values": [
+            "Ciao, mi chiamo R1. Come posso aiutarti?",
+            "Buongiorno, hai bisogno di aiuto?",
+            "Ciao, chiedimi pure se hai bisogno di aiuto, sono qui per aiutarti!",
+            "Ciao, il mio nome è R1 hai bisogno di aiuto? "
+          ],
+          "selection_policy": "random"
+        }
+      },
+      "context": {
+        "cosa": null,
+        "azione": null
+      },
+      "metadata": {},
+      "next_step": {
+        "behavior": "skip_user_input"
+      },
+      "conditions": "@COMMAND:c_start || welcome",
+      "dialog_node": "Welcome"
+    }
+  ],
+  "workspace_id": "14c67f77-a866-4e28-b29d-c9b25c9ef68e",
+  "counterexamples": [],
+  "learning_opt_out": true,
+  "status": "Available"
+}
