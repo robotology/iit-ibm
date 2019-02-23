@@ -15,6 +15,7 @@ var AudioConverter = require('../utils/AudioConverter');
 var fs = require('fs');
 const log = require("log").get("w4r1");
 var spawn = require('child_process').spawn;
+var sleep = require('sleep');
 
 //Settings
 const SENDER_PATH = "./ext/build/Sender";
@@ -321,9 +322,21 @@ function handleVoiceReply(self,text){
 function handleSendAudio(self,chunk){
 	if(USE_EXT_AUDIO_OUT)
 		self.soundProcOut.stdin.write(chunk);
-	else {
-		self.soundPortOut.write(chunk);
-	}
+	else
+    {
+       // var d = new Date();
+        +new Date;
+            
+        var t1 = Date.now();
+        
+       // self.soundPortOut.writeStrict(chunk);
+        self.soundPortOut.write(chunk);
+        self.soundPortOut.waitForWrite();
+        var t2 = Date.now();
+
+        var tdiff = t2-t1;
+        console.log("Time spent in sending data: ",tdiff);
+    }
 }
 
 function handleActionsReply(self,action,action_params){
