@@ -351,9 +351,35 @@ function handleActionsReply(self,action,action_params){
 
 function executeAction(self,action,params){
 	log("Executing Action: ",action,"; Params: ",params);
-	var msg = {action:action};
-	msg.action_params = params;
-	self.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
+	if(action.startsWith('w4r1')){
+		executeInternalAction(self,action,params);
+			
+	} else {
+		//R1 Actoion
+		var msg = {action:action};
+		msg.action_params = params;
+		self.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
+	}
+}
+
+function executeInternalAction(self,action,params){
+	if(action == "w4r1_switch_skill"){
+		var done = false;
+		if(params.skill_id){
+		 done = self.assistant.switch_skill(params.skill_id);
+		}
+		if(done){
+			//start a new conversation
+			_setDoing(self,false);
+			self.context.W4R1 = {};
+			self.context.W4R1.restart = true;
+			endTurn(self);
+			
+		}else {
+			//send ad error	
+			endAction(self,{action_status:"error"});	
+		}
+	}
 }
 
 function handleSttFinalTranscript(self,text){
@@ -435,7 +461,9 @@ function endTurn(self){
 		console.log("end turn not possible something is pending");
 		return;
 	}
-	
+	if(self.context.W4R1 && self.context.W4R1.restart){
+		startNewConversation(self);	
+	}else 
 	if(self.context.R1){ //TODO verify and enhance this condition
 		console.log("sending action result to assistant");
 		self.sendMessage("");

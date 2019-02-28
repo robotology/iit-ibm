@@ -5,29 +5,36 @@
 var AssistantV1 = require('watson-developer-cloud/assistant/v1'); // watson sdk
 
 const DEFAULT_VERSION = '2018-07-10';
-const DEFAULT_WORKSPACE = process.env.WORKSPACE_ID || '<workspace-id>';
-
+const SKILLS = JSON.parse(process.env.ASSISTANT_SKILLS);
+const DEFAULT_SKILL = process.env.ASSISTANT_DEFAULT_SKILL;
 
 function AssistantService(){
 	this.assistant = new AssistantV1({
 		  version: DEFAULT_VERSION
 		});
-	this.workspace = DEFAULT_WORKSPACE;
+	this.skill = SKILLS[DEFAULT_SKILL]
+	console.log("Using Skill",this.skill.name); 
 }
 
+AssistantService.prototype.switch_skill = function (skill_id){
+	if(SKILLS[skill_id]){ 
+		this.skill = SKILLS[skill_id];
+		return true;
+	} else  return false;
+}
 
 AssistantService.prototype.message = function(input, context, callback) {
 	
 
 	console.log("AsistanService received message",input,context);
 	//input checks
-	if (!this.workspace || this.workspace === '<workspace-id>') {
-		var err = new Error("Waston Assistant workspace is missing");
+	if (!this.skill) {
+		var err = new Error("Waston Assistant skills are missing");
 		callback(err,null);
 	}
 	
 	  var payload = {
-			    workspace_id: this.workspace,
+			    workspace_id: this.skill.workspace_id,
 			    context: context || {},
 			    input: input || {}
 			  };
