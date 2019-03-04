@@ -26,29 +26,35 @@ if (process.env.TEXT_TO_SPEECH_IAM_APIKEY && process.env.TEXT_TO_SPEECH_IAM_APIK
 /**
  * Pipe the synthesize method
  */
-TextToSpeechService.prototype.synthesize = function(text,res,download) {
+TextToSpeechService.prototype.synthesize =
+
+	//VERSION FOR OLD USERNAME AND PASSWORD CREDENTIALS
+	 function(text,res,download) {
 	
-	var synthesizeParams = {
-			  text: text,
-			  accept: 'audio/wav',
-			  voice: 'it-IT_FrancescaVoice',
-			  donwload : download
-			};
-  const _download = synthesizeParams.donwload;
-  const transcript = textToSpeech.synthesize(synthesizeParams);
-  transcript.on('response', (response) => {
-    if (_download){
-      response.headers['content-disposition'] = `attachment; filename=transcript.${getFileExtension(synthesizeParams.accept)}`;
-    }
-  });
-  transcript.on('error', function(error){
-	  res.status = 500;
-	  return res;
-  });
-  transcript.pipe(res);
-};
+		var synthesizeParams = {
+				  text: text,
+				  accept: 'audio/wav',
+				  voice: 'it-IT_FrancescaVoice',
+				  donwload : download
+				};
+	  const _download = synthesizeParams.donwload;
+	  const transcript = textToSpeech.synthesize(synthesizeParams);
+	  transcript.on('response', (response) => {
+	    if (_download){
+	      response.headers['content-disposition'] = `attachment; filename=transcript.${getFileExtension(synthesizeParams.accept)}`;
+	    }
+	  });
+	  transcript.on('error', function(error){
+		  res.status = 500;
+		  return res;
+	  });
+	  transcript.pipe(res);
+	};
 
 
+
+
+/* //API KEY VERSION OVER HTTP
 TextToSpeechService.prototype.stream = function(text,outputStream,errorCalback) {
 	var synthesizeParams = {
 		  text: text,
@@ -57,16 +63,39 @@ TextToSpeechService.prototype.stream = function(text,outputStream,errorCalback) 
 		  donwload : false
 		};
 
-  const transcript = textToSpeech.synthesize(synthesizeParams);
-  transcript.on('response', (response) => {
-  });
-  transcript.on('error', function(error){
-	console.log("TTS Error",error);
+textToSpeech.synthesize(synthesizeParams, (err, res) => {
+  if (err) {
+   console.log("TTS Error",error);
 	errorCalback(error);
-  });
-  transcript.pipe(outputStream);  
-	//TODO Change to avoid closing output stream
-	//TODO add a end treanscription callback or event.
+  } else {
+console.log("RESSS",res);
+    outputStream.write(res); // or whatever you want to do with the stream
+outputStream.end();
+  }
+});
+
+};
+*/
+
+//APY KEY VERSION OVER WEBSOCKET
+TextToSpeechService.prototype.stream = function(text,outputStream,errorCalback) {
+	var synthesizeParams = {
+		  text: text,
+		  accept: 'audio/wav',
+		  voice: 'it-IT_FrancescaVoice',
+		  donwload : false
+		};
+
+
+ 	const transcript = textToSpeech.synthesizeUsingWebSocket(synthesizeParams);
+
+	  transcript.on('error', function(error){
+		console.log("TTS Error",error);
+		errorCalback(error);
+	  });
+	  transcript.pipe(outputStream);  
+		//TODO Change to avoid closing output stream
+		//TODO add a end treanscription callback or event.
 };
 
 

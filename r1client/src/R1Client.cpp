@@ -41,6 +41,12 @@ const char* NOTIFY_SILENCE = "silence";
 
 const char *SENDER_DEVICE = "";
 
+
+struct r1_struct {
+	bool listen;
+	bool speaking;
+};
+
 struct w4r1_t_parameter{
 char* name;
 char* value;
@@ -51,8 +57,10 @@ w4r1_t_parameter* next;
 
 //SOUND SENDER THREAD
 void* SoundSenderThread(void* args)   {
-    sleep(5);
-    yError() << "Starting SENDER THREAD";
+    sleep(3); //sleeps a bit (do not remove)
+    yDebug() << "SENDER THREAD";
+    r1_struct* r1Context = (r1_struct*)args;
+ 	
     Port soundPortOut;
     soundPortOut.open("/r1/sound.o");
 
@@ -88,11 +96,15 @@ void* SoundSenderThread(void* args)   {
         double t1=yarp::os::Time::now();
        // yarp::os::Time::delay(0.90);
         get->getSound(s);
-        soundPortOut.write(s);
+
+	if(r1Context->listen && !(r1Context->speaking)){
+		yDebug()<<"Sending audio";        	
+		soundPortOut.write(s);
+		}
         n++;
         double t2=yarp::os::Time::now();
         tTOT = tTOT+(t2-t1);
-        std::cerr << "tTOT: " << tTOT << std::endl;
+//        std::cerr << "tTOT: " << tTOT << std::endl;
     }
 
     get->stopRecording();  //stops recording.
@@ -101,6 +113,9 @@ void* SoundSenderThread(void* args)   {
 
 //SOUND RECEIVER THREAD
 void* SoundReceiverThread(void* args)   {
+	yDebug() << "RECEIVER THREAD";
+	r1_struct* r1Context = (r1_struct*)args;
+
    /*int rate = config.rate;
      int samples = config.samples;
      int channels = config.channels;
@@ -132,15 +147,26 @@ void* SoundReceiverThread(void* args)   {
             return 0;
     }
 
-	yarp::dev::AudioBufferSize bufsize;
+//	yarp::dev::AudioBufferSize bufsize; //AF commentato per compilare
     while(true)
     {
 	   int pr=	soundPortIn.getPendingReads();
 	   if (soundPortIn.getPendingReads()>0)
 	   {
 		   yDebug() << "Pending reads in buffer" <<pr;
+			yDebug()<< "spaking";
+			r1Context->speaking =true; 
+
 	   }
-	   
+	   else {
+			////TODO MOVE FOLLOWING BLOCK WITHIN PENDING PLAYBACK BUFFER CHECK
+			if(r1Context->listen && r1Context->speaking){
+				r1Context->speaking =false;
+				yDebug() << "End speaking";
+			}
+			///
+
+		}
 	   Sound* s_speech_out = soundPortIn.read(false);
 	   
 	   if (s_speech_out)
@@ -224,18 +250,19 @@ char* unescape(const char* s,char quote){ //remove each second occurence of quot
         return unescapedS;
 }
 
-void startMic(){
+void startMic(r1_struct* r1Context){
 	yDebug() << "start mic"; 
-	//TODO notify to the sound sender thread to start recording audio
+	r1Context->listen = true;
 }
-void stopMic(){
+
+void stopMic(r1_struct* r1Context){
 	yDebug() << "stop mic";
-	//TODO notify to the sound sender thread to stop recording audio
+	r1Context->listen = false;
 }
 
 
 
-int processCommand(const char* command,char** answer,Port* behaviourPortOut){
+int processCommand(const char* command,char** answer,Port* behaviourPortOut,r1_struct* r1Context){
 	int  out = 0;
 
 
@@ -249,10 +276,10 @@ int processCommand(const char* command,char** answer,Port* behaviourPortOut){
 		const char* notify = document[NOTIFY].GetString();
 		yDebug() << NOTIFY << notify;
 		if(strcmp(notify, NOTIFY_LISTEN)==0){
-			startMic();
+			startMic(r1Context);
 		} else
 		if(strcmp(notify, NOTIFY_SILENCE)==0){
-			stopMic();
+			stopMic(r1Context);
 		}
 	}
 
@@ -285,13 +312,13 @@ int processCommand(const char* command,char** answer,Port* behaviourPortOut){
 			
 		}
 		
-/*
-for (auto& m : document.GetObject())
-    printf("Type of member %s is %s\n",
-        m.name.GetString(), kTypeNames[m.value.GetType()]);
-*/
+		/*
+		for (auto& m : document.GetObject())
+		    printf("Type of member %s is %s\n",
+			m.name.GetString(), kTypeNames[m.value.GetType()]);
+		*/
 
-	//	yDebug() << "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII " << document.IsObject(ACTION_PARAMS);
+		//	yDebug() << "IIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII " << document.IsObject(ACTION_PARAMS);
 		//{
 		//	 rapidjson::Value& params = document[ACTION_PARAMS];
 		//	out = executeAction(action,params,answer);
@@ -302,29 +329,29 @@ for (auto& m : document.GetObject())
 		yDebug() << "Performing action:" << action;
 		Bottle bottle;
 		bottle.addString(action);
-w4r1_t_parameter* pr =paramList;
-while(pr){
+		w4r1_t_parameter* pr =paramList;
+		while(pr){
 
-yDebug() << "Adding parameter name:" << pr->name;
-bottle.addString(pr->name);		
+			yDebug() << "Adding parameter name:" << pr->name;
+			bottle.addString(pr->name);		
 
-yDebug() << "Adding parameter value:" << pr->value;
-bottle.addString(pr->value);
-pr=pr->next;
-}
+			yDebug() << "Adding parameter value:" << pr->value;
+			bottle.addString(pr->value);
+			pr=pr->next;
+		}
 		behaviourPortOut->write(bottle);
 
-//
-yDebug()<<"clean param list";
-w4r1_t_parameter* pd = paramList;
-w4r1_t_parameter* pdd = pd;
-while(pd){
+		//
+		yDebug()<<"clean param list";
+		w4r1_t_parameter* pd = paramList;
+		w4r1_t_parameter* pdd = pd;
+		while(pd){
 
-pd = pdd->next;
-delete pdd->name;
-delete pdd->value;
-delete pdd;
-} 
+		pd = pdd->next;
+		delete pdd->name;
+		delete pdd->value;
+		delete pdd;
+		} 
 
 		//*result = NULL;
 			
@@ -350,6 +377,12 @@ delete pdd;
 
 int main(int argc, char* argv[]) {
 	yDebug() << "*** STARTING R1 Client for W4R1. ***";
+
+	//Init R1 Context
+	r1_struct* r1Context = new r1_struct;
+	r1Context -> listen = false;
+	r1Context -> speaking = false;
+
    
 	//Select input device according args.
     	if (argc > 1){
@@ -391,16 +424,17 @@ int main(int argc, char* argv[]) {
 	pthread_create(&behaviourReceiverThread, NULL, BehaviourReceiverThread, NULL);
 
     	//SOUND THREAD SENDER
+	
 	yDebug() << "Starting Sound Recorder";
 	pthread_t soundSenderThread;
 	void* status_recorder;
-	pthread_create(&soundSenderThread, NULL, SoundSenderThread, NULL);
+	pthread_create(&soundSenderThread, NULL, SoundSenderThread, (void*)r1Context);
 
 	//SOUND THREAD RECEIVER
 	yDebug() << "Starting Sound Listener";
 	pthread_t soundReceiverThread;
 	void* status;
-	pthread_create(&soundReceiverThread, NULL, SoundReceiverThread, NULL);
+	pthread_create(&soundReceiverThread, NULL, SoundReceiverThread, (void*)r1Context);
   	//pthread_join (soundReceiverThread, &status);
 
 
@@ -424,7 +458,7 @@ int main(int argc, char* argv[]) {
         		std::string cmd_input = cmd.get(0).asString();
         		std::cout << "CMD IN: "<< cmd_input << std::endl;
 			char* answer = NULL;
-			processCommand(cmd_input.c_str(),&answer,&behaviourPortOut);
+			processCommand(cmd_input.c_str(),&answer,&behaviourPortOut,r1Context);
 			/* if(answer){
 				Bottle bottleAnswer;
     				bottleAnswer.addString(answer);
