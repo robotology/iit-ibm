@@ -14,3 +14,10 @@
 
 * Run the docker image:
          docker run w4r1_docker /bin/bash -c "app/w4r1/start.sh"
+
+
+
+#NOTES
+
+* if when compiling the audioBufferData.h is not found add someting like the following in CMakeFilesList.txt
+include_directories("../../../yarp/src/libYARP_dev/src/devices/msgs/yarp/include")
