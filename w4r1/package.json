@@ -19,7 +19,7 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "YarpJS": "file:./yarp.js",
+    "YarpJS": "file:../../yarp.js",
     "body-parser": "^1.18.3",
     "dotenv": "^6.1.0",
     "events": "^3.0.0",
@@ -31,18 +31,5 @@
     "stream": "^0.0.2",
     "watson-developer-cloud": "latest",
     "ws": "^6.1.0"
-  },
-  "publishConfig": {
-    "registry": "https://registry.npmjs.org/",
-    "access": "public"
-  },
-  "devDependencies": {
-    "babel-eslint": "^8.2.6",
-    "casperjs": "^1.1.4",
-    "codecov": "^3.1.0",
-    "eslint": "^5.6.1",
-    "jest": "^23.6.0",
-    "phantomjs-prebuilt": "^2.1.16",
-    "supertest": "^3.3.0"
   }
 }

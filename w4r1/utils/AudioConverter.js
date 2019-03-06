@@ -166,7 +166,7 @@ function _init_r12w4r1(command,config){ //r1 16000 16 8
      .outputChannels(1)
  	  // .outputChannels(config.out.channels)
   	 .outputFileType('wav');
-	 command.addEffect('gain','40');
+//	 command.addEffect('gain','40');
     
 	 //NOTE:
 	 //select usefull audio channels

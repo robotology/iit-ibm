@@ -6,3 +6,6 @@ npm-debug.log
 tests/*
 w4r1/ext/build/*
 actionsService/build/*
+w4r1/package-lock.json
+w4r1/resources/sttin.wav
+w4r1/resources/stt.wav
