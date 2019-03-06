@@ -95,7 +95,7 @@ void* SoundSenderThread(void* args)   {
     {
         double t1=yarp::os::Time::now();
        // yarp::os::Time::delay(0.90);
-        get->getSound(s);
+        get->getSound(s,0,16000,2);
 
 	if(r1Context->listen && !(r1Context->speaking)){
 		yDebug()<<"Sending audio";        	
@@ -126,7 +126,7 @@ void* SoundReceiverThread(void* args)   {
     
     //RECEIVER Get an audio write device.
     Property conf_receiver;
-    conf_receiver.put("device","portaudio");
+    conf_receiver.put("device","portaudioPlayer");
     conf_receiver.put("samples", 160000 );
     conf_receiver.put("rate", 16000);
     conf_receiver.put("write", 1);
@@ -147,7 +147,7 @@ void* SoundReceiverThread(void* args)   {
             return 0;
     }
 
-//	yarp::dev::AudioBufferSize bufsize; //AF commentato per compilare
+	yarp::dev::AudioBufferSize bufsize; 
     while(true)
     {
 	   int pr=	soundPortIn.getPendingReads();
@@ -159,13 +159,14 @@ void* SoundReceiverThread(void* args)   {
 
 	   }
 	   else {
+           /*
 			////TODO MOVE FOLLOWING BLOCK WITHIN PENDING PLAYBACK BUFFER CHECK
 			if(r1Context->listen && r1Context->speaking){
 				r1Context->speaking =false;
 				yDebug() << "End speaking";
 			}
 			///
-
+*/
 		}
 	   Sound* s_speech_out = soundPortIn.read(false);
 	   
@@ -174,10 +175,18 @@ void* SoundReceiverThread(void* args)   {
 		   yDebug() << "received sound of "<< s_speech_out->getSamples() ;
            put_receiver->renderSound(*s_speech_out);
 	   }
-	   yarp::os::Time::delay(0.1);
-	   #if 0
-	   		   put_receiver->getPlaybackAudioBufferCurrentSize(bufsize);
-		   yDebug() << "buffer->" << bufsize.getSamples();
+	   yarp::os::Time::delay(0.05);
+	   #if 1
+            put_receiver->getPlaybackAudioBufferCurrentSize(bufsize);
+		 //  yDebug() << "buffer->" << bufsize.getSamples();
+           if (bufsize.getSamples()==0)
+			{
+        ////TODO MOVE FOLLOWING BLOCK WITHIN PENDING PLAYBACK BUFFER CHECK
+                if(r1Context->listen && r1Context->speaking){
+                    r1Context->speaking =false;
+                    yDebug() << "End speaking";
+                }
+            }
 	   #endif
     }
 }
@@ -386,7 +395,7 @@ int main(int argc, char* argv[]) {
    
 	//Select input device according args.
     	if (argc > 1){
-        	if(strcmp(argv[1],"PC")==0){ SENDER_DEVICE = "portaudio"; }
+        	if(strcmp(argv[1],"PC")==0){ SENDER_DEVICE = "portaudioRecorder"; }
 		else if(strcmp(argv[1],"R1")==0){ SENDER_DEVICE = "r1face_mic"; }
        		else { printf("Wrong argument %s, use either PC or R1",argv[1]); exit(-1);}    
     	}   
