@@ -22,7 +22,7 @@ const SENDER_PATH = "./ext/build/Sender";
 const RECEIVER_PATH = "./ext/build/Receiver";
 const USE_EXT_AUDIO_IN = true;
 const USE_EXT_AUDIO_OUT = false; //NOT WORKING
-const DUMP_AUDIO = true;
+const DUMP_AUDIO = false;
 const ENABLE_LIPS = false;
 
 //ports
@@ -289,7 +289,7 @@ function handleReply(self,outputText,action,action_params){  //TODO prestare att
 
 
 
-
+	_setSpeaking(self,true);
 	handleActionsReply(self,action,action_params);
 	handleVoiceReply(self,outputText);
 
@@ -307,11 +307,13 @@ function handleVoiceReply(self,text){
 	console.log("W4R1: handling voice reply: ",text);
 
 	if(text.length>0) {
-		_setSpeaking(self,true);
+		
+	console.log("SPEAKING: ",text);
 		_initAudioConverterOut(self);
 		self.streamReply(text);
 	}
 	else {
+		_setSpeaking(self,false);
 		//Simulating end turn here
 		log("Empty message");
 		endTurn(self);
@@ -510,11 +512,13 @@ function stopListening(self){
 
 
 function _notifySilence(self){
+	console.log("NOTIFY SILENCE");
 	var msg = {notify:"silence"};
 	self.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
 }
 
 function _notifyListening(self){
+	console.log("NOTIFY LISTEN");
 	//TODO VERIFY that end conversation is correctly handled somewhere
 	var msg = {notify:"listen"};
     +new Date;
@@ -545,12 +549,14 @@ function _initAudioConverterOut(self){
 }
 
 function _setSpeaking(self,isSpeaking){
+	console.log("Set SPEAKING: ",isSpeaking);
 	self.speaking = isSpeaking;
 }
 function _isSpeaking(self){ return self.speaking;}
 
 
 function _setDoing(self,isDoing){
+	console.log("Set DOING: ",isDoing);
 	self.doing = isDoing;
 }
 function _isDoing(self) { return self.doing};
