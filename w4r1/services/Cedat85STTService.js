@@ -7,7 +7,7 @@ var WebSocket = require('ws');
 var EventEmitter = require('events');
 var fs = require('fs');
 
-const CEDAT85_STT_ENDPOINT = "ws://voicenote.trascrivi.com/ws/client/speech?key=X31CEIVH9G&model=it-IT_16k";
+const CEDAT85_STT_ENDPOINT = "wss://195.60.132.246/ws/client/speech?key=X31CEIVH9G&model=it-IT_16k";
 const ONPEN_STRING = '{"audio-type":"s16le;16000","decoding":"start","do-endpointing":true,"do-wordalingnment":true,"n-best":5,"timeout":30,"traceback-period":0.5}';
 
 
@@ -36,7 +36,7 @@ Cedat85SpeechToTextService.prototype.__proto__ = EventEmitter.EventEmitter.proto
 Cedat85SpeechToTextService.prototype.connect = function(){
 	var self = this;
 
-	this.ws = new WebSocket(CEDAT85_STT_ENDPOINT);
+	this.ws = new WebSocket(CEDAT85_STT_ENDPOINT,{rejectUnauthorized:false});
 	this.ws.on('open', function open() {
 	  self.ws.send(ONPEN_STRING);
 	});
