@@ -12,7 +12,7 @@ if (process.env.TEXT_TO_SPEECH_IAM_APIKEY && process.env.TEXT_TO_SPEECH_IAM_APIK
 	  textToSpeech = new TextToSpeechV1({
 	    url: process.env.TEXT_TO_SPEECH_IAM_URL || '<url>',
 	    iam_apikey: process.env.TEXT_TO_SPEECH_IAM_APIKEY || '<iam_apikey>',
-	    iam_url: 'https://iam.bluemix.net/identity/token',
+	    iam_url: process.env.IAM_TOKEN_URL || 'https://iam.bluemix.net/identity/token',
 	  });
 	} else {
 	  textToSpeech = new TextToSpeechV1({

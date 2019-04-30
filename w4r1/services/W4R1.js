@@ -236,7 +236,7 @@ function handleAssistantReply(self,err,data){
 			return;
 		}
 		//REPLY
-		var outputText = data.output.text.join(' ');
+		var outputText = data.output.text;
 		var action = data.context.action;
 		var action_params = data.context.action_params;
 		_cleanContextReply(data.context);
@@ -303,13 +303,14 @@ function handleErrorReply(self,err){
 }
 
 
-function handleVoiceReply(self,text){
+function handleVoiceReplyOLD(self,texts){	//TODO delete this after tests.
+	var text = texts.join(' ');
 	console.log("W4R1: handling voice reply: ",text);
 
 	if(text.length>0) {
 		
 	console.log("SPEAKING: ",text);
-		_initAudioConverterOut(self);
+		_initAudioConverterOut(self,function(){endTurn(self,{});});
 		self.streamReply(text);
 	}
 	else {
@@ -318,7 +319,28 @@ function handleVoiceReply(self,text){
 		log("Empty message");
 		endTurn(self);
 	}
+}
 
+function isArray(a) {
+    return (!!a) && (a.constructor === Array);
+};
+
+function handleVoiceReply(self,texts){
+	var text = texts.join(' ');
+	console.log("W4R1: handling voice reply: ",text);
+
+	if(text.length>0) {
+		
+		
+		_initAudioConverterOut(self,function(){endTurn(self,{});});
+		self.streamReply(text);
+	}
+	else {
+		_setSpeaking(self,false);
+		//Simulating end turn here
+		log("Empty message");
+		endTurn(self);
+	}
 }
 
 function handleSendAudio(self,chunk){
@@ -539,13 +561,13 @@ function _notifyListening(self){
 	log("init audio converter IN done");
 }
 
-function _initAudioConverterOut(self){
+function _initAudioConverterOut(self,endCallback){
 	self.audioConverterOut = new AudioConverter("w4r12r1");
 	self.audioConverterOut.on('data',function(data){
 		console.log("W4R1 converted (Out): ",data.length,data);
                 handleSendAudio(self,data);
         });
-	self.audioConverterOut.on('end',function(){endTurn(self,{});}); //Here is internally notified that streaming is ended
+	self.audioConverterOut.on('end',endCallback); //Here is internally notified that streaming is ended
 }
 
 function _setSpeaking(self,isSpeaking){
