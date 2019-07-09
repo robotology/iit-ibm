@@ -32,4 +32,4 @@ yarp conf ${YARP_SERVER} ${YARP_PORT}
 
 echo "-> Done"
 echo "-> Starting W4R1"
-npm start -prefix /app/w4r1
+npm start -prefix /app/iit-ibm/w4r1

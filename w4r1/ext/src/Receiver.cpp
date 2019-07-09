@@ -9,7 +9,7 @@
 #include <iostream>
 #include <string>
 #include <fstream>
-#include <signal.h>
+#include <csignal>
 
 #include <yarp/os/Port.h>
 #include <yarp/os/Network.h>
@@ -45,8 +45,8 @@ void sig2(int sig){
 
 int main(int argc, char *argv[]) {
 
-	signal(SIGUSR1, sig1);
-	signal(SIGUSR2, sig2);
+	std::signal(SIGUSR1, sig1);
+	std::signal(SIGUSR2, sig2);
 
 	fprintf(stderr,"*** STARTING RECEIVER ***");
 

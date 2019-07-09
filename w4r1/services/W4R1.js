@@ -22,7 +22,7 @@ const SENDER_PATH = "./ext/build/Sender";
 const RECEIVER_PATH = "./ext/build/Receiver";
 const USE_EXT_AUDIO_IN = true;
 const USE_EXT_AUDIO_OUT = false; //NOT WORKING
-const DUMP_AUDIO = true;
+const DUMP_AUDIO = false;
 const ENABLE_LIPS = false;
 
 //ports
@@ -236,7 +236,7 @@ function handleAssistantReply(self,err,data){
 			return;
 		}
 		//REPLY
-		var outputText = data.output.text.join(' ');
+		var outputText = data.output.text;
 		var action = data.context.action;
 		var action_params = data.context.action_params;
 		_cleanContextReply(data.context);
@@ -289,7 +289,7 @@ function handleReply(self,outputText,action,action_params){  //TODO prestare att
 
 
 
-
+	_setSpeaking(self,true);
 	handleActionsReply(self,action,action_params);
 	handleVoiceReply(self,outputText);
 
@@ -303,20 +303,44 @@ function handleErrorReply(self,err){
 }
 
 
-function handleVoiceReply(self,text){
+function handleVoiceReplyOLD(self,texts){	//TODO delete this after tests.
+	var text = texts.join(' ');
 	console.log("W4R1: handling voice reply: ",text);
 
 	if(text.length>0) {
-		_setSpeaking(self,true);
-		_initAudioConverterOut(self);
+		
+	console.log("SPEAKING: ",text);
+		_initAudioConverterOut(self,function(){endTurn(self,{});});
 		self.streamReply(text);
 	}
 	else {
+		_setSpeaking(self,false);
 		//Simulating end turn here
 		log("Empty message");
 		endTurn(self);
 	}
+}
 
+function isArray(a) {
+    return (!!a) && (a.constructor === Array);
+};
+
+function handleVoiceReply(self,texts){
+	var text = texts.join(' ');
+	console.log("W4R1: handling voice reply: ",text);
+
+	if(text.length>0) {
+		
+		
+		_initAudioConverterOut(self,function(){endTurn(self,{});});
+		self.streamReply(text);
+	}
+	else {
+		_setSpeaking(self,false);
+		//Simulating end turn here
+		log("Empty message");
+		endTurn(self);
+	}
 }
 
 function handleSendAudio(self,chunk){
@@ -510,11 +534,13 @@ function stopListening(self){
 
 
 function _notifySilence(self){
+	console.log("NOTIFY SILENCE");
 	var msg = {notify:"silence"};
 	self.cmdPortOut.write(YarpUtils.encodeBottleJson(msg));
 }
 
 function _notifyListening(self){
+	console.log("NOTIFY LISTEN");
 	//TODO VERIFY that end conversation is correctly handled somewhere
 	var msg = {notify:"listen"};
     +new Date;
@@ -535,22 +561,24 @@ function _notifyListening(self){
 	log("init audio converter IN done");
 }
 
-function _initAudioConverterOut(self){
+function _initAudioConverterOut(self,endCallback){
 	self.audioConverterOut = new AudioConverter("w4r12r1");
 	self.audioConverterOut.on('data',function(data){
 		console.log("W4R1 converted (Out): ",data.length,data);
                 handleSendAudio(self,data);
         });
-	self.audioConverterOut.on('end',function(){endTurn(self,{});}); //Here is internally notified that streaming is ended
+	self.audioConverterOut.on('end',endCallback); //Here is internally notified that streaming is ended
 }
 
 function _setSpeaking(self,isSpeaking){
+	console.log("Set SPEAKING: ",isSpeaking);
 	self.speaking = isSpeaking;
 }
 function _isSpeaking(self){ return self.speaking;}
 
 
 function _setDoing(self,isDoing){
+	console.log("Set DOING: ",isDoing);
 	self.doing = isDoing;
 }
 function _isDoing(self) { return self.doing};
