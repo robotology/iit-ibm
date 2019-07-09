@@ -139,7 +139,7 @@ You can use an exisiting instance of the Watson Assistant service. Otherwise, fo
 
 6.  From the **All Items** tab, click the newly created Watson Assistant service **"my-watson-assistant-service"** in the **Services** list.
 
-    ![Screen capture of Services list](WatsonAssistant/readme_images/conversation_service.png)
+    ![Screen capture of Services list](Images/catalogue.png)
 
 7.  On the Service Details page, click **Launch tool**.
 
@@ -182,9 +182,9 @@ You can use an exisiting instance of the Watson Assistant service. Otherwise, fo
 
 7.  Click the menu icon in the upper-right corner of the workspace tile, and then select **View details**.
 
-    ![Screen capture of workspace tile menu](WatsonAssistant/readme_images/workspace_details.png)
+    ![Screen capture of workspace tile menu](Images/r1ConvApp.png)
 
-8.  Click the ![Copy](WatsonAssistant/readme_images/copy_icon.png) icon to copy the workspace ID to the clipboard.
+8.  Copy the workspace ID to the clipboard.
 
 9.  On the local system, paste the workspace ID into the WORKSPACE_ID variable in the `.env` file. Save and close the file.
 
@@ -235,7 +235,7 @@ You can use an exisiting instance of the Watson Assistant service. Otherwise, fo
 
     (You can get your device ip by typing `$> ifconfig` on a shell on the machine where the examples is running). You should see a webpage like the one below
 
-    ![Screen capture of Yarp.js App](images/example_browser_landing.png)
+    ![Screen capture of Yarp.js App](Images/DemoBrowser.jpg)
 
     The available examples will be shown in the header.
 

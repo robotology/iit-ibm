@@ -10,7 +10,7 @@ YarpJS is the object from which most other yarpjs objects inherit basic properti
 #define YARP_JS_H
 
 
-#include <nan.h>
+#include "/home/giulia/workspace/iit-ibm/iit/node_modules/nan/nan.h"
 #include <string>
 
 
