@@ -9,3 +9,8 @@ actionsService/build/*
 w4r1/package-lock.json
 w4r1/resources/sttin.wav
 w4r1/resources/stt.wav
+
+*w4r1
+*iit/node_modules
+*iit/car-dashboard/node_modules
+*iit/examples/node_modules
