@@ -28,7 +28,7 @@ echo "* YARP_SERVER_PORT: " ${YARP_SERVER_PORT}
 echo "* YARP_NAMESPACE:   " ${YARP_NAMESPACE}
 
 yarp namespace ${YARP_NAMESPACE}
-yarp conf ${YARP_SERVER} ${YARP_PORT}
+yarp conf ${YARP_SERVER_IP} ${YARP_SERVER_PORT}
 
 echo "-> Done"
 echo "-> Starting W4R1"

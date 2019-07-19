@@ -29,8 +29,15 @@ in <rootfolder>
     * source .bash_aliases
 
 * Run the docker image:
-         docker run w4r1_docker /bin/bash -c "app/w4r1/start.sh"
+         docker run w4r1_docker /bin/bash -c "app/iit-ibm/w4r1/start.sh"
 
+	docker run -it \
+	-e W4R1_YarpServerIp="xxx.xxx.xx.xxx" \
+	-e W4R1_YarpServerPort="xxxxx" \
+	-e W4R1_YarpNamespace="/namespace" \
+	w4r1_docker /bin/bash -c "app/iit-ibm/w4r1/start.sh"
+
+docker run -it -p 10000-15000:10000-15000 -e W4R1_YarpServerIp="192.168.100.100" -e W4R1_YarpServerPort="10000" -e W4R1_YarpNamespace="/cer02" w4r1_docker /bin/bash
 
 
 #NOTES
